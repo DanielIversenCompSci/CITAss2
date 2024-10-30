@@ -26,7 +26,11 @@ public class ImdbContext : DbContext
         // User mapping from UserContext.cs
         UserContext userContext = new UserContext();
         userContext.MapUser(modelBuilder);
-        
+
+        // NameBasics mapping from NameBasicsContext.cs
+        NameBasicsContext nameBasicsContext = new NameBasicsContext();
+        nameBasicsContext.MapNameBasics(modelBuilder);
+
     }
 
     

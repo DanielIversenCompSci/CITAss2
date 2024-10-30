@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {}
+    "C:\\Users\\Jonathan Olsen\\source\\repos\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "C:\\Users\\Jonathan Olsen\\source\\repos\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\Jonathan Olsen\\source\\repos\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
-        "packagesPath": "C:\\Users\\abjar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DataAccessLayer\\obj\\",
+        "projectPath": "C:\\Users\\Jonathan Olsen\\source\\repos\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\Jonathan Olsen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Jonathan Olsen\\source\\repos\\CITAss2\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\abjar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Jonathan Olsen\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -74,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
