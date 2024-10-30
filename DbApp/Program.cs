@@ -1,6 +1,6 @@
 ﻿using BusinessLayer;
 using DataAccessLayer;
-// Dont work
+// Dont work in rider
 // git checkout -b you-branch-name
 
 // git push -u origin your-branch-name
