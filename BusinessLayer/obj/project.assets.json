@@ -289,20 +289,6 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "BusinessLayer/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "DataAccessLayer": "1.0.0",
-          "Microsoft.EntityFrameworkCore": "9.0.0-rc.2.24474.1"
-        },
-        "compile": {
-          "bin/placeholder/BusinessLayer.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/BusinessLayer.dll": {}
-        }
-      },
       "DataAccessLayer/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -769,11 +755,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "BusinessLayer/1.0.0": {
-      "type": "project",
-      "path": "../BusinessLayer/BusinessLayer.csproj",
-      "msbuildProject": "../BusinessLayer/BusinessLayer.csproj"
-    },
     "DataAccessLayer/1.0.0": {
       "type": "project",
       "path": "../DataAccessLayer/DataAccessLayer.csproj",
@@ -782,7 +763,6 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "BusinessLayer >= 1.0.0",
       "DataAccessLayer >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 9.0.0-rc.2.24474.1"
     ]
@@ -793,11 +773,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/DbApp/DbApp.csproj",
-      "projectName": "DbApp",
-      "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DbApp/DbApp.csproj",
+      "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
+      "projectName": "BusinessLayer",
+      "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
       "packagesPath": "/Users/danieliversen/.nuget/packages/",
-      "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/",
+      "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
@@ -812,9 +792,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj": {
-              "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj"
-            },
             "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
               "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj"
             }

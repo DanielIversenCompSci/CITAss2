@@ -1,5 +1,5 @@
-﻿using DataLayer;
-using PostgresDataService;
+﻿using BusinessLayer;
+using DataAccessLayer;
 
 var dataService = new DataService();
 

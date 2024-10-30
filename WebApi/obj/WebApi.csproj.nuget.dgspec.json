@@ -4,14 +4,14 @@
     "/Users/danieliversen/RiderProjects/WebApplication1/WebApi/WebApi.csproj": {}
   },
   "projects": {
-    "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/DataLayer.csproj": {
+    "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/DataLayer.csproj",
-        "projectName": "DataLayer",
-        "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/DataLayer.csproj",
+        "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
+        "projectName": "BusinessLayer",
+        "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
         "packagesPath": "/Users/danieliversen/.nuget/packages/",
-        "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/obj/",
+        "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
@@ -25,7 +25,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
+                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -42,6 +46,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.0-rc.2.24474.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -62,14 +72,14 @@
         }
       }
     },
-    "/Users/danieliversen/RiderProjects/WebApplication1/PostgresDataService/PostgresDataService.csproj": {
+    "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/PostgresDataService/PostgresDataService.csproj",
-        "projectName": "PostgresDataService",
-        "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/PostgresDataService/PostgresDataService.csproj",
+        "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj",
+        "projectName": "DataAccessLayer",
+        "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj",
         "packagesPath": "/Users/danieliversen/.nuget/packages/",
-        "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/PostgresDataService/obj/",
+        "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
@@ -83,11 +93,7 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {
-              "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/DataLayer.csproj": {
-                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/DataLayer.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -160,11 +166,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/DataLayer.csproj": {
-                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataLayer/DataLayer.csproj"
+              "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj": {
+                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj"
               },
-              "/Users/danieliversen/RiderProjects/WebApplication1/PostgresDataService/PostgresDataService.csproj": {
-                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/PostgresDataService/PostgresDataService.csproj"
+              "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
+                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj"
               }
             }
           }
