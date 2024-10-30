@@ -30,3 +30,19 @@ C:\Users\abjar\OneDrive\Skrivebord\CITAss2\BusinessLayer\obj\Debug\net8.0\Busine
 C:\Users\abjar\OneDrive\Skrivebord\CITAss2\BusinessLayer\obj\Debug\net8.0\refint\BusinessLayer.dll
 C:\Users\abjar\OneDrive\Skrivebord\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.pdb
 C:\Users\abjar\OneDrive\Skrivebord\CITAss2\BusinessLayer\obj\Debug\net8.0\ref\BusinessLayer.dll
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\bin\Debug\net8.0\BusinessLayer.deps.json
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\bin\Debug\net8.0\BusinessLayer.dll
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\bin\Debug\net8.0\BusinessLayer.pdb
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\bin\Debug\net8.0\DataAccessLayer.dll
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\bin\Debug\net8.0\DataAccessLayer.pdb
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.AssemblyInfoInputs.cache
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.AssemblyInfo.cs
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.sourcelink.json
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\Business.EA331CBA.Up2Date
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.dll
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\refint\BusinessLayer.dll
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\BusinessLayer.pdb
+C:\Users\Jonathan Olsen\source\repos\CITAss2\BusinessLayer\obj\Debug\net8.0\ref\BusinessLayer.dll

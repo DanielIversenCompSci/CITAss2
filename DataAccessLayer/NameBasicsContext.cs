@@ -13,9 +13,9 @@ namespace DataAccessLayer
         {
             modelBuilder.Entity<NameBasics>().ToTable("name_basics").HasKey(i => i.Nconst);
             modelBuilder.Entity<NameBasics>().Property(x => x.Nconst).HasColumnName("nconst");
-            modelBuilder.Entity<NameBasics>().Property(x => x.PrimaryName).HasColumnName("primaryName");
-            modelBuilder.Entity<NameBasics>().Property(x => x.BirthYear).HasColumnName("birthYear");
-            modelBuilder.Entity<NameBasics>().Property(x => x.DeathYear).HasColumnName("deathYear");
+            modelBuilder.Entity<NameBasics>().Property(x => x.PrimaryName).HasColumnName("primaryname");
+            modelBuilder.Entity<NameBasics>().Property(x => x.BirthYear).HasColumnName("birthyear");
+            modelBuilder.Entity<NameBasics>().Property(x => x.DeathYear).HasColumnName("deathyear");
 
         }
     }

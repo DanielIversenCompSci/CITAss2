@@ -7,7 +7,8 @@ using DataAccessLayer;
 
 var dataService = new DataService();
 
-PrintUserList(dataService);
+//PrintUserList(dataService);
+PrintNameBasicsList(dataService);
 
 static void PrintTitleBasicsList(IDataService dataService, string tconstValue)
 {
@@ -31,6 +32,8 @@ static void PrintTitleBasicsList(IDataService dataService, string tconstValue)
     }
 }
 
+
+
 static void PrintUserList(IDataService dataService)
 {
     var list = dataService.GetUserList();
@@ -45,3 +48,17 @@ static void PrintUserList(IDataService dataService)
 
     }
 }
+    static void PrintNameBasicsList(IDataService dataService)
+    {
+        var list = dataService.GetNameBasicsList();
+        foreach (var i in list)
+        {
+            Console.WriteLine(
+                $"{i.Nconst ?? ""}, " +
+                $"{i.PrimaryName ?? ""}, " +
+                $"{i.BirthYear ?? ""}, " +
+                $"{i.DeathYear ?? ""}"
+            );
+        }
+    
+    }

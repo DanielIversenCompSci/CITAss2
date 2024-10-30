@@ -17,4 +17,11 @@ public class DataService : IDataService
         var db = new ImdbContext();
         return db.Users.ToList();
     }
+
+    public IList<NameBasics> GetNameBasicsList()
+    {
+        var db = new ImdbContext();
+        return db.NameBasics.ToList();
+    }
+
 }

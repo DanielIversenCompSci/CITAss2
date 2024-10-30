@@ -11,6 +11,7 @@ public class ImdbContext : DbContext
     public DbSet<TitleBasics> TitleBasics { get; set; }
     public DbSet<User> Users { get; set; }
 
+    public DbSet<NameBasics> NameBasics { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
