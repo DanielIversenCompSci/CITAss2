@@ -9,6 +9,8 @@ namespace DataAccessLayer;
 public class ImdbContext : DbContext
 {
     public DbSet<TitleBasics> TitleBasics { get; set; }
+    
+    public DbSet<TitlePrincipals> TitlePrincipals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -21,6 +23,8 @@ public class ImdbContext : DbContext
         // title_baics
         MapTitleBasics(modelBuilder);
         
+        TitlePrincipalsContext titlePrincipalsContext = new TitlePrincipalsContext();
+        titlePrincipalsContext.MapTitlePrincipals(modelBuilder);
     }
 
     protected void MapTitleBasics(ModelBuilder modelBuilder)

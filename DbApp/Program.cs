@@ -3,9 +3,16 @@ using DataAccessLayer;
 
 var dataService = new DataService();
 
-PrintTitleBasicsList(dataService, "123");
+// PRINT TESTS
+// ___________
 
-static void PrintTitleBasicsList(IDataService dataService, string tconstValue)
+//PrintTitleBasicsList(dataService);
+
+PrintTitlePrincipalsList(dataService);
+
+// ___________
+
+static void PrintTitleBasicsList(IDataService dataService)
 {
     var filteredList = dataService.GetTitleBasicsList()
         .Where(i => i.TConst == "tt12836288");
@@ -23,6 +30,25 @@ static void PrintTitleBasicsList(IDataService dataService, string tconstValue)
             $"{(i.RuntimeMinutes > 0 ? i.RuntimeMinutes.ToString() : "")}, " +  // Empty if RuntimeMinutes is 0
             $"{i.Plot ?? ""}, " +
             $"{i.Poster ?? ""}"
+        );
+    }
+}
+
+
+static void PrintTitlePrincipalsList(IDataService dataService)
+{
+    var filteredList = dataService.GetTitlePrincipalsList()
+        .Where(i => i.TConst == "tt11735202");
+
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.TConst ?? ""}, " +
+            $"{i.Ordering.ToString() ?? ""}, " +
+            $"{i.NConst ?? ""}, " +
+            $"{i.Category ?? ""}, " +
+            $"{(i.Job ?? "")}, " +  // Convert bool to True/False, can also chose another string fx yes/no
+            $"{i.Characters ?? ""}"
         );
     }
 }
