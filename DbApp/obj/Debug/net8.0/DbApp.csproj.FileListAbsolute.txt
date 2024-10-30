@@ -18,10 +18,6 @@
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/Npgsql.dll
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
-/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/DataLayer.dll
-/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/PostgresDataService.dll
-/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/DataLayer.pdb
-/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/PostgresDataService.pdb
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/Debug/net8.0/DbApp.csproj.AssemblyReference.cache
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/Debug/net8.0/DbApp.GeneratedMSBuildEditorConfig.editorconfig
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/Debug/net8.0/DbApp.AssemblyInfoInputs.cache
@@ -33,3 +29,8 @@
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/Debug/net8.0/DbApp.pdb
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/Debug/net8.0/DbApp.genruntimeconfig.cache
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/Debug/net8.0/ref/DbApp.dll
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/BusinessLayer.dll
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/DataAccessLayer.dll
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/BusinessLayer.pdb
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/DataAccessLayer.pdb
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/obj/Debug/net8.0/DbApp.sourcelink.json

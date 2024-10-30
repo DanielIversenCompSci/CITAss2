@@ -8,8 +8,9 @@
     ".NETCoreApp,Version=v8.0": {
       "DbApp/1.0.0": {
         "dependencies": {
-          "DataLayer": "1.0.0",
-          "PostgresDataService": "1.0.0"
+          "BusinessLayer": "1.0.0",
+          "DataAccessLayer": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "9.0.0-rc.2.24474.1"
         },
         "runtime": {
           "DbApp.dll": {}
@@ -185,20 +186,23 @@
           }
         }
       },
-      "DataLayer/1.0.0": {
+      "BusinessLayer/1.0.0": {
+        "dependencies": {
+          "DataAccessLayer": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "9.0.0-rc.2.24474.1"
+        },
         "runtime": {
-          "DataLayer.dll": {}
+          "BusinessLayer.dll": {}
         }
       },
-      "PostgresDataService/1.0.0": {
+      "DataAccessLayer/1.0.0": {
         "dependencies": {
-          "DataLayer": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.0-rc.2.24474.1",
           "Npgsql": "8.0.5",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.0-rc.2"
         },
         "runtime": {
-          "PostgresDataService.dll": {}
+          "DataAccessLayer.dll": {}
         }
       }
     }
@@ -321,12 +325,12 @@
       "path": "system.diagnostics.diagnosticsource/9.0.0-rc.2.24473.5",
       "hashPath": "system.diagnostics.diagnosticsource.9.0.0-rc.2.24473.5.nupkg.sha512"
     },
-    "DataLayer/1.0.0": {
+    "BusinessLayer/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "PostgresDataService/1.0.0": {
+    "DataAccessLayer/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
