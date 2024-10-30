@@ -1,6 +1,10 @@
 ﻿using BusinessLayer;
 using DataAccessLayer;
 
+// git checkout -b you-branch-name
+
+// git push -u origin your-branch-name
+
 var dataService = new DataService();
 
 PrintTitleBasicsList(dataService, "123");
