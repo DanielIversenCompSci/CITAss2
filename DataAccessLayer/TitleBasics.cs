@@ -1,3 +1,5 @@
+namespace DataAccessLayer;
+
 public class TitleBasics
 {
     public string TConst { get; set; }
