@@ -1,8 +1,12 @@
-# Ignore Visual Studio specific files
+# Visual Studio files
 .vs/
 *.user
 *.suo
 
-# Ignore build output
+# Build directories
 bin/
 obj/
+
+# Package directories
+packages/
+TestResults/
