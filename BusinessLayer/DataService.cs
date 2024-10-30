@@ -1,3 +1,4 @@
+using System.Collections;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,5 +17,29 @@ public class DataService : IDataService
     {
         var db = new ImdbContext();
         return db.TitlePrincipals.ToList();
+    }
+
+    public IList<TitleAkas> GetTitleAkasList()
+    {
+        var db = new ImdbContext();
+        return db.TitleAkas.ToList();
+    }
+
+    public IList<NameBasics> GetNameBasicsList()
+    {
+        var db = new ImdbContext();
+        return db.NameBasics.ToList();
+    }
+
+    public IList<Users> GetUsersList()
+    {
+        var db = new ImdbContext();
+        return db.Users.ToList();
+    }
+
+    public IList<TitlePersonnel> GetTitlePersonnelList()
+    {
+        var db = new ImdbContext();
+        return db.TitlePersonnel.ToList();
     }
 }
