@@ -7,7 +7,7 @@ using DataAccessLayer;
 
 var dataService = new DataService();
 
-PrintTitleBasicsList(dataService, "123");
+PrintUserList(dataService);
 
 static void PrintTitleBasicsList(IDataService dataService, string tconstValue)
 {
@@ -28,5 +28,20 @@ static void PrintTitleBasicsList(IDataService dataService, string tconstValue)
             $"{i.Plot ?? ""}, " +
             $"{i.Poster ?? ""}"
         );
+    }
+}
+
+static void PrintUserList(IDataService dataService)
+{
+    var list = dataService.GetUserList();
+    foreach (var i in list)
+    {
+        Console.WriteLine(
+            $"{i.UserId}, " +
+            $"{i.Email}, " +
+            $"{i.Password}"
+            );
+
+
     }
 }

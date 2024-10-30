@@ -11,3 +11,16 @@
 /Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/obj/Debug/net8.0/refint/DataAccessLayer.dll
 /Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.pdb
 /Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/obj/Debug/net8.0/ref/DataAccessLayer.dll
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\bin\Debug\net8.0\DataAccessLayer.deps.json
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\bin\Debug\net8.0\DataAccessLayer.dll
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\bin\Debug\net8.0\DataAccessLayer.pdb
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.AssemblyInfo.cs
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.sourcelink.json
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.dll
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\refint\DataAccessLayer.dll
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.pdb
+C:\Users\abjar\OneDrive\Skrivebord\CITAss2\DataAccessLayer\obj\Debug\net8.0\ref\DataAccessLayer.dll
