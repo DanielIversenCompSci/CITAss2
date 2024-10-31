@@ -4,6 +4,8 @@ using DataAccessLayer;
 var dataService = new DataService();
 
 // PRINT TESTS
+// Un-comment whichever print function you want to use and run this project w dotnet run
+// Specify TConst or NConst in the print functions themselves below
 // ___________
 
 //PrintTitleBasicsList(dataService);
@@ -16,7 +18,15 @@ var dataService = new DataService();
 
 //PrintUsersList(dataService);
 
-PrintTitlePersonnelList(dataService);
+//PrintTitlePersonnelList(dataService);
+
+//PrintKnownForTitleList(dataService);
+
+//PrintPrimaryProfessionList(dataService);
+
+//PrintActorRatingList(dataService);
+
+PrintTitleGenreList(dataService);
 
 // ___________
 
@@ -127,6 +137,66 @@ static void PrintTitlePersonnelList(IDataService dataService)
             $"{i.TConst ?? ""}, " +
             $"{i.NConst ?? ""}, " +
             $"{i.Role ?? ""}"
+        );
+    }
+}
+
+
+static void PrintKnownForTitleList(IDataService dataService)
+{
+    var filteredList = dataService.GetKnownForTitleList()
+        .Where(i => i.TConst == "tt1595607 "); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.TConst ?? ""}, " +
+            $"{i.NConst ?? ""}"
+        );
+    }
+}
+
+
+static void PrintPrimaryProfessionList(IDataService dataService)
+{
+    var filteredList = dataService.GetPrimaryProfessionList()
+        .Where(i => i.NConst == "nm0047522 "); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.NConst ?? ""}, " +
+            $"{i.Role ?? ""}"
+        );
+    }
+}
+
+
+static void PrintActorRatingList(IDataService dataService)
+{
+    var filteredList = dataService.GetActorRatingList()
+        .Where(i => i.NConst == "nm6073771 "); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.NConst ?? ""}, " +
+            $"{i.ARating}"
+        );
+    }
+}
+
+
+static void PrintTitleGenreList(IDataService dataService)
+{
+    var filteredList = dataService.GetTitleGenreList()
+        .Where(i => i.TConst == "tt9126600 "); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.TConst ?? ""}, " +
+            $"{i.Genre}"
         );
     }
 }

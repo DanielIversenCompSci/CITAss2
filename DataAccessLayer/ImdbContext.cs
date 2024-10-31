@@ -19,6 +19,14 @@ public class ImdbContext : DbContext
     public DbSet<Users> Users { get; set; }
     
     public DbSet<TitlePersonnel> TitlePersonnel { get; set; }
+    
+    public DbSet<KnownForTitle> KnownForTitle { get; set; }
+    
+    public DbSet<PrimaryProfession> PrimaryProfession { get; set; }
+    
+    public DbSet<ActorRating> ActorRating { get; set; }
+    
+    public DbSet<TitleGenre> TitleGenre { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -46,6 +54,18 @@ public class ImdbContext : DbContext
         
         TitlePersonnelContext titlePersonnelContext = new TitlePersonnelContext();
         titlePersonnelContext.MapTitlePersonnel(modelBuilder);
+        
+        KnownForTitleContext knownForTitleContext = new KnownForTitleContext();
+        knownForTitleContext.MapKnownForTitle(modelBuilder);
+        
+        PrimaryProfessionContext primaryProfessionContext = new PrimaryProfessionContext();
+        primaryProfessionContext.MapPrimaryProfession(modelBuilder);
+        
+        ActorRatingContext actorRatingContext = new ActorRatingContext();
+        actorRatingContext.MapActorRating(modelBuilder);
+        
+        TitleGenreContext titleGenreContext = new TitleGenreContext();
+        titleGenreContext.MapTitleGenre(modelBuilder);
     }
     
 }

@@ -42,4 +42,28 @@ public class DataService : IDataService
         var db = new ImdbContext();
         return db.TitlePersonnel.ToList();
     }
+
+    public IList<KnownForTitle> GetKnownForTitleList()
+    {
+        var db = new ImdbContext();
+        return db.KnownForTitle.ToList();
+    }
+
+    public IList<PrimaryProfession> GetPrimaryProfessionList()
+    {
+        var db = new ImdbContext();
+        return db.PrimaryProfession.ToList();
+    }
+
+    public IList<ActorRating> GetActorRatingList()
+    {
+        var db = new ImdbContext();
+        return db.ActorRating.ToList();
+    }
+
+    public IList<TitleGenre> GetTitleGenreList()
+    {
+        var db = new ImdbContext();
+        return db.TitleGenre.ToList();
+    }
 }
