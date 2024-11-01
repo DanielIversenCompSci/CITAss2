@@ -28,8 +28,9 @@ var dataService = new DataService();
 
 //PrintTitleGenreList(dataService);
 
-PrintTitleRatingsList(dataService);
+//PrintTitleRatingsList(dataService);
 
+PrintSearchHisList(dataService);
 // ___________
 
 static void PrintTitleBasicsList(IDataService dataService)
@@ -215,6 +216,20 @@ static void PrintTitleRatingsList(IDataService dataService)
             $"{i.TConst ?? ""}, " +
             $"{i.AverageRating}, " +
             $"{i.NumVotes}"
+        );
+    }
+}
+
+static void PrintSearchHisList(IDataService dataService)
+{
+    var filteredList = dataService.GetSearchHisList();
+      
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.UserId}, " +
+            $"{i.SearchQuery}, " +
+            $"{i.SearchTimeStamp}"
         );
     }
 }

@@ -73,4 +73,10 @@ public class DataService : IDataService
         var db = new ImdbContext();
         return db.TitleRatings.ToList();
     }
+
+    public IList<SearchHis> GetSearchHisList()
+    {
+        var db = new ImdbContext();
+        return db.SearchHis.ToList();
+    }
 }

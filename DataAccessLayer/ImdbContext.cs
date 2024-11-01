@@ -8,27 +8,19 @@ using System.Threading.Tasks;
 namespace DataAccessLayer;
 public class ImdbContext : DbContext
 {
-    public DbSet<TitleBasics> TitleBasics { get; set; }
-    
+    public DbSet<TitleBasics> TitleBasics { get; set; }    
     public DbSet<TitlePrincipals> TitlePrincipals { get; set; }
-    
     public DbSet<TitleAkas> TitleAkas { get; set; }
-    
     public DbSet<NameBasics> NameBasics { get; set; }
-    
     public DbSet<Users> Users { get; set; }
-    
     public DbSet<TitlePersonnel> TitlePersonnel { get; set; }
-    
     public DbSet<KnownForTitle> KnownForTitle { get; set; }
-    
-    public DbSet<PrimaryProfession> PrimaryProfession { get; set; }
-    
-    public DbSet<ActorRating> ActorRating { get; set; }
-    
+    public DbSet<PrimaryProfession> PrimaryProfession { get; set; }    
+    public DbSet<ActorRating> ActorRating { get; set; }    
     public DbSet<TitleGenre> TitleGenre { get; set; }
-    
     public DbSet<TitleRatings> TitleRatings { get; set; }
+    public DbSet<SearchHis> SearchHis { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -71,6 +63,9 @@ public class ImdbContext : DbContext
         
         TitleRatingsContext titleRatingsContext = new TitleRatingsContext();
         titleRatingsContext.MapTitleRatings(modelBuilder);
+
+        SearchHisContext searchHisContext = new SearchHisContext();
+        searchHisContext.MapSearchHis(modelBuilder);
     }
     
 }
