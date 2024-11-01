@@ -30,6 +30,18 @@ public class ImdbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        MapActorRating(modelBuilder);
+        MapKnownForTitle(modelBuilder);
+        MapNameBasics(modelBuilder);
+        MapPrimaryProfession(modelBuilder);
+        MapSearchHis(modelBuilder);
+        MapTitleAkas(modelBuilder);
+        MapTitleBasics(modelBuilder);
+        MapTitleGenre(modelBuilder);
+        MapTitlePersonnel(modelBuilder);
+        MapTitlePrincipals(modelBuilder);
+        MapTitleRatings(modelBuilder);
+        MapUsers(modelBuilder);
 
         /*
         // title_baics
