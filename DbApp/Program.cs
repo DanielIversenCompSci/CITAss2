@@ -30,7 +30,9 @@ var dataService = new DataService();
 
 //PrintTitleRatingsList(dataService);
 
-PrintSearchHisList(dataService);
+//PrintSearchHisList(dataService);
+PrintUserRatingsList(dataService);
+
 // ___________
 
 static void PrintTitleBasicsList(IDataService dataService)
@@ -231,5 +233,20 @@ static void PrintSearchHisList(IDataService dataService)
             $"{i.SearchQuery}, " +
             $"{i.SearchTimeStamp}"
         );
+    }
+}
+
+static void PrintUserRatingsList(IDataService dataService)
+{
+    var filteredList = dataService.GetUserRatingsList();
+        //.Where(i => i.UserId == "1"); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.UserId}," +
+            $"{i.TConst}," +
+            $"{i.Rating}"
+         );
     }
 }
