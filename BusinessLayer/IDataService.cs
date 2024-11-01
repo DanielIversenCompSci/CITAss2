@@ -25,4 +25,6 @@ public interface IDataService
     public IList<TitleGenre> GetTitleGenreList();
 
     public IList<TitleRatings> GetTitleRatingsList();
+
+    public IList<SearchHis> GetSearchHisList();
 }
