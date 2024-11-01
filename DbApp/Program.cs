@@ -28,7 +28,10 @@ var dataService = new DataService();
 
 //PrintTitleGenreList(dataService);
 
-PrintTitleRatingsList(dataService);
+//PrintTitleRatingsList(dataService);
+
+//PrintSearchHisList(dataService);
+PrintUserRatingsList(dataService);
 
 // ___________
 
@@ -216,5 +219,34 @@ static void PrintTitleRatingsList(IDataService dataService)
             $"{i.AverageRating}, " +
             $"{i.NumVotes}"
         );
+    }
+}
+
+static void PrintSearchHisList(IDataService dataService)
+{
+    var filteredList = dataService.GetSearchHisList();
+      
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.UserId}, " +
+            $"{i.SearchQuery}, " +
+            $"{i.SearchTimeStamp}"
+        );
+    }
+}
+
+static void PrintUserRatingsList(IDataService dataService)
+{
+    var filteredList = dataService.GetUserRatingsList();
+        //.Where(i => i.UserId == "1"); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+
+    foreach (var i in filteredList)
+    {
+        Console.WriteLine(
+            $"{i.UserId}," +
+            $"{i.TConst}," +
+            $"{i.Rating}"
+         );
     }
 }
