@@ -27,6 +27,8 @@ public class ImdbContext : DbContext
     public DbSet<ActorRating> ActorRating { get; set; }
     
     public DbSet<TitleGenre> TitleGenre { get; set; }
+    
+    public DbSet<TitleRatings> TitleRatings { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -66,6 +68,9 @@ public class ImdbContext : DbContext
         
         TitleGenreContext titleGenreContext = new TitleGenreContext();
         titleGenreContext.MapTitleGenre(modelBuilder);
+        
+        TitleRatingsContext titleRatingsContext = new TitleRatingsContext();
+        titleRatingsContext.MapTitleRatings(modelBuilder);
     }
     
 }

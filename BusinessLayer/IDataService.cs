@@ -23,4 +23,6 @@ public interface IDataService
     public IList<ActorRating> GetActorRatingList();
 
     public IList<TitleGenre> GetTitleGenreList();
+
+    public IList<TitleRatings> GetTitleRatingsList();
 }

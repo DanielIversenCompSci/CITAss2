@@ -7,6 +7,7 @@ namespace BusinessLayer;
 
 public class DataService : IDataService
 {
+    // Getters for all objects:
     public IList<TitleBasics> GetTitleBasicsList()
     {
         var db = new ImdbContext();
@@ -65,5 +66,11 @@ public class DataService : IDataService
     {
         var db = new ImdbContext();
         return db.TitleGenre.ToList();
+    }
+
+    public IList<TitleRatings> GetTitleRatingsList()
+    {
+        var db = new ImdbContext();
+        return db.TitleRatings.ToList();
     }
 }
