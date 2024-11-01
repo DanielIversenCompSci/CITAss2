@@ -44,53 +44,7 @@ public class ImdbContext : DbContext
         MapTitlePrincipals(modelBuilder);
         MapTitleRatings(modelBuilder);
         MapUsers(modelBuilder);
-
-        /*
-        // title_baics
-        TitleBasicsContext titleBasicsContext = new TitleBasicsContext();
-        titleBasicsContext.MapTitleBasics(modelBuilder);
-        
-        TitlePrincipalsContext titlePrincipalsContext = new TitlePrincipalsContext();
-        titlePrincipalsContext.MapTitlePrincipals(modelBuilder);
-        
-        TitleAkasContext titleAkasContext = new TitleAkasContext();
-        titleAkasContext.MapTitleAkas(modelBuilder);
-        
-        NameBasicsContext nameBasicsContext = new NameBasicsContext();
-        nameBasicsContext.MapNameBasics(modelBuilder);
-        
-        UsersContext usersContext = new UsersContext();
-        usersContext.MapUsers(modelBuilder);
-        
-        TitlePersonnelContext titlePersonnelContext = new TitlePersonnelContext();
-        titlePersonnelContext.MapTitlePersonnel(modelBuilder);
-        
-        KnownForTitleContext knownForTitleContext = new KnownForTitleContext();
-        knownForTitleContext.MapKnownForTitle(modelBuilder);
-        
-        PrimaryProfessionContext primaryProfessionContext = new PrimaryProfessionContext();
-        primaryProfessionContext.MapPrimaryProfession(modelBuilder);
-        
-        ActorRatingContext actorRatingContext = new ActorRatingContext();
-        actorRatingContext.MapActorRating(modelBuilder);
-        
-        TitleGenreContext titleGenreContext = new TitleGenreContext();
-        titleGenreContext.MapTitleGenre(modelBuilder);
-        
-        TitleRatingsContext titleRatingsContext = new TitleRatingsContext();
-        titleRatingsContext.MapTitleRatings(modelBuilder);
-
-        SearchHisContext searchHisContext = new SearchHisContext();
-        searchHisContext.MapSearchHis(modelBuilder);
-<<<<<<< HEAD
-
-        UserRatingContext userRatingContext = new UserRatingContext();
-        userRatingContext.MapUserRating(modelBuilder);
-=======
-        */
-
-
->>>>>>> ee001d06d0bbae4e78447dff99a7e37481a2a5d0
+        MapUserRating(modelBuilder);
     }
 
     private static void MapActorRating(ModelBuilder modelBuilder)
@@ -199,6 +153,14 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<Users>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<Users>().Property(x => x.Email).HasColumnName("email");
         modelBuilder.Entity<Users>().Property(x => x.Password).HasColumnName("password");
+
+    }
+    public void MapUserRating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<UserRating>().ToTable("user_rating").HasNoKey();
+        modelBuilder.Entity<UserRating>().Property(x => x.UserId).HasColumnName("userid");
+        modelBuilder.Entity<UserRating>().Property(x => x.TConst).HasColumnName("tconst");
+        modelBuilder.Entity<UserRating>().Property(x => x.Rating).HasColumnName("userrating");
 
     }
 

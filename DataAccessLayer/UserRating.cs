@@ -5,8 +5,8 @@ namespace DataAccessLayer
     {
         public string UserId { get; set; }
         
-        public string TConst { get; set; }
+        public string TConst { get; set; } = string.Empty;
         
-        public string Rating { get; set; }
+        public float Rating { get; set; }
     }
 }

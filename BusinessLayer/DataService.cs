@@ -80,4 +80,10 @@ public class DataService : IDataService
         return db.SearchHis.ToList();
     }
 
+    public IList<UserRating> GetUserRatingsList()
+    {
+        var db = new ImdbContext();
+        return db.UserRating.ToList();
+    }
+    
 }
