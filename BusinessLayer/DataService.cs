@@ -79,4 +79,5 @@ public class DataService : IDataService
         var db = new ImdbContext();
         return db.SearchHis.ToList();
     }
+
 }

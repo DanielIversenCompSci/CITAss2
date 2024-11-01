@@ -20,6 +20,8 @@ public class ImdbContext : DbContext
     public DbSet<TitleGenre> TitleGenre { get; set; }
     public DbSet<TitleRatings> TitleRatings { get; set; }
     public DbSet<SearchHis> SearchHis { get; set; }
+    public DbSet<UserRating> UserRating { get; set; }
+
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -66,6 +68,9 @@ public class ImdbContext : DbContext
 
         SearchHisContext searchHisContext = new SearchHisContext();
         searchHisContext.MapSearchHis(modelBuilder);
+
+        UserRatingContext userRatingContext = new UserRatingContext();
+        userRatingContext.MapUserRating(modelBuilder);
     }
     
 }
