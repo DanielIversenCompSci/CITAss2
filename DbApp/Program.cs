@@ -1,7 +1,18 @@
 ﻿using BusinessLayer;
 using DataAccessLayer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
-var dataService = new DataService();
+// Set up Dependency Injection
+var serviceProvider = new ServiceCollection()
+    .AddDbContext<ImdbContext>(options =>
+        options.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs"))
+    .AddScoped<IDataService, DataService>()
+    .BuildServiceProvider();
+
+// Get an instance of IDataService (DataService) from the service provider
+var dataService = serviceProvider.GetService<IDataService>();
+
 
 // PRINT TESTS
 // Un-comment whichever print function you want to use and run this project w dotnet run
@@ -31,7 +42,14 @@ var dataService = new DataService();
 //PrintTitleRatingsList(dataService);
 
 //PrintSearchHisList(dataService);
-PrintUserRatingsList(dataService);
+//PrintUserRatingsList(dataService);
+
+TestCreate(dataService);
+TestRead(dataService);
+TestUpdate(dataService);
+TestRead(dataService);  // Read again to confirm the update
+TestDelete(dataService);
+TestRead(dataService);  // Read again to confirm the deletion
 
 // ___________
 
@@ -249,4 +267,87 @@ static void PrintUserRatingsList(IDataService dataService)
             $"{i.Rating}"
          );
     }
+}
+
+const string testTConst = "tt99999990";  // This will be the TConst used for testing
+
+static void TestCreate(IDataService dataService)
+{
+    Console.WriteLine("Creating a new TitleBasics entry...");
+
+    var newTitle = new TitleBasics
+    {
+        TConst = testTConst,
+        PrimaryTitle = "New Movie Title",
+        OriginalTitle = "Original Movie Title",
+        IsAdult = false,
+        StartYear = "2024",
+        EndYear = null,
+        RuntimeMinutes = 120,
+        Plot = "A brand new movie for testing.",
+        Poster = "poster_url"
+    };
+
+    var createdTitle = dataService.AddTitleBasics(newTitle);
+
+    if (createdTitle != null)
+    {
+        Console.WriteLine($"Created Title ID: {createdTitle.TConst}, Title: {createdTitle.PrimaryTitle}");
+    }
+    else
+    {
+        Console.WriteLine("Create operation failed.");
+    }
+}
+
+static void TestRead(IDataService dataService)
+{
+    Console.WriteLine("Reading the TitleBasics entry...");
+
+    var titleById = dataService.GetTitleBasicsById(testTConst);
+    if (titleById != null)
+    {
+        Console.WriteLine($"Found Title ID: {titleById.TConst}, Title: {titleById.PrimaryTitle}");
+    }
+    else
+    {
+        Console.WriteLine("Title not found.");
+    }
+}
+
+static void TestUpdate(IDataService dataService)
+{
+    Console.WriteLine("Updating the TitleBasics entry...");
+
+    var updatedTitle = new TitleBasics
+    {
+        PrimaryTitle = "Updated Movie Title",
+        OriginalTitle = "Updated Original Title",
+        IsAdult = true,
+        StartYear = "2025",
+        EndYear = null,
+        RuntimeMinutes = 130,
+        Plot = "An updated plot description.",
+        Poster = "updated_poster_url"
+    };
+
+    bool updateSuccess = dataService.UpdateTitleBasics(testTConst, updatedTitle);
+
+    if (updateSuccess)
+    {
+        var updated = dataService.GetTitleBasicsById(testTConst);
+        Console.WriteLine($"Updated Title ID: {updated.TConst}, New Title: {updated.PrimaryTitle}");
+    }
+    else
+    {
+        Console.WriteLine("Update failed; title not found.");
+    }
+}
+
+static void TestDelete(IDataService dataService)
+{
+    Console.WriteLine("Deleting the TitleBasics entry...");
+
+    bool deleteSuccess = dataService.DeleteTitleBasics(testTConst);
+    Console.WriteLine(deleteSuccess ? "Delete successful." : "Delete failed; title not found.");
 }

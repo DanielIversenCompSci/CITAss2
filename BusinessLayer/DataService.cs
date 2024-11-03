@@ -20,6 +20,59 @@ public class DataService : IDataService
         return _context.TitleBasics.ToList();
     }
 
+    public TitleBasics GetTitleBasicsById(string tConst)
+    {
+        return _context.TitleBasics.Find(tConst);
+    }
+
+    
+    public TitleBasics AddTitleBasics(TitleBasics newTitle)
+    {
+        _context.TitleBasics.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+
+    
+    public bool UpdateTitleBasics(string tConst, TitleBasics updatedTitle)
+    {
+        var existingTitle = _context.TitleBasics.Find(tConst);
+        if (existingTitle == null)
+        {
+            return false; // Entry not found
+        }
+
+        // Update properties
+        existingTitle.PrimaryTitle = updatedTitle.PrimaryTitle;
+        existingTitle.OriginalTitle = updatedTitle.OriginalTitle;
+        existingTitle.IsAdult = updatedTitle.IsAdult;
+        existingTitle.StartYear = updatedTitle.StartYear;
+        existingTitle.EndYear = updatedTitle.EndYear;
+        existingTitle.RuntimeMinutes = updatedTitle.RuntimeMinutes;
+        existingTitle.Plot = updatedTitle.Plot;
+        existingTitle.Poster = updatedTitle.Poster;
+
+        _context.SaveChanges();
+        return true;
+    }
+
+
+    public bool DeleteTitleBasics(string tConst)
+    {
+        var title = _context.TitleBasics.Find(tConst);
+
+        // Check if the entry exists
+        if (title == null)
+        {
+            Console.WriteLine($"No TitleBasics entry found with TConst '{tConst}' to delete.");
+            return false; // Entry not found, nothing to delete
+        }
+
+        _context.TitleBasics.Remove(title);
+        _context.SaveChanges();
+        return true;
+    }
+
     // TitlePrincipals
     public IList<TitlePrincipals> GetTitlePrincipalsList()
     {
