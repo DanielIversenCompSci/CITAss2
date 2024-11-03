@@ -2,90 +2,93 @@ using System.Collections;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BusinessLayer;
 
 public class DataService : IDataService
 {
-    // Getters for all objects:
+    private readonly ImdbContext _context;
 
-    //TitleBasics
+    // Constructor with dependency injection for ImdbContext
+    public DataService(ImdbContext context)
+    {
+        _context = context;
+    }
+
+    // TitleBasics
     public IList<TitleBasics> GetTitleBasicsList()
     {
-        var db = new ImdbContext();
-        return db.TitleBasics.ToList();
+        return _context.TitleBasics.ToList();
     }
-    //TitlePrincipals
+
+    // TitlePrincipals
     public IList<TitlePrincipals> GetTitlePrincipalsList()
     {
-        var db = new ImdbContext();
-        return db.TitlePrincipals.ToList();
+        return _context.TitlePrincipals.ToList();
     }
-    //TitleAkas
+
+    // TitleAkas
     public IList<TitleAkas> GetTitleAkasList()
     {
-        var db = new ImdbContext();
-        return db.TitleAkas.ToList();
+        return _context.TitleAkas.ToList();
     }
-    //NameBasics
+
+    // NameBasics
     public IList<NameBasics> GetNameBasicsList()
     {
-        var db = new ImdbContext();
-        return db.NameBasics.ToList();
+        return _context.NameBasics.ToList();
     }
-    //Users
+
+    // Users
     public IList<Users> GetUsersList()
     {
-        var db = new ImdbContext();
-        return db.Users.ToList();
+        return _context.Users.ToList();
     }
-    //TitlePersonnel
+
+    // TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList()
     {
-        var db = new ImdbContext();
-        return db.TitlePersonnel.ToList();
+        return _context.TitlePersonnel.ToList();
     }
-    //KnownForTitle
+
+    // KnownForTitle
     public IList<KnownForTitle> GetKnownForTitleList()
     {
-        var db = new ImdbContext();
-        return db.KnownForTitle.ToList();
+        return _context.KnownForTitle.ToList();
     }
-    //PrimaryProfession
+
+    // PrimaryProfession
     public IList<PrimaryProfession> GetPrimaryProfessionList()
     {
-        var db = new ImdbContext();
-        return db.PrimaryProfession.ToList();
+        return _context.PrimaryProfession.ToList();
     }
-    //ActorRating
+
+    // ActorRating
     public IList<ActorRating> GetActorRatingList()
     {
-        var db = new ImdbContext();
-        return db.ActorRating.ToList();
+        return _context.ActorRating.ToList();
     }
-    //TitleGenre
+
+    // TitleGenre
     public IList<TitleGenre> GetTitleGenreList()
     {
-        var db = new ImdbContext();
-        return db.TitleGenre.ToList();
+        return _context.TitleGenre.ToList();
     }
-    //TitleRatings
+
+    // TitleRatings
     public IList<TitleRatings> GetTitleRatingsList()
     {
-        var db = new ImdbContext();
-        return db.TitleRatings.ToList();
+        return _context.TitleRatings.ToList();
     }
-    //SearchHis
+
+    // SearchHis
     public IList<SearchHis> GetSearchHisList()
     {
-        var db = new ImdbContext();
-        return db.SearchHis.ToList();
+        return _context.SearchHis.ToList();
     }
-    //UserRatings
+
+    // UserRatings
     public IList<UserRating> GetUserRatingsList()
     {
-        var db = new ImdbContext();
-        return db.UserRating.ToList();
+        return _context.UserRating.ToList();
     }
-    
 }
