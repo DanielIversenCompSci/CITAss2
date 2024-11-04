@@ -44,7 +44,7 @@ namespace WebApi.Controllers
         {
             var createdTitle = _dataService.AddKnownForTitle(newTitle);
 
-            return CreatedAtAction(nameof(GetKnownForTitleById), new { userId = createdTitle.TConst, timestamp = createdTitle.NConst}, createdT);
+            return CreatedAtAction(nameof(GetKnownForTitleById), new { userId = createdTitle.TConst, timestamp = createdTitle.NConst}, createdTitle);
         }
 
 
