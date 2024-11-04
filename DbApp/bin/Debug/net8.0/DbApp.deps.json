@@ -192,10 +192,7 @@
           "Microsoft.EntityFrameworkCore": "9.0.0-rc.2.24474.1"
         },
         "runtime": {
-          "BusinessLayer.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "BusinessLayer.dll": {}
         }
       },
       "DataAccessLayer/1.0.0": {
@@ -205,10 +202,7 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.0-rc.2"
         },
         "runtime": {
-          "DataAccessLayer.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "DataAccessLayer.dll": {}
         }
       }
     }

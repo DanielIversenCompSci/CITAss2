@@ -224,7 +224,8 @@ static void PrintTitleRatingsList(IDataService dataService)
 
 static void PrintSearchHisList(IDataService dataService)
 {
-    var filteredList = dataService.GetSearchHisList();
+    var filteredList = dataService.GetSearchHisList()
+        .Where(i => i.UserId == "1         ");
       
     foreach (var i in filteredList)
     {
@@ -238,8 +239,8 @@ static void PrintSearchHisList(IDataService dataService)
 
 static void PrintUserRatingsList(IDataService dataService)
 {
-    var filteredList = dataService.GetUserRatingsList();
-        //.Where(i => i.UserId == "1"); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+    var filteredList = dataService.GetUserRatingsList()
+        .Where(i => i.UserId == "1         "); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
 
     foreach (var i in filteredList)
     {
