@@ -74,31 +74,31 @@ public class DataService : IDataService
         return true;
     }
 
-    // TitlePrincipals
+    // TitlePrincipals Done
     public IList<TitlePrincipals> GetTitlePrincipalsList()
     {
         return _context.TitlePrincipals.ToList();
     }
 
-    // TitleAkas
+    // TitleAkas done
     public IList<TitleAkas> GetTitleAkasList()
     {
         return _context.TitleAkas.ToList();
     }
 
-    // NameBasics
+    // NameBasics done
     public IList<NameBasics> GetNameBasicsList()
     {
         return _context.NameBasics.ToList();
     }
 
-    // Users
+    // Users done
     public IList<Users> GetUsersList()
     {
         return _context.Users.ToList();
     }
 
-    // TitlePersonnel
+    // TitlePersonnel Done ?
     public IList<TitlePersonnel> GetTitlePersonnelList()
     {
         return _context.TitlePersonnel.ToList();
