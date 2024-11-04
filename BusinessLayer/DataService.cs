@@ -2,88 +2,146 @@ using System.Collections;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BusinessLayer;
 
 public class DataService : IDataService
 {
-    // Getters for all objects:
+    private readonly ImdbContext _context;
+
+    // Constructor with dependency injection for ImdbContext
+    public DataService(ImdbContext context)
+    {
+        _context = context;
+    }
+
+    // TitleBasics
     public IList<TitleBasics> GetTitleBasicsList()
     {
-        var db = new ImdbContext();
-        return db.TitleBasics.ToList();
+        return _context.TitleBasics.ToList();
     }
 
+    public TitleBasics GetTitleBasicsById(string tConst)
+    {
+        return _context.TitleBasics.Find(tConst);
+    }
+
+    
+    public TitleBasics AddTitleBasics(TitleBasics newTitle)
+    {
+        _context.TitleBasics.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+
+    
+    public bool UpdateTitleBasics(string tConst, TitleBasics updatedTitle)
+    {
+        var existingTitle = _context.TitleBasics.Find(tConst);
+        if (existingTitle == null)
+        {
+            return false; // Entry not found
+        }
+
+        // Update properties
+        existingTitle.PrimaryTitle = updatedTitle.PrimaryTitle;
+        existingTitle.OriginalTitle = updatedTitle.OriginalTitle;
+        existingTitle.IsAdult = updatedTitle.IsAdult;
+        existingTitle.StartYear = updatedTitle.StartYear;
+        existingTitle.EndYear = updatedTitle.EndYear;
+        existingTitle.RuntimeMinutes = updatedTitle.RuntimeMinutes;
+        existingTitle.Plot = updatedTitle.Plot;
+        existingTitle.Poster = updatedTitle.Poster;
+
+        _context.SaveChanges();
+        return true;
+    }
+
+
+    public bool DeleteTitleBasics(string tConst)
+    {
+        var title = _context.TitleBasics.Find(tConst);
+
+        // Check if the entry exists
+        if (title == null)
+        {
+            Console.WriteLine($"No TitleBasics entry found with TConst '{tConst}' to delete.");
+            return false; // Entry not found, nothing to delete
+        }
+
+        _context.TitleBasics.Remove(title);
+        _context.SaveChanges();
+        return true;
+    }
+
+    // TitlePrincipals
     public IList<TitlePrincipals> GetTitlePrincipalsList()
     {
-        var db = new ImdbContext();
-        return db.TitlePrincipals.ToList();
+        return _context.TitlePrincipals.ToList();
     }
 
+    // TitleAkas
     public IList<TitleAkas> GetTitleAkasList()
     {
-        var db = new ImdbContext();
-        return db.TitleAkas.ToList();
+        return _context.TitleAkas.ToList();
     }
 
+    // NameBasics
     public IList<NameBasics> GetNameBasicsList()
     {
-        var db = new ImdbContext();
-        return db.NameBasics.ToList();
+        return _context.NameBasics.ToList();
     }
 
+    // Users
     public IList<Users> GetUsersList()
     {
-        var db = new ImdbContext();
-        return db.Users.ToList();
+        return _context.Users.ToList();
     }
 
+    // TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList()
     {
-        var db = new ImdbContext();
-        return db.TitlePersonnel.ToList();
+        return _context.TitlePersonnel.ToList();
     }
 
+    // KnownForTitle
     public IList<KnownForTitle> GetKnownForTitleList()
     {
-        var db = new ImdbContext();
-        return db.KnownForTitle.ToList();
+        return _context.KnownForTitle.ToList();
     }
 
+    // PrimaryProfession
     public IList<PrimaryProfession> GetPrimaryProfessionList()
     {
-        var db = new ImdbContext();
-        return db.PrimaryProfession.ToList();
+        return _context.PrimaryProfession.ToList();
     }
 
+    // ActorRating
     public IList<ActorRating> GetActorRatingList()
     {
-        var db = new ImdbContext();
-        return db.ActorRating.ToList();
+        return _context.ActorRating.ToList();
     }
 
+    // TitleGenre
     public IList<TitleGenre> GetTitleGenreList()
     {
-        var db = new ImdbContext();
-        return db.TitleGenre.ToList();
+        return _context.TitleGenre.ToList();
     }
 
+    // TitleRatings
     public IList<TitleRatings> GetTitleRatingsList()
     {
-        var db = new ImdbContext();
-        return db.TitleRatings.ToList();
+        return _context.TitleRatings.ToList();
     }
 
+    // SearchHis
     public IList<SearchHis> GetSearchHisList()
     {
-        var db = new ImdbContext();
-        return db.SearchHis.ToList();
+        return _context.SearchHis.ToList();
     }
 
+    // UserRatings
     public IList<UserRating> GetUserRatingsList()
     {
-        var db = new ImdbContext();
-        return db.UserRating.ToList();
+        return _context.UserRating.ToList();
     }
-    
 }

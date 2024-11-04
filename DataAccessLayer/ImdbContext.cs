@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace DataAccessLayer;
 public class ImdbContext : DbContext
 {
+    public ImdbContext(DbContextOptions<ImdbContext> options) : base(options) { }
     public DbSet<TitleBasics> TitleBasics { get; set; }    
     public DbSet<TitlePrincipals> TitlePrincipals { get; set; }
     public DbSet<TitleAkas> TitleAkas { get; set; }
@@ -32,6 +33,7 @@ public class ImdbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
         MapNameBasics(modelBuilder);
