@@ -42,6 +42,7 @@ public class DataService : IDataService
             return false; // Entry not found
         }
 
+
         // Update properties
         existingTitle.PrimaryTitle = updatedTitle.PrimaryTitle;
         existingTitle.OriginalTitle = updatedTitle.OriginalTitle;
@@ -144,4 +145,53 @@ public class DataService : IDataService
     {
         return _context.UserRating.ToList();
     }
+    
+    public UserRating GetUserRatingById(string userId, string tConst)
+    {
+        return _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
+    }
+
+    public UserRating AddUserRating(UserRating newUserRating)
+    {
+        if (_context.UserRating.Any(r => r.UserId == newUserRating.UserId && r.TConst == newUserRating.TConst))
+        {
+            return null; // User rating for this movie already exists
+        }
+
+        _context.UserRating.Add(newUserRating);
+        _context.SaveChanges();
+        return newUserRating;
+    }
+
+
+    public bool UpdateUserRating(string userId, string tConst, UserRating updatedRating)
+    {
+        var existingRating = _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
+
+        if (existingRating == null)
+        {
+            return false; // No existing rating found
+        }
+
+        existingRating.Rating = updatedRating.Rating;
+        _context.SaveChanges();
+        return true;
+    }
+
+
+
+    public bool DeleteUserRating(string userId, string tConst)
+    {
+        var existingRating = _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
+
+        if (existingRating == null)
+        {
+            return false; // No existing rating found
+        }
+
+        _context.UserRating.Remove(existingRating);
+        _context.SaveChanges();
+        return true;
+    }
+
 }
