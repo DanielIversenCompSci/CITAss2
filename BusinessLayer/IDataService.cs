@@ -36,8 +36,8 @@ public interface IDataService
     public IList<SearchHis> GetSearchHisList();
     //UserRating
     public IList<UserRating> GetUserRatingsList(); // be by id aswell ?
-    UserRating GetUserRatingById(int userId, string tConst);
+    UserRating GetUserRatingById(string userId, string tConst);
     UserRating AddUserRating(UserRating newUserRating);
-    bool UpdateUserRating(int userId, string tConst, UserRating updatedRating);
-    bool DeleteUserRating(int userId, string tConst);
+    bool UpdateUserRating(string userId, string tConst, UserRating updatedRating);
+    bool DeleteUserRating(string userId, string tConst);
 }
