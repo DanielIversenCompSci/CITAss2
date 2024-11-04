@@ -81,7 +81,8 @@ public class ImdbContext : DbContext
 
     private static void MapSearchHis(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<SearchHis>().ToTable("search_his").HasNoKey();
+
+        modelBuilder.Entity<SearchHis>().ToTable("search_his").HasKey(s => new { s.UserId, s.SearchTimeStamp }); // Composite primary key
         modelBuilder.Entity<SearchHis>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchQuery).HasColumnName("searchquery");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchTimeStamp).HasColumnName("searchtimestamp");

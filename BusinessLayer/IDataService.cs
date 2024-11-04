@@ -34,6 +34,10 @@ public interface IDataService
     public IList<TitleRatings> GetTitleRatingsList();
     //SearchHis
     public IList<SearchHis> GetSearchHisList();
+    SearchHis GetSearchHistoryById(string userId, DateTime timestamp);
+    SearchHis AddSearchHistory(SearchHis newSearch);
+    bool UpdateSearchHistory(string userId, DateTime timestamp, SearchHis updatedSearch);
+    bool DeleteSearchHistory(string userId, DateTime timestamp);
     //UserRating
     public IList<UserRating> GetUserRatingsList(); // be by id aswell ?
     UserRating GetUserRatingById(string userId, string tConst);

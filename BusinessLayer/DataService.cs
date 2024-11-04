@@ -139,6 +139,50 @@ public class DataService : IDataService
     {
         return _context.SearchHis.ToList();
     }
+    
+    public SearchHis GetSearchHistoryById(string userId, DateTime timestamp)
+    {
+        return _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
+    }
+
+    //does not work
+    public SearchHis AddSearchHistory(SearchHis newSearch)
+    {
+        _context.SearchHis.Add(newSearch);
+        _context.SaveChanges();
+        return newSearch;
+    }
+
+    
+    public bool UpdateSearchHistory(string userId, DateTime timestamp, SearchHis updatedSearch)
+    {
+        var existingSearch = _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
+
+        if (existingSearch == null)
+        {
+            return false;
+        }
+
+        existingSearch.SearchQuery = updatedSearch.SearchQuery;
+        existingSearch.SearchTimeStamp = updatedSearch.SearchTimeStamp;
+        _context.SaveChanges();
+        return true;
+    }
+
+    
+    public bool DeleteSearchHistory(string userId, DateTime timestamp)
+    {
+        var existingSearch = _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
+
+        if (existingSearch == null)
+        {
+            return false;
+        }
+
+        _context.SearchHis.Remove(existingSearch);
+        _context.SaveChanges();
+        return true;
+    }
 
     // UserRatings
     public IList<UserRating> GetUserRatingsList()
