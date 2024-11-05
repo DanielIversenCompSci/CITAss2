@@ -140,7 +140,54 @@ public class DataService : IDataService
     {
         return _context.NameBasics.ToList();
     }
+    
+    public NameBasics GetNameBasicsById(string nConst)
+    {
+        return _context.NameBasics.FirstOrDefault(tp => tp.Nconst == nConst);
+    }
 
+    public NameBasics AddNameBasics(NameBasics newTitle)
+    {
+        _context.NameBasics.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+    
+    public bool UpdateNameBasics(string nConst, NameBasics updatedTitle)
+    {
+        var existingTitle = _context.NameBasics.FirstOrDefault(tp => tp.Nconst == nConst);
+        
+        if (existingTitle == null)
+        {
+            return false; // Entry not found
+        }
+
+        // Update properties
+        existingTitle.PrimaryName = updatedTitle.PrimaryName;
+        existingTitle.BirthYear = updatedTitle.BirthYear;
+        existingTitle.DeathYear = updatedTitle.DeathYear;
+        
+
+        _context.SaveChanges();
+        return true;
+    }
+    
+    public bool DeleteNameBasics(string nConst)
+    {
+        var title = _context.NameBasics.FirstOrDefault(tp => tp.Nconst == nConst);
+
+        // Check if the entry exists
+        if (title == null)
+        {
+            Console.WriteLine($"No NameBasics entry found with NConst '{nConst}' to delete.");
+            return false; // Entry not found, nothing to delete
+        }
+
+        _context.NameBasics.Remove(title);
+        _context.SaveChanges();
+        return true;
+    }
+    
     // Users done
     public IList<Users> GetUsersList()
     {

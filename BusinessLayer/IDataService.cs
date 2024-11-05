@@ -23,8 +23,14 @@ public interface IDataService
     
     //TitleAkas
     public IList<TitleAkas> GetTitleAkasList();
+    
     //NameBasics
     public IList<NameBasics> GetNameBasicsList();
+    public NameBasics GetNameBasicsById(string nConst);
+    public NameBasics AddNameBasics(NameBasics newTitle);
+    public bool UpdateNameBasics(string nConst, NameBasics updatedTitle);
+    public bool DeleteNameBasics(string nConst);
+    
     //Users
     public IList<Users> GetUsersList();
     //TitlePersonnel
