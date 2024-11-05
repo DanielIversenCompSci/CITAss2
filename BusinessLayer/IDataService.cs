@@ -14,6 +14,13 @@ public interface IDataService
 
     //TitlePrincipals
     public IList<TitlePrincipals> GetTitlePrincipalsList();
+
+    public TitlePrincipals GetTitlePrincipalsById(string tConst);
+
+    public TitlePrincipals AddTitlePrincipals(TitlePrincipals newTitle);
+    public bool UpdateTitlePrincipals(string tConst, TitlePrincipals updatedTitle);
+    public bool DeleteTitlePrincipals(string tConst);
+    
     //TitleAkas
     public IList<TitleAkas> GetTitleAkasList();
     //NameBasics
