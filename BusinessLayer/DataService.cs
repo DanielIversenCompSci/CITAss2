@@ -129,13 +129,55 @@ public class DataService : IDataService
     }
 
     // TitleRatings
-    public IList<TitleRatings> GetTitleRatingsList()
+    public IList<TitleRatings> GetTitleRatingsList(int limit = 100)
     {
-        return _context.TitleRatings.ToList();
+        return _context.TitleRatings.Take(limit).ToList();
     }
 
-    // SearchHis
-    public IList<SearchHis> GetSearchHisList()
+    public TitleRatings GetTitleRatingById(string tConst)
+    {
+        return _context.TitleRatings.FirstOrDefault(tr => tr.TConst == tConst);
+    }
+
+    public TitleRatings AddTitleRating(TitleRatings newTitleRating)
+    {
+        _context.TitleRatings.Add(newTitleRating);
+        _context.SaveChanges();
+        return newTitleRating;
+    }
+
+    public bool UpdateTitleRating(string tConst, TitleRatings updatedTitleRating)
+    {
+        var existingRating = _context.TitleRatings.FirstOrDefault(tr => tr.TConst == tConst);
+
+        if (existingRating == null)
+        {
+            return false;
+        }
+
+        existingRating.AverageRating = updatedTitleRating.AverageRating;
+        existingRating.NumVotes = updatedTitleRating.NumVotes;
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool DeleteTitleRating(string tConst)
+    {
+        var existingRating = _context.TitleRatings.FirstOrDefault(tr => tr.TConst == tConst);
+
+        if (existingRating == null)
+        {
+            return false;
+        }
+
+        _context.TitleRatings.Remove(existingRating);
+        _context.SaveChanges();
+        return true;
+    }
+
+
+// SearchHis
+public IList<SearchHis> GetSearchHisList()
     {
         return _context.SearchHis.ToList();
     }

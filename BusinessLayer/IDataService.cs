@@ -31,7 +31,11 @@ public interface IDataService
     //TitleGenre
     public IList<TitleGenre> GetTitleGenreList();
     //TitleRatings
-    public IList<TitleRatings> GetTitleRatingsList();
+    IList<TitleRatings> GetTitleRatingsList(int limit = 100);
+    TitleRatings GetTitleRatingById(string tConst);
+    TitleRatings AddTitleRating(TitleRatings newTitleRating);
+    bool UpdateTitleRating(string tConst, TitleRatings updatedTitleRating);
+    bool DeleteTitleRating(string tConst);
     //SearchHis
     public IList<SearchHis> GetSearchHisList();
     SearchHis GetSearchHistoryById(string userId, DateTime timestamp);
