@@ -299,9 +299,57 @@ public class DataService : IDataService
     }
 
     // TitlePersonnel Done ?
+    // TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList()
     {
         return _context.TitlePersonnel.ToList();
+    }
+
+    public TitlePersonnel GetTitlePersonnelById(string tConst)
+    {
+        return _context.TitlePersonnel.Find(tConst);
+    }
+
+    
+    public TitlePersonnel AddTitlePersonnel(TitlePersonnel newTitle)
+    {
+        _context.TitlePersonnel.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+
+    
+    public bool UpdateTitlePersonnel(string tConst, TitlePersonnel updatedTitle)
+    {
+        var existingTitle = _context.TitlePersonnel.Find(tConst);
+        if (existingTitle == null)
+        {
+            return false; // Entry not found
+        }
+
+
+        // Update properties
+        existingTitle.Role = updatedTitle.Role;
+
+        _context.SaveChanges();
+        return true;
+    }
+
+
+    public bool DeleteTitlePersonnel(string tConst)
+    {
+        var title = _context.TitlePersonnel.Find(tConst);
+
+        // Check if the entry exists
+        if (title == null)
+        {
+            Console.WriteLine($"No TitlePersonnel entry found with TConst '{tConst}' to delete.");
+            return false; // Entry not found, nothing to delete
+        }
+
+        _context.TitlePersonnel.Remove(title);
+        _context.SaveChanges();
+        return true;
     }
 
     // KnownForTitle

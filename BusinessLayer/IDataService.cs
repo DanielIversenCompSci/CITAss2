@@ -39,6 +39,11 @@ public interface IDataService
     public IList<Users> GetUsersList();
     //TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList();
+    TitlePersonnel GetTitlePersonnelById(string tConst);
+    TitlePersonnel AddTitlePersonnel(TitlePersonnel newTitle);
+    bool UpdateTitlePersonnel(string tConst, TitlePersonnel updatedTitle);
+    bool DeleteTitlePersonnel(string tConst);
+    
     //KnownForTitle
     public IList<KnownForTitle> GetKnownForTitleList();
     public KnownForTitle GetKnownForTitleById(string nConst, string tConst);
