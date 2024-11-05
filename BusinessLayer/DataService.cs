@@ -188,6 +188,56 @@ public class DataService : IDataService
         return true;
     }
     
+    // PrimaryProfession done
+    public IList<PrimaryProfession> GetPrimaryProfessionList()
+    {
+        return _context.PrimaryProfession.ToList();
+    }
+    
+    public PrimaryProfession GetPrimaryProfessionById(string nConst)
+    {
+        return _context.PrimaryProfession.FirstOrDefault(tp => tp.NConst == nConst);
+    }
+
+    public PrimaryProfession AddPrimaryProfession(PrimaryProfession newTitle)
+    {
+        _context.PrimaryProfession.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+    
+    public bool UpdatePrimaryProfession(string nConst, PrimaryProfession updatedTitle)
+    {
+        var existingTitle = _context.PrimaryProfession.FirstOrDefault(tp => tp.NConst == nConst);
+        
+        if (existingTitle == null)
+        {
+            return false; // Entry not found
+        }
+
+        // Update properties
+        existingTitle.Role = updatedTitle.Role;
+
+        _context.SaveChanges();
+        return true;
+    }
+    
+    public bool DeletePrimaryProfession(string nConst)
+    {
+        var title = _context.PrimaryProfession.FirstOrDefault(tp => tp.NConst == nConst);
+
+        // Check if the entry exists
+        if (title == null)
+        {
+            Console.WriteLine($"No PrimaryProfession entry found with NConst '{nConst}' to delete.");
+            return false; // Entry not found, nothing to delete
+        }
+
+        _context.PrimaryProfession.Remove(title);
+        _context.SaveChanges();
+        return true;
+    }
+    
     // Users done
     public IList<Users> GetUsersList()
     {
@@ -246,11 +296,7 @@ public class DataService : IDataService
         return true;
     }
 
-    // PrimaryProfession
-    public IList<PrimaryProfession> GetPrimaryProfessionList()
-    {
-        return _context.PrimaryProfession.ToList();
-    }
+    
 
     // ActorRating
     

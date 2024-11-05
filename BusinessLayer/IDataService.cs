@@ -45,6 +45,10 @@ public interface IDataService
 
     //PrimaryProfession
     public IList<PrimaryProfession> GetPrimaryProfessionList();
+    public PrimaryProfession GetPrimaryProfessionById(string nConst);
+    public PrimaryProfession AddPrimaryProfession(PrimaryProfession newTitle);
+    public bool UpdatePrimaryProfession(string nConst, PrimaryProfession updatedTitle);
+    public bool DeletePrimaryProfession(string nConst);
     //ActorRating
     IList<ActorRating> GetActorRatingList(int limit = 100);
     ActorRating GetActorRatingById(string nConst);
