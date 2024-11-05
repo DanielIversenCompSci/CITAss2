@@ -78,6 +78,54 @@ public class DataService : IDataService
     {
         return _context.TitlePrincipals.ToList();
     }
+    
+    public TitlePrincipals GetTitlePrincipalsById(string tConst)
+    {
+        return _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst);
+    }
+    
+    public TitlePrincipals AddTitlePrincipals(TitlePrincipals newTitle)
+    {
+        _context.TitlePrincipals.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+    
+    public bool UpdateTitlePrincipals(string tConst, TitlePrincipals updatedTitle)
+    {
+        var existingTitle = _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst);
+        
+        if (existingTitle == null)
+        {
+            return false; // Entry not found
+        }
+
+        // Update properties
+        existingTitle.Ordering = updatedTitle.Ordering;
+        existingTitle.Category = updatedTitle.Category;
+        existingTitle.Job = updatedTitle.Job;
+        existingTitle.Characters = updatedTitle.Characters;
+        
+
+        _context.SaveChanges();
+        return true;
+    }
+    
+    public bool DeleteTitlePrincipals(string tConst)
+    {
+        var title = _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst);
+
+        // Check if the entry exists
+        if (title == null)
+        {
+            Console.WriteLine($"No TitlePrincipals entry found with TConst '{tConst}' to delete.");
+            return false; // Entry not found, nothing to delete
+        }
+
+        _context.TitlePrincipals.Remove(title);
+        _context.SaveChanges();
+        return true;
+    }
 
     // TitleAkas
     public IList<TitleAkas> GetTitleAkasList()
