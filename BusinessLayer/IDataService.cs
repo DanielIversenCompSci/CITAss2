@@ -24,6 +24,12 @@ public interface IDataService
     public IList<TitlePersonnel> GetTitlePersonnelList();
     //KnownForTitle
     public IList<KnownForTitle> GetKnownForTitleList();
+    public KnownForTitle GetKnownForTitleById(string nConst, string tConst);
+    public KnownForTitle AddKnownForTitle(KnownForTitle newTitle);
+    public bool UpdateKnownForTitle(string tConst, string nConst, KnownForTitle updatedTitle);
+    public bool DeleteKnownForTitle(string tConst, string nConst);
+
+
     //PrimaryProfession
     public IList<PrimaryProfession> GetPrimaryProfessionList();
     //ActorRating

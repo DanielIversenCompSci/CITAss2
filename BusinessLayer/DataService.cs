@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
@@ -108,6 +109,46 @@ public class DataService : IDataService
     public IList<KnownForTitle> GetKnownForTitleList()
     {
         return _context.KnownForTitle.ToList();
+    }
+
+    public KnownForTitle GetKnownForTitleById(string nConst, string tConst)
+    {
+        return _context.KnownForTitle.FirstOrDefault(k => k.TConst == tConst && k.NConst == nConst);
+    }
+
+    public KnownForTitle AddKnownForTitle(KnownForTitle newTitle)
+    {
+        _context.KnownForTitle.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+
+    public bool UpdateKnownForTitle(string tConst, string nConst, KnownForTitle updatedTitle) 
+    {
+        var existingTitle = _context.KnownForTitle.FirstOrDefault(k => k.TConst == tConst && k.NConst == nConst);
+        if (existingTitle == null) 
+        {
+            return false;
+        }
+
+        existingTitle.TConst = updatedTitle.TConst;
+        existingTitle.NConst = updatedTitle.NConst;
+
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool DeleteKnownForTitle(string tConst, string nConst)
+    {
+        var title = _context.KnownForTitle.FirstOrDefault(k => k.TConst == tConst && k.NConst == nConst);
+        if (title == null)
+        {
+            Console.WriteLine($"No KnownForTitle entry found to delete.");
+            return false;
+        }
+        _context.KnownForTitle.Remove (title);
+        _context.SaveChanges();
+        return true;
     }
 
     // PrimaryProfession

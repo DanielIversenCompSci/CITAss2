@@ -58,7 +58,7 @@ public class ImdbContext : DbContext
 
     private static void MapKnownForTitle(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<KnownForTitle>().ToTable("known_for_title").HasNoKey();
+        modelBuilder.Entity<KnownForTitle>().ToTable("known_for_title").HasKey(k => new {k.TConst, k.NConst});
         modelBuilder.Entity<KnownForTitle>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<KnownForTitle>().Property(x => x.NConst).HasColumnName("nconst");
     }
