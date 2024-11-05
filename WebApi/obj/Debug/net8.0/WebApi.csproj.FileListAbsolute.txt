@@ -154,3 +154,8 @@ C:/Users/abjar/OneDrive/Skrivebord/CITAss2/WebApi/obj/Debug/net8.0/ref/WebApi.dl
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/BusinessLayer.pdb
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/DataAccessLayer.pdb
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/obj/Debug/net8.0/WebApi.sourcelink.json
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.abstractions.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.runner.visualstudio.testadapter.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.assert.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.core.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.execution.dotnet.dll
