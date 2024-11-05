@@ -134,6 +134,60 @@ public class DataService : IDataService
     {
         return _context.TitleAkas.ToList();
     }
+    
+    public TitleAkas GetTitleAkasById(string titleId)
+    {
+        return _context.TitleAkas.Find(titleId);
+    }
+
+    
+    public TitleAkas AddTitleAkas(TitleAkas newTitle)
+    {
+        _context.TitleAkas.Add(newTitle);
+        _context.SaveChanges();
+        return newTitle;
+    }
+
+    
+    public bool UpdateTitleAkas(string titleId, TitleAkas updatedTitle)
+    {
+        var existingTitle = _context.TitleAkas.Find(titleId);
+        if (existingTitle == null)
+        {
+            return false; // Entry not found
+        }
+
+
+        // Update properties
+        existingTitle.Ordering = updatedTitle.Ordering;
+        existingTitle.Title = updatedTitle.Title;
+        existingTitle.Region = updatedTitle.Region;
+        existingTitle.Language = updatedTitle.Language;
+        existingTitle.Types = updatedTitle.Types;
+        existingTitle.Attributes = updatedTitle.Attributes;
+        existingTitle.IsOriginalTitle = updatedTitle.IsOriginalTitle;
+
+
+        _context.SaveChanges();
+        return true;
+    }
+
+
+    public bool DeleteTitleAkas(string titleId)
+    {
+        var title = _context.TitleAkas.Find(titleId);
+
+        // Check if the entry exists
+        if (title == null)
+        {
+            Console.WriteLine($"No TitleAkas entry found with Titleid '{titleId}' to delete.");
+            return false; // Entry not found, nothing to delete
+        }
+
+        _context.TitleAkas.Remove(title);
+        _context.SaveChanges();
+        return true;
+    }
 
     // NameBasics done
     public IList<NameBasics> GetNameBasicsList()

@@ -23,6 +23,10 @@ public interface IDataService
     
     //TitleAkas
     public IList<TitleAkas> GetTitleAkasList();
+    public TitleAkas GetTitleAkasById(string tConst);
+    public TitleAkas AddTitleAkas(TitleAkas newTitle);
+    public bool UpdateTitleAkas(string tConst, TitleAkas updatedTitle);
+    public bool DeleteTitleAkas(string tConst);
     
     //NameBasics
     public IList<NameBasics> GetNameBasicsList();
@@ -49,6 +53,7 @@ public interface IDataService
     public PrimaryProfession AddPrimaryProfession(PrimaryProfession newTitle);
     public bool UpdatePrimaryProfession(string nConst, PrimaryProfession updatedTitle);
     public bool DeletePrimaryProfession(string nConst);
+    
     //ActorRating
     IList<ActorRating> GetActorRatingList(int limit = 100);
     ActorRating GetActorRatingById(string nConst);
