@@ -118,7 +118,9 @@ public class ImdbContext : DbContext
 
     private static void MapTitleGenre(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitleGenre>().ToTable("title_genre").HasNoKey();
+        modelBuilder.Entity<TitleGenre>().ToTable("title_genre")
+        .HasKey(t => new { t.TConst, t.Genre }); // Define composite primary key
+
         modelBuilder.Entity<TitleGenre>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<TitleGenre>().Property(x => x.Genre).HasColumnName("genre");
     }

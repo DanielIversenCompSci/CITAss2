@@ -35,7 +35,11 @@ public interface IDataService
     //ActorRating
     public IList<ActorRating> GetActorRatingList();
     //TitleGenre
-    public IList<TitleGenre> GetTitleGenreList();
+    IList<TitleGenre> GetTitleGenreList(int limit = 100);
+    TitleGenre GetTitleGenreById(string tConst, string genre); 
+    TitleGenre AddTitleGenre(TitleGenre newTitleGenre);
+    bool UpdateTitleGenre(string tConst, string genre, TitleGenre updatedTitleGenre); 
+    bool DeleteTitleGenre(string tConst, string genre); 
     //TitleRatings
     IList<TitleRatings> GetTitleRatingsList(int limit = 100);
     TitleRatings GetTitleRatingById(string tConst);

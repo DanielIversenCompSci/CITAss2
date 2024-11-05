@@ -164,10 +164,58 @@ public class DataService : IDataService
     }
 
     // TitleGenre
-    public IList<TitleGenre> GetTitleGenreList()
+    
+    public IList<TitleGenre> GetTitleGenreList(int limit = 100)
     {
-        return _context.TitleGenre.ToList();
+        return _context.TitleGenre.Take(limit).ToList();
     }
+
+
+    // Maybe this should insted return a list of genre for a given tconst 
+    public TitleGenre GetTitleGenreById(string tConst, string genre)
+    {
+        return _context.TitleGenre.FirstOrDefault(t => t.TConst == tConst && t.Genre == genre);
+    }
+
+    
+    public TitleGenre AddTitleGenre(TitleGenre newTitleGenre)
+    {
+        _context.TitleGenre.Add(newTitleGenre);
+        _context.SaveChanges();
+        return newTitleGenre;
+    }
+
+    
+    public bool UpdateTitleGenre(string tConst, string genre, TitleGenre updatedTitleGenre)
+    {
+        var existingTitleGenre = _context.TitleGenre.FirstOrDefault(t => t.TConst == tConst && t.Genre == genre);
+
+        if (existingTitleGenre == null)
+        {
+            return false;
+        }
+
+        existingTitleGenre.Genre = updatedTitleGenre.Genre;
+
+        _context.SaveChanges();
+        return true;
+    }
+
+    
+    public bool DeleteTitleGenre(string tConst, string genre)
+    {
+        var titleGenre = _context.TitleGenre.FirstOrDefault(t => t.TConst == tConst && t.Genre == genre);
+
+        if (titleGenre == null)
+        {
+            return false;
+        }
+
+        _context.TitleGenre.Remove(titleGenre);
+        _context.SaveChanges();
+        return true;
+    }
+
 
     // TitleRatings
     public IList<TitleRatings> GetTitleRatingsList(int limit = 100)
