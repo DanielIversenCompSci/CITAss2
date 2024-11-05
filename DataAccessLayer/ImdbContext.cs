@@ -51,7 +51,7 @@ public class ImdbContext : DbContext
 
     private static void MapActorRating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ActorRating>().ToTable("actor_rating").HasNoKey();
+        modelBuilder.Entity<ActorRating>().ToTable("actor_rating").HasKey(x => x.NConst);
         modelBuilder.Entity<ActorRating>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<ActorRating>().Property(x => x.ARating).HasColumnName("arating");
     }

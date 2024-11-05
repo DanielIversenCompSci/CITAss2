@@ -33,7 +33,11 @@ public interface IDataService
     //PrimaryProfession
     public IList<PrimaryProfession> GetPrimaryProfessionList();
     //ActorRating
-    public IList<ActorRating> GetActorRatingList();
+    IList<ActorRating> GetActorRatingList(int limit = 100);
+    ActorRating GetActorRatingById(string nConst);
+    ActorRating AddActorRating(ActorRating newActorRating);
+    bool UpdateActorRating(string nConst, ActorRating updatedActorRating);
+    bool DeleteActorRating(string nConst);
     //TitleGenre
     IList<TitleGenre> GetTitleGenreList(int limit = 100);
     TitleGenre GetTitleGenreById(string tConst, string genre); 

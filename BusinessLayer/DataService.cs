@@ -158,20 +158,59 @@ public class DataService : IDataService
     }
 
     // ActorRating
-    public IList<ActorRating> GetActorRatingList()
+    
+    public IList<ActorRating> GetActorRatingList(int limit = 100)
     {
-        return _context.ActorRating.ToList();
+        return _context.ActorRating.Take(limit).ToList();
+    }
+
+    
+    public ActorRating GetActorRatingById(string nConst)
+    {
+        return _context.ActorRating.FirstOrDefault(a => a.NConst == nConst);
+    }
+
+    
+    public ActorRating AddActorRating(ActorRating newActorRating)
+    {
+        _context.ActorRating.Add(newActorRating);
+        _context.SaveChanges();
+        return newActorRating;
+    }
+
+    
+    public bool UpdateActorRating(string nConst, ActorRating updatedActorRating)
+    {
+        var existingActorRating = _context.ActorRating.Find(nConst);
+        if (existingActorRating == null)
+            return false;
+
+        existingActorRating.ARating = updatedActorRating.ARating; 
+        _context.SaveChanges();
+        return true;
+    }
+
+    
+    public bool DeleteActorRating(string nConst)
+    {
+        var actorRating = _context.ActorRating.Find(nConst);
+        if (actorRating == null)
+            return false;
+
+        _context.ActorRating.Remove(actorRating);
+        _context.SaveChanges();
+        return true;
     }
 
     // TitleGenre
-    
+
     public IList<TitleGenre> GetTitleGenreList(int limit = 100)
     {
         return _context.TitleGenre.Take(limit).ToList();
     }
 
 
-    // Maybe this should insted return a list of genre for a given tconst 
+    // Maybe this should insted return a list of genre for a given tconst or have a metohde for it
     public TitleGenre GetTitleGenreById(string tConst, string genre)
     {
         return _context.TitleGenre.FirstOrDefault(t => t.TConst == tConst && t.Genre == genre);
