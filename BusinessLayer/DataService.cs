@@ -145,7 +145,7 @@ public class DataService : IDataService
         return _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
     }
 
-    //does not work
+    
     public SearchHis AddSearchHistory(SearchHis newSearch)
     {
         _context.SearchHis.Add(newSearch);
