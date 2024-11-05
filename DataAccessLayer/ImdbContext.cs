@@ -51,14 +51,14 @@ public class ImdbContext : DbContext
 
     private static void MapActorRating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ActorRating>().ToTable("actor_rating").HasNoKey();
+        modelBuilder.Entity<ActorRating>().ToTable("actor_rating").HasKey(x => x.NConst);
         modelBuilder.Entity<ActorRating>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<ActorRating>().Property(x => x.ARating).HasColumnName("arating");
     }
 
     private static void MapKnownForTitle(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<KnownForTitle>().ToTable("known_for_title").HasNoKey();
+        modelBuilder.Entity<KnownForTitle>().ToTable("known_for_title").HasKey(k => new {k.TConst, k.NConst});
         modelBuilder.Entity<KnownForTitle>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<KnownForTitle>().Property(x => x.NConst).HasColumnName("nconst");
     }
@@ -81,7 +81,8 @@ public class ImdbContext : DbContext
 
     private static void MapSearchHis(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<SearchHis>().ToTable("search_his").HasNoKey();
+
+        modelBuilder.Entity<SearchHis>().ToTable("search_his").HasKey(s => new { s.UserId, s.SearchTimeStamp }); // Composite primary key
         modelBuilder.Entity<SearchHis>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchQuery).HasColumnName("searchquery");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchTimeStamp).HasColumnName("searchtimestamp");
@@ -117,7 +118,9 @@ public class ImdbContext : DbContext
 
     private static void MapTitleGenre(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitleGenre>().ToTable("title_genre").HasNoKey();
+        modelBuilder.Entity<TitleGenre>().ToTable("title_genre")
+        .HasKey(t => new { t.TConst, t.Genre }); // Define composite primary key
+
         modelBuilder.Entity<TitleGenre>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<TitleGenre>().Property(x => x.Genre).HasColumnName("genre");
     }
