@@ -115,3 +115,7 @@ C:/Users/Jonathan Olsen/Desktop/CS 1Semester/Portfolie 2/CITAss2-master/DbApp/ob
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/xunit.assert.dll
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/xunit.core.dll
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/xunit.execution.dotnet.dll
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/Castle.Core.dll
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/Moq.dll
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/nunit.framework.dll
+/Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/nunit.framework.legacy.dll

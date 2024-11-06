@@ -85,7 +85,7 @@ public interface IDataService
     bool DeleteSearchHistory(string userId, DateTime timestamp);
     //UserRating
     public IList<UserRating> GetUserRatingsList(); // be by id aswell ?
-    UserRating GetUserRatingById(string userId, string tConst);
+    UserRating GetUserRatingById(string userId, string tConst); // ITS RIGHT HERE
     UserRating AddUserRating(UserRating newUserRating);
     bool UpdateUserRating(string userId, string tConst, UserRating updatedRating);
     bool DeleteUserRating(string userId, string tConst);

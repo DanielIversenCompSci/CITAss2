@@ -159,3 +159,7 @@ C:/Users/abjar/OneDrive/Skrivebord/CITAss2/WebApi/obj/Debug/net8.0/ref/WebApi.dl
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.assert.dll
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.core.dll
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/xunit.execution.dotnet.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/Castle.Core.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/Moq.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/nunit.framework.dll
+/Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/nunit.framework.legacy.dll
