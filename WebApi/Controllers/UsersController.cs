@@ -33,7 +33,16 @@ namespace WebApi.Controllers
             {
                 return NotFound();
             }
-            return Ok(user);
+            var response = new
+            {
+                user,
+                _links = new
+                {
+                    self = Url.Action(nameof(GetUserById), new { id = user.UserId }),
+                    SearchHistory = Url.Action(nameof(GetUserWithSearchHistory), new { id = user.UserId }),
+                }
+            };
+            return Ok(response);
         }
         // GET: api/Users/{id}/searchhistory
         [HttpGet("{id}/searchhistory")]
@@ -44,7 +53,16 @@ namespace WebApi.Controllers
             {
                 return NotFound();
             }
-            return Ok(user);
+            var response = new
+            {
+                user,
+                _links = new
+                {
+                    self = Url.Action(nameof(GetUserById), new { id = user.UserId }),
+                    SearchHistory = Url.Action(nameof(GetUserWithSearchHistory), new { id = user.UserId }),
+                }
+            };
+            return Ok(response);
         }
     
 
