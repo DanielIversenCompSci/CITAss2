@@ -11,7 +11,6 @@ public class WebServiceTests
     private const string NameBasicsApiUrl = "http://localhost:5255/api/NameBasics";
     
     // /api/TitleBaics TESTS
-
     [Fact]
     public async Task ApiTitleBasics_GetWithNoArguments_ReturnsOkAndAllTitleBasics()
     {
