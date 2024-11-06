@@ -1448,32 +1448,35 @@
     ]
   },
   "packageFolders": {
-    "/Users/danieliversen/.nuget/packages/": {}
+    "C:\\Users\\Jonathan Olsen\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
+      "projectUniqueName": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\BusinessLayer\\BusinessLayer.csproj",
       "projectName": "BusinessLayer",
-      "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
-      "packagesPath": "/Users/danieliversen/.nuget/packages/",
-      "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/obj/",
+      "projectPath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\BusinessLayer\\BusinessLayer.csproj",
+      "packagesPath": "C:\\Users\\Jonathan Olsen\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\BusinessLayer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Jonathan Olsen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
-              "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj"
+            "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\DataAccessLayer\\DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\DataAccessLayer\\DataAccessLayer.csproj"
             }
           }
         }
@@ -1528,7 +1531,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -61,19 +61,27 @@ public class DataService : IDataService
 
     public bool DeleteTitleBasics(string tConst)
     {
-        var title = _context.TitleBasics.Find(tConst);
-
-        // Check if the entry exists
-        if (title == null)
+        var titleBasic = _context.TitleBasics.AsNoTracking().FirstOrDefault(tb => tb.TConst == tConst);
+        if (titleBasic == null)
         {
-            Console.WriteLine($"No TitleBasics entry found with TConst '{tConst}' to delete.");
-            return false; // Entry not found, nothing to delete
+            return false; // Record does not exist
         }
 
-        _context.TitleBasics.Remove(title);
-        _context.SaveChanges();
-        return true;
+        // Attach the entity in an Unchanged state, then mark for deletion
+        _context.Attach(titleBasic);
+        _context.Entry(titleBasic).State = EntityState.Deleted;
+
+        try
+        {
+            _context.SaveChanges();
+            return true;
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return false;
+        }
     }
+
 
     // TitlePrincipals Done
     public IList<TitlePrincipals> GetTitlePrincipalsList()
