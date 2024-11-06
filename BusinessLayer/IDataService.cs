@@ -41,6 +41,7 @@ public interface IDataService
     Users AddUser(Users newUser);
     bool UpdateUser(string userId, Users updatedUser);
     bool DeleteUser(string userId);
+    Users GetUserWithSearchHistory(string userId);
 
     //TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList();

@@ -158,6 +158,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<Users>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<Users>().Property(x => x.Email).HasColumnName("email");
         modelBuilder.Entity<Users>().Property(x => x.Password).HasColumnName("password");
+        modelBuilder.Entity<Users>().HasMany(u => u.SearchHistory).WithOne().HasForeignKey(s => s.UserId).OnDelete(DeleteBehavior.Cascade);
 
     }
     public void MapUserRating(ModelBuilder modelBuilder)

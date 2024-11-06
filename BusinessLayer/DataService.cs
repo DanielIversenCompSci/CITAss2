@@ -344,6 +344,10 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    public Users GetUserWithSearchHistory(string userId)
+    {
+        return _context.Users.Include(u => u.SearchHistory).FirstOrDefault(u => u.UserId == userId);
+    }
 
     // TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList()

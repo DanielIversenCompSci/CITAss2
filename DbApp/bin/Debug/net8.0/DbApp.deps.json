@@ -14,6 +14,7 @@
           "Moq": "4.20.72",
           "NUnit": "4.2.2",
           "Swashbuckle.AspNetCore": "6.9.0",
+          "WebApi": "1.0.0",
           "xunit": "2.9.2",
           "xunit.runner.visualstudio": "3.0.0-pre.42"
         },
@@ -284,7 +285,7 @@
         "runtime": {
           "lib/netstandard2.0/xunit.abstractions.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "2.0.0.0"
           }
         }
       },
@@ -336,7 +337,10 @@
           "xunit": "2.9.2"
         },
         "runtime": {
-          "BusinessLayer.dll": {}
+          "BusinessLayer.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "DataAccessLayer/1.0.0": {
@@ -350,7 +354,29 @@
           "xunit": "2.9.2"
         },
         "runtime": {
-          "DataAccessLayer.dll": {}
+          "DataAccessLayer.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "WebApi/1.0.0": {
+        "dependencies": {
+          "BusinessLayer": "1.0.0",
+          "DataAccessLayer": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "9.0.0-rc.2.24474.1",
+          "Moq": "4.20.72",
+          "NUnit": "4.2.2",
+          "Npgsql": "8.0.5",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.0-rc.2",
+          "Swashbuckle.AspNetCore": "6.9.0",
+          "xunit": "2.9.2"
+        },
+        "runtime": {
+          "WebApi.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
@@ -605,6 +631,11 @@
       "sha512": ""
     },
     "DataAccessLayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WebApi/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

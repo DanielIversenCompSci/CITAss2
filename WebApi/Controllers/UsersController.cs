@@ -29,9 +29,24 @@ namespace WebApi.Controllers
         public ActionResult<Users> GetUserById(string id)
         {
             var user = _dataService.GetUserById(id);
-            if (user == null) return NotFound();
+            if (user == null)
+            {
+                return NotFound();
+            }
             return Ok(user);
         }
+        // GET: api/Users/{id}/searchhistory
+        [HttpGet("{id}/searchhistory")]
+        public ActionResult<Users> GetUserWithSearchHistory(string id)
+        {
+            var user = _dataService.GetUserWithSearchHistory(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+    
 
         // POST: api/Users
         [HttpPost]
