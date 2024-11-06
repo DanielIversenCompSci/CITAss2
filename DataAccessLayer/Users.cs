@@ -8,5 +8,8 @@ namespace DataAccessLayer
         public string Email { get; set; }
         
         public string Password { get; set; }
+
+        // Navigation property for the search history
+        public ICollection<SearchHis> SearchHistory { get; set; } = new List<SearchHis>();
     }
 }

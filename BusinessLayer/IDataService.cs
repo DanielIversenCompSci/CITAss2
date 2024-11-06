@@ -34,9 +34,15 @@ public interface IDataService
     public NameBasics AddNameBasics(NameBasics newTitle);
     public bool UpdateNameBasics(string nConst, NameBasics updatedTitle);
     public bool DeleteNameBasics(string nConst);
-    
+
     //Users
-    public IList<Users> GetUsersList();
+    IList<Users> GetUsersList();
+    Users GetUserById(string userId);
+    Users AddUser(Users newUser);
+    bool UpdateUser(string userId, Users updatedUser);
+    bool DeleteUser(string userId);
+    Users GetUserWithSearchHistory(string userId);
+
     //TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList();
     TitlePersonnel GetTitlePersonnelById(string tConst);
