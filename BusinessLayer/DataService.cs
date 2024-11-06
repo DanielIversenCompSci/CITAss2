@@ -299,14 +299,52 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+
+    // Users
     
-    // Users done
     public IList<Users> GetUsersList()
     {
         return _context.Users.ToList();
     }
 
-    // TitlePersonnel Done ?
+    
+    public Users GetUserById(string userId)
+    {
+        return _context.Users.FirstOrDefault(u => u.UserId == userId);
+    }
+
+    
+    public Users AddUser(Users newUser)
+    {
+        _context.Users.Add(newUser);
+        _context.SaveChanges();
+        return newUser;
+    }
+
+    
+    public bool UpdateUser(string userId, Users updatedUser)
+    {
+        var user = _context.Users.Find(userId);
+        if (user == null) return false;
+
+        user.Email = updatedUser.Email;
+        user.Password = updatedUser.Password;
+
+        _context.SaveChanges();
+        return true;
+    }
+
+    
+    public bool DeleteUser(string userId)
+    {
+        var user = _context.Users.Find(userId);
+        if (user == null) return false;
+
+        _context.Users.Remove(user);
+        _context.SaveChanges();
+        return true;
+    }
+
     // TitlePersonnel
     public IList<TitlePersonnel> GetTitlePersonnelList()
     {
