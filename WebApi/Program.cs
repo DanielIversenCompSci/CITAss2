@@ -1,4 +1,4 @@
-using BusinessLayer; 
+using BusinessLayer;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +14,17 @@ builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddDbContext<ImdbContext>(options =>
     options.UseNpgsql(connectionString));
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin() // Allow requests from any origin (frontend URL)
+              .AllowAnyMethod() // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+              .AllowAnyHeader(); // Allow all headers (e.g., Content-Type, Authorization)
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +38,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Use CORS middleware
+app.UseCors();
 
 app.UseHttpsRedirection();
 
