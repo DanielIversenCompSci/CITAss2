@@ -44,17 +44,80 @@ var dataService = serviceProvider.GetService<IDataService>();
 //PrintSearchHisList(dataService);
 //PrintUserRatingsList(dataService);
 
-TestCreate(dataService);
-TestRead(dataService);
-TestUpdate(dataService);
-TestRead(dataService);  // Read again to confirm the update
-TestDelete(dataService);
-TestRead(dataService);  // Read again to confirm the deletion
+//TestCreate(dataService);
+//TestRead(dataService);
+//TestUpdate(dataService);
+//TestRead(dataService);  // Read again to confirm the update
+//TestDelete(dataService);
+//TestRead(dataService);  // Read again to confirm the deletion
+CreateDBCRUD();
 
 // ___________
 
+static void CreateDBCRUD()
+    {
+        // Set up Dependency Injection
+        var serviceProvider = new ServiceCollection()
+            .AddDbContext<ImdbContext>(options =>
+                options.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs"))
+            .AddScoped<IDataService, DataService>()
+            .BuildServiceProvider();
+
+        // Get an instance of IDataService
+        var dataService = serviceProvider.GetService<IDataService>();
+
+        if (dataService == null)
+        {
+            Console.WriteLine("Failed to initialize IDataService.");
+            return;
+        }
+
+        // Perform CRUD Operations
+        try
+        {
+            // Create a new SearchHis entry
+            var newSearchHis = new SearchHis
+            {
+                UserId = "1",
+                SearchQuery = "Test Create!!",
+                SearchTimeStamp = DateTime.UtcNow
+            };
+            Console.WriteLine("Adding a new SearchHis...");
+            var createdSearchHis = dataService.AddSearchHistory(newSearchHis);
+            Console.WriteLine($"Added SearchHis with ID: {createdSearchHis.UserId}");
+
+            // Retrieve the newly added SearchHis
+            Console.WriteLine("Retrieving the added SearchHis...");
+            var retrievedSearchHis = dataService.GetSearchHistoryById(createdSearchHis.UserId, createdSearchHis.SearchTimeStamp);
+            Console.WriteLine($"Retrieved: {retrievedSearchHis.SearchQuery}, Timestamp: {retrievedSearchHis.SearchTimeStamp}");
+
+            /*
+            // Delete the added SearchHis
+            Console.WriteLine("Deleting the SearchHis...");
+            dataService.DeleteSearchHis(createdSearchHis.Id);
+            Console.WriteLine("SearchHis deleted successfully.");
+
+            // Verify deletion
+            var deletedSearchHis = dataService.GetSearchHisById(createdSearchHis.Id);
+            if (deletedSearchHis == null)
+            {
+                Console.WriteLine("Deletion confirmed.");
+            }
+            else
+            {
+                Console.WriteLine("Deletion failed.");
+            }
+            */
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+
 static void PrintTitleBasicsList(IDataService dataService)
 {
+    
     var filteredList = dataService.GetTitleBasicsList()
         .Where(i => i.TConst == "tt12836288");
 

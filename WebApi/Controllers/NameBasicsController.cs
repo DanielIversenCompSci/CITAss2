@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLayer;
 using DataAccessLayer;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -9,16 +10,20 @@ namespace WebApi.Controllers
     public class NameBasicsController : ControllerBase
     {
         private readonly IDataService _dataService;
+        private readonly LinkGenerator _linkGenerator;
 
-        public NameBasicsController(IDataService dataService)
+        public NameBasicsController(
+            IDataService dataService,
+            LinkGenerator linkGenerator)
         {
             _dataService = dataService;
+            _linkGenerator = linkGenerator;
         }
         
         // GET all Names, limited by page or it wont load in swagger...
         // GET: api/NameBasics
-        [HttpGet]
-        public ActionResult<IEnumerable<NameBasics>> GetNameBasics(int pageNumber = 1, int pageSize = 10)
+        [HttpGet(Name = nameof(GetNameBasics))]
+        public ActionResult<IEnumerable<NameBasicsModel>> GetNameBasics(int pageNumber = 1, int pageSize = 10)
         {
             if (pageNumber <= 0 || pageSize <= 0)
             {
@@ -28,15 +33,33 @@ namespace WebApi.Controllers
             var nameBasicsList = _dataService.GetNameBasicsList()
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
+                .Select(CreateNameBasicsModel)
                 .ToList();
+            
+            var totalItems = _dataService.GetNameBasicsCount();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            var result = new PagedResultModel<NameBasicsModel>
+            {
+                Items = nameBasicsList,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                TotalItems = totalItems,
+                NextPage = pageNumber < totalPages
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetNameBasics), new { pageNumber = pageNumber + 1, pageSize })
+                    : null,
+                PrevPage = pageNumber > 1
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetNameBasics), new { pageNumber = pageNumber - 1, pageSize })
+                    : null
+            };
 
-            return Ok(nameBasicsList);
+            return Ok(result);
         }
 
-        // Get specific title by NConst
+        // Get specific Name by NConst
         // GET: api/NameBasics/{id}
-        [HttpGet("{id}")]
-        public ActionResult<NameBasics> GetNameBasicsById(string id)
+        [HttpGet("{id}", Name = nameof(GetNameBasicsById))]
+        public ActionResult<NameBasicsModel> GetNameBasicsById(string id)
         {
             var title = _dataService.GetNameBasicsById(id);
 
@@ -45,7 +68,8 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(title);
+            var model = CreateNameBasicsModel(title);
+            return Ok(model);
         }
         
         
@@ -90,6 +114,20 @@ namespace WebApi.Controllers
             }
 
             return NoContent(); // Success, no content to return
+        }
+        
+        // Helper method for creating NameBasicsModel
+
+        private NameBasicsModel CreateNameBasicsModel(NameBasics title)
+        {
+            return new NameBasicsModel
+            {
+                Nconst = title.Nconst,
+                PrimaryName = title.PrimaryName,
+                BirthYear = title.BirthYear,
+                DeathYear = title.DeathYear,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetNameBasicsById), new { id = title.Nconst }),
+            };
         }
     }
 }

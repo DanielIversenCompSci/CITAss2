@@ -15,7 +15,18 @@ public class DataService : IDataService
         _context = context;
     }
 
+    
+    
+    // The different entities af labelled like this for easier navigation:
+    // ********************
+    // EntityName
+    // ********************
+    
+    
+    
+    // ********************
     // TitleBasics
+    // ********************
     public IList<TitleBasics> GetTitleBasicsList()
     {
         return _context.TitleBasics.ToList();
@@ -25,7 +36,6 @@ public class DataService : IDataService
     {
         return _context.TitleBasics.Find(tConst);
     }
-
     
     public TitleBasics AddTitleBasics(TitleBasics newTitle)
     {
@@ -33,7 +43,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return newTitle;
     }
-
     
     public bool UpdateTitleBasics(string tConst, TitleBasics updatedTitle)
     {
@@ -42,8 +51,7 @@ public class DataService : IDataService
         {
             return false; // Entry not found
         }
-
-
+        
         // Update properties
         existingTitle.PrimaryTitle = updatedTitle.PrimaryTitle;
         existingTitle.OriginalTitle = updatedTitle.OriginalTitle;
@@ -57,8 +65,7 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
-
-
+    
     public bool DeleteTitleBasics(string tConst)
     {
         var titleBasic = _context.TitleBasics.AsNoTracking().FirstOrDefault(tb => tb.TConst == tConst);
@@ -82,8 +89,16 @@ public class DataService : IDataService
         }
     }
 
-
-    // TitlePrincipals Done
+    public int GetTitleBasicsCount()
+    {
+        return _context.TitleBasics.Count();
+    }
+    
+    
+    
+    // ********************
+    // TitlePrincipals
+    // ********************
     public IList<TitlePrincipals> GetTitlePrincipalsList()
     {
         return _context.TitlePrincipals.ToList();
@@ -116,7 +131,6 @@ public class DataService : IDataService
         existingTitle.Job = updatedTitle.Job;
         existingTitle.Characters = updatedTitle.Characters;
         
-
         _context.SaveChanges();
         return true;
     }
@@ -136,8 +150,17 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetTitlePrincipalsCount()
+    {
+        return _context.TitlePrincipals.Count();
+    }
 
-    // TitleAkas done
+    
+    
+    // ********************
+    // TitleAkas
+    // ********************
     public IList<TitleAkas> GetTitleAkasList()
     {
         return _context.TitleAkas.ToList();
@@ -147,7 +170,6 @@ public class DataService : IDataService
     {
         return _context.TitleAkas.Find(titleId);
     }
-
     
     public TitleAkas AddTitleAkas(TitleAkas newTitle)
     {
@@ -155,7 +177,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return newTitle;
     }
-
     
     public bool UpdateTitleAkas(string titleId, TitleAkas updatedTitle)
     {
@@ -164,8 +185,7 @@ public class DataService : IDataService
         {
             return false; // Entry not found
         }
-
-
+        
         // Update properties
         existingTitle.Ordering = updatedTitle.Ordering;
         existingTitle.Title = updatedTitle.Title;
@@ -174,13 +194,11 @@ public class DataService : IDataService
         existingTitle.Types = updatedTitle.Types;
         existingTitle.Attributes = updatedTitle.Attributes;
         existingTitle.IsOriginalTitle = updatedTitle.IsOriginalTitle;
-
-
+        
         _context.SaveChanges();
         return true;
     }
-
-
+    
     public bool DeleteTitleAkas(string titleId)
     {
         var title = _context.TitleAkas.Find(titleId);
@@ -196,8 +214,17 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetTitleAkasCount()
+    {
+        return _context.TitleAkas.Count();
+    }
 
-    // NameBasics done
+    
+    
+    // ********************
+    // NameBasics
+    // ********************
     public IList<NameBasics> GetNameBasicsList()
     {
         return _context.NameBasics.ToList();
@@ -229,7 +256,6 @@ public class DataService : IDataService
         existingTitle.BirthYear = updatedTitle.BirthYear;
         existingTitle.DeathYear = updatedTitle.DeathYear;
         
-
         _context.SaveChanges();
         return true;
     }
@@ -250,7 +276,16 @@ public class DataService : IDataService
         return true;
     }
     
-    // PrimaryProfession done
+    public int GetNameBasicsCount()
+    {
+        return _context.NameBasics.Count();
+    }
+    
+    
+    
+    // ********************
+    // PrimaryProfession
+    // ********************
     public IList<PrimaryProfession> GetPrimaryProfessionList()
     {
         return _context.PrimaryProfession.ToList();
@@ -299,9 +334,17 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
-
-    // Users
     
+    public int GetPrimaryProfessionCount()
+    {
+        return _context.PrimaryProfession.Count();
+    }
+
+    
+    
+    // ********************
+    // Users
+    // ********************
     public IList<Users> GetUsersList()
     {
         return _context.Users.ToList();
@@ -312,7 +355,6 @@ public class DataService : IDataService
     {
         return _context.Users.FirstOrDefault(u => u.UserId == userId);
     }
-
     
     public Users AddUser(Users newUser)
     {
@@ -320,7 +362,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return newUser;
     }
-
     
     public bool UpdateUser(string userId, Users updatedUser)
     {
@@ -333,7 +374,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
-
     
     public bool DeleteUser(string userId)
     {
@@ -348,8 +388,17 @@ public class DataService : IDataService
     {
         return _context.Users.Include(u => u.SearchHistory).FirstOrDefault(u => u.UserId == userId);
     }
+    
+    public int GetUsersCount()
+    {
+        return _context.Users.Count();
+    }
 
+    
+    
+    // ********************
     // TitlePersonnel
+    // ********************
     public IList<TitlePersonnel> GetTitlePersonnelList()
     {
         return _context.TitlePersonnel.ToList();
@@ -359,7 +408,6 @@ public class DataService : IDataService
     {
         return _context.TitlePersonnel.Find(tConst);
     }
-
     
     public TitlePersonnel AddTitlePersonnel(TitlePersonnel newTitle)
     {
@@ -367,7 +415,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return newTitle;
     }
-
     
     public bool UpdateTitlePersonnel(string tConst, TitlePersonnel updatedTitle)
     {
@@ -376,16 +423,14 @@ public class DataService : IDataService
         {
             return false; // Entry not found
         }
-
-
+        
         // Update properties
         existingTitle.Role = updatedTitle.Role;
 
         _context.SaveChanges();
         return true;
     }
-
-
+    
     public bool DeleteTitlePersonnel(string tConst)
     {
         var title = _context.TitlePersonnel.Find(tConst);
@@ -401,8 +446,17 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetTitlePersonnelCount()
+    {
+        return _context.TitlePersonnel.Count();
+    }
 
+    
+    
+    // ********************
     // KnownForTitle
+    // ********************
     public IList<KnownForTitle> GetKnownForTitleList()
     {
         return _context.KnownForTitle.ToList();
@@ -447,22 +501,26 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetKnownForTitleCount()
+    {
+        return _context.KnownForTitle.Count();
+    }
 
     
 
+    // ********************
     // ActorRating
-    
+    // ********************
     public IList<ActorRating> GetActorRatingList(int limit = 100)
     {
         return _context.ActorRating.Take(limit).ToList();
     }
-
     
     public ActorRating GetActorRatingById(string nConst)
     {
         return _context.ActorRating.FirstOrDefault(a => a.NConst == nConst);
     }
-
     
     public ActorRating AddActorRating(ActorRating newActorRating)
     {
@@ -470,7 +528,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return newActorRating;
     }
-
     
     public bool UpdateActorRating(string nConst, ActorRating updatedActorRating)
     {
@@ -482,7 +539,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
-
     
     public bool DeleteActorRating(string nConst)
     {
@@ -494,21 +550,26 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetActorRatingCount()
+    {
+        return _context.ActorRating.Count();
+    }
 
+    
+    
+    // ********************
     // TitleGenre
-
+    // ********************
     public IList<TitleGenre> GetTitleGenreList(int limit = 100)
     {
         return _context.TitleGenre.Take(limit).ToList();
     }
-
-
-    // Maybe this should insted return a list of genre for a given tconst or have a metohde for it
+    
     public TitleGenre GetTitleGenreById(string tConst, string genre)
     {
         return _context.TitleGenre.FirstOrDefault(t => t.TConst == tConst && t.Genre == genre);
     }
-
     
     public TitleGenre AddTitleGenre(TitleGenre newTitleGenre)
     {
@@ -516,7 +577,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return newTitleGenre;
     }
-
     
     public bool UpdateTitleGenre(string tConst, string genre, TitleGenre updatedTitleGenre)
     {
@@ -532,7 +592,6 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
-
     
     public bool DeleteTitleGenre(string tConst, string genre)
     {
@@ -547,9 +606,17 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetTitleGenreCount()
+    {
+        return _context.TitleGenre.Count();
+    }
 
 
+    
+    // ********************
     // TitleRatings
+    // ********************
     public IList<TitleRatings> GetTitleRatingsList(int limit = 100)
     {
         return _context.TitleRatings.Take(limit).ToList();
@@ -595,10 +662,18 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetTitleRatingsCount()
+    {
+        return _context.TitleRatings.Count();
+    }
 
 
-// SearchHis
-public IList<SearchHis> GetSearchHisList()
+    
+    // ********************
+    // SearchHis
+    // ********************
+    public IList<SearchHis> GetSearchHisList()
     {
         return _context.SearchHis.ToList();
     }
@@ -607,7 +682,6 @@ public IList<SearchHis> GetSearchHisList()
     {
         return _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
     }
-
     
     public SearchHis AddSearchHistory(SearchHis newSearch)
     {
@@ -615,7 +689,6 @@ public IList<SearchHis> GetSearchHisList()
         _context.SaveChanges();
         return newSearch;
     }
-
     
     public bool UpdateSearchHistory(string userId, DateTime timestamp, SearchHis updatedSearch)
     {
@@ -631,7 +704,6 @@ public IList<SearchHis> GetSearchHisList()
         _context.SaveChanges();
         return true;
     }
-
     
     public bool DeleteSearchHistory(string userId, DateTime timestamp)
     {
@@ -646,8 +718,17 @@ public IList<SearchHis> GetSearchHisList()
         _context.SaveChanges();
         return true;
     }
+    
+    public int GetSearchHisCount()
+    {
+        return _context.SearchHis.Count();
+    }
 
+    
+    
+    // ********************
     // UserRatings
+    // ********************
     public IList<UserRating> GetUserRatingsList()
     {
         return _context.UserRating.ToList();
@@ -669,8 +750,7 @@ public IList<SearchHis> GetSearchHisList()
         _context.SaveChanges();
         return newUserRating;
     }
-
-
+    
     public bool UpdateUserRating(string userId, string tConst, UserRating updatedRating)
     {
         var existingRating = _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
@@ -685,8 +765,6 @@ public IList<SearchHis> GetSearchHisList()
         return true;
     }
 
-
-
     public bool DeleteUserRating(string userId, string tConst)
     {
         var existingRating = _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
@@ -699,6 +777,11 @@ public IList<SearchHis> GetSearchHisList()
         _context.UserRating.Remove(existingRating);
         _context.SaveChanges();
         return true;
+    }
+    
+    public int GetUserRatingsCount()
+    {
+        return _context.UserRating.Count();
     }
 
 }

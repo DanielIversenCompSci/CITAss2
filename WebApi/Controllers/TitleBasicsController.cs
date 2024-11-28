@@ -2,6 +2,9 @@
 using BusinessLayer;
 using DataAccessLayer;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Routing;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -10,17 +13,19 @@ namespace WebApi.Controllers
     public class TitleBasicsController : ControllerBase
     {
         private readonly IDataService _dataService;
+        private readonly LinkGenerator _linkGenerator;
 
-        // Inject the data service
-        public TitleBasicsController(IDataService dataService)
+        public TitleBasicsController(
+            IDataService dataService,
+            LinkGenerator linkGenerator)
         {
             _dataService = dataService;
+            _linkGenerator = linkGenerator;
         }
 
-        // GET all Titles, limited by page or it wont load in swagger...
-        // GET: api/TitleBasics
-        [HttpGet]
-        public ActionResult<IEnumerable<TitleBasics>> GetTitleBasics(int pageNumber = 1, int pageSize = 10)
+        // GET all Titles with pagination
+        [HttpGet(Name = nameof(GetTitleBasics))]
+        public ActionResult<IEnumerable<TitleBasicsModel>> GetTitleBasics(int pageNumber = 1, int pageSize = 10)
         {
             if (pageNumber <= 0 || pageSize <= 0)
             {
@@ -30,15 +35,32 @@ namespace WebApi.Controllers
             var titleBasicsList = _dataService.GetTitleBasicsList()
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
+                .Select(CreateTitleBasicsModel) // Convert to TitleBasicsModel with URL
                 .ToList();
 
-            return Ok(titleBasicsList);
+            var totalItems = _dataService.GetTitleBasicsCount();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            var result = new PagedResultModel<TitleBasicsModel>
+            {
+                Items = titleBasicsList,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                TotalItems = totalItems,
+                NextPage = pageNumber < totalPages
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasics), new { pageNumber = pageNumber + 1, pageSize })
+                    : null,
+                PrevPage = pageNumber > 1
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasics), new { pageNumber = pageNumber - 1, pageSize })
+                    : null
+            };
+            
+            return Ok(result);
         }
 
         // Get specific title by TConst
-        // GET: api/TitleBasics/{id}
-        [HttpGet("{id}")]
-        public ActionResult<TitleBasics> GetTitleBasicsById(string id)
+        [HttpGet("{id}", Name = nameof(GetTitleBasicsById))]
+        public ActionResult<TitleBasicsModel> GetTitleBasicsById(string id)
         {
             var title = _dataService.GetTitleBasicsById(id);
 
@@ -47,13 +69,13 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(title);
+            var model = CreateTitleBasicsModel(title);
+            return Ok(model);
         }
 
-        
-        // POST: api/TitleBasics
+        // POST: Create a new TitleBasics entry
         [HttpPost]
-        public ActionResult<TitleBasics> CreateTitleBasics([FromBody] TitleBasics newTitle)
+        public ActionResult<TitleBasicsModel> CreateTitleBasics([FromBody] TitleBasics newTitle)
         {
             var createdTitle = _dataService.AddTitleBasics(newTitle);
 
@@ -62,11 +84,11 @@ namespace WebApi.Controllers
                 return BadRequest("An entry with this TConst already exists.");
             }
 
-            return CreatedAtAction(nameof(GetTitleBasicsById), new { id = createdTitle.TConst }, createdTitle);
+            var model = CreateTitleBasicsModel(createdTitle);
+            return CreatedAtAction(nameof(GetTitleBasicsById), new { id = createdTitle.TConst }, model);
         }
 
-        
-        // PUT: api/TitleBasics/{id}
+        // PUT: Update an existing TitleBasics entry
         [HttpPut("{id}")]
         public IActionResult UpdateTitleBasics(string id, [FromBody] TitleBasics updatedTitle)
         {
@@ -80,7 +102,7 @@ namespace WebApi.Controllers
             return NoContent(); // Success, no content to return
         }
 
-        // DELETE: api/TitleBasics/{id}
+        // DELETE: Delete an existing TitleBasics entry
         [HttpDelete("{id}")]
         public IActionResult DeleteTitleBasics(string id)
         {
@@ -92,6 +114,25 @@ namespace WebApi.Controllers
             }
 
             return NoContent(); // Success, no content to return
+        }
+
+        // Helper method to create TitleBasicsModel with URL
+        private TitleBasicsModel CreateTitleBasicsModel(TitleBasics title)
+        {
+            return new TitleBasicsModel
+            {
+                TConst = title.TConst,
+                TitleType = title.TitleType,
+                PrimaryTitle = title.PrimaryTitle,
+                OriginalTitle = title.OriginalTitle,
+                IsAdult = title.IsAdult,
+                StartYear = title.StartYear,
+                EndYear = title.EndYear,
+                RuntimeMinutes = title.RuntimeMinutes,
+                Plot = title.Plot,
+                Poster = title.Poster,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasicsById), new { id = title.TConst })
+            };
         }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using BusinessLayer;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Http.HttpResults;
+using WebApi.Models;
 
 namespace WebApi.Controllers;
 
@@ -9,38 +10,58 @@ namespace WebApi.Controllers;
 [ApiController]
 public class TitlePrincipalsController : ControllerBase
 {
-    // Dataservice var
     private readonly IDataService _dataService;
-    
-    // Inject the dataservice var
-    public TitlePrincipalsController(IDataService dataService)
+    private readonly LinkGenerator _linkGenerator;
+
+    public TitlePrincipalsController(
+        IDataService dataService,
+        LinkGenerator linkGenerator)
     {
         _dataService = dataService;
+        _linkGenerator = linkGenerator;
     }
     
     
     // GET all etities limited by page or it wont load in swagger
     // GET: api/TitlePrincipals
-    [HttpGet]
-    public ActionResult<IEnumerable<TitlePrincipals>> GetTitlePrincipals(int pageNumber = 1, int pageSize = 10)
+    [HttpGet(Name = nameof(GetTitlePrincipals))]
+    public ActionResult<PagedResultModel<TitlePrincipalsModel>> GetTitlePrincipals(int pageNumber = 1, int pageSize = 10)
     {
         if (pageNumber <= 0 || pageSize <= 0)
         {
             return BadRequest("Page number and page size must be greater than zero.");
         }
-        
+
         var titlePrincipalsList = _dataService.GetTitlePrincipalsList()
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
+            .Select(CreateTitlePrincipalsModel)
             .ToList();
-        
-        return Ok(titlePrincipalsList);
+
+        var totalItems = _dataService.GetTitlePrincipalsCount();
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        var result = new PagedResultModel<TitlePrincipalsModel>
+        {
+            Items = titlePrincipalsList,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalPages = totalPages,
+            TotalItems = totalItems,
+            NextPage = pageNumber < totalPages
+                ? _linkGenerator.GetUriByName(HttpContext, nameof(GetTitlePrincipals), new { pageNumber = pageNumber + 1, pageSize })
+                : null,
+            PrevPage = pageNumber > 1
+                ? _linkGenerator.GetUriByName(HttpContext, nameof(GetTitlePrincipals), new { pageNumber = pageNumber - 1, pageSize })
+                : null
+        };
+
+        return Ok(result);
     }
     
     
     // Get spicific title by TConst
     // GET: api/TitlePrincipals/{id}
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = nameof(GetTitlePrincipalsById))]
     public ActionResult<TitlePrincipals> GetTitlePrincipalsById(string id)
     {
         var title = _dataService.GetTitlePrincipalsById(id);
@@ -50,7 +71,8 @@ public class TitlePrincipalsController : ControllerBase
             return NotFound();
         }
         
-        return Ok(title);
+        var model = CreateTitlePrincipalsModel(title);
+        return Ok(model);
     }
     
     
@@ -66,7 +88,8 @@ public class TitlePrincipalsController : ControllerBase
             return BadRequest("An entry with this TConst already exists.");
         }
         
-        return CreatedAtAction(nameof(GetTitlePrincipalsById), new { id = createdTitle.TConst }, createdTitle);
+        var model = CreateTitlePrincipalsModel(createdTitle);
+        return CreatedAtAction(nameof(GetTitlePrincipalsById), new { id = createdTitle.TConst }, model);
     }
     
     
@@ -99,4 +122,14 @@ public class TitlePrincipalsController : ControllerBase
         return NoContent(); // Success, no content to return
     }
     
+    // Helper method to create TitleBasicsModel with URL
+    private TitlePrincipalsModel CreateTitlePrincipalsModel(TitlePrincipals title)
+    {
+        return new TitlePrincipalsModel
+        {
+            TConst = title.TConst,
+            NConst = title.NConst,
+            Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitlePrincipalsById), new { id = title.TConst })
+        };
+    }
 }

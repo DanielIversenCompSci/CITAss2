@@ -86,8 +86,15 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<SearchHis>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchQuery).HasColumnName("searchquery");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchTimeStamp).HasColumnName("searchtimestamp");
-
+        
+        // Define cascade behavior and foreignkey aswell as relation
+        modelBuilder.Entity<SearchHis>()
+            .HasOne<Users>()
+            .WithMany(u => u.SearchHistory) // Nav property in Users (Check what its called there)
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
+    
     private static void MapTitleAkas(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TitleAkas>().ToTable("title_akas").HasNoKey();
