@@ -149,9 +149,12 @@ public interface IDataService
     // ********************
     public IList<SearchHis> GetSearchHisList();
     SearchHis GetSearchHistoryById(string userId, DateTime timestamp);
+    SearchHis GetSearchHisById(int searchId); // Updated one
     SearchHis AddSearchHistory(SearchHis newSearch);
     bool UpdateSearchHistory(string userId, DateTime timestamp, SearchHis updatedSearch);
+    bool UpdateSearchHis(int searchId, SearchHis updatedSearch);
     bool DeleteSearchHistory(string userId, DateTime timestamp);
+    bool DeleteSearchHis(int searchId); // Updated one
     int GetSearchHisCount();
     
     

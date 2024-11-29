@@ -682,6 +682,11 @@ public class DataService : IDataService
     {
         return _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
     }
+
+    public SearchHis GetSearchHisById(int searchId)
+    {
+        return _context.SearchHis.FirstOrDefault(s => s.SearchId == searchId);
+    }
     
     public SearchHis AddSearchHistory(SearchHis newSearch)
     {
@@ -704,10 +709,39 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+
+    public bool UpdateSearchHis(int searchId, SearchHis updatedSearch)
+    {
+        var existingSearch = _context.SearchHis.FirstOrDefault(s => s.SearchId == searchId);
+
+        if (existingSearch == null)
+        {
+            return false;
+        }
+
+        existingSearch.SearchQuery = updatedSearch.SearchQuery;
+        //existingSearch.SearchTimeStamp = updatedSearch.SearchTimeStamp;
+        _context.SaveChanges();
+        return true;
+    }
     
     public bool DeleteSearchHistory(string userId, DateTime timestamp)
     {
         var existingSearch = _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
+
+        if (existingSearch == null)
+        {
+            return false;
+        }
+
+        _context.SearchHis.Remove(existingSearch);
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool DeleteSearchHis(int searchId)
+    {
+        var existingSearch = _context.SearchHis.FirstOrDefault(s => s.SearchId == searchId);
 
         if (existingSearch == null)
         {

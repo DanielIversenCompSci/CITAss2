@@ -58,10 +58,10 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpGet("{userId}/{timestamp}", Name = nameof(GetSearchHistoryById))]
-        public ActionResult<SearchHis> GetSearchHistoryById(string userId, DateTime timestamp)
+        [HttpGet("{searchId}", Name = nameof(GetSearchHisById))]
+        public ActionResult<SearchHis> GetSearchHisById(int searchId)
         {
-            var searchEntry = _dataService.GetSearchHistoryById(userId, timestamp);
+            var searchEntry = _dataService.GetSearchHisById(searchId);
 
             if (searchEntry == null)
             {
@@ -74,9 +74,16 @@ namespace WebApi.Controllers
 
 
         [HttpPost]
-        public ActionResult<SearchHis> CreateSearchHistory([FromBody] SearchHis newSearch)
+        public ActionResult<SearchHis> CreateSearchHistory([FromBody] SearchHisCreateModel newSearch)
         {
-            var createdSearch = _dataService.AddSearchHistory(newSearch);
+            var searchEntity = new SearchHis
+            {
+                UserId = newSearch.UserId,
+                SearchQuery = newSearch.SearchQuery,
+                SearchTimeStamp = newSearch.SearchTimeStamp
+            };
+            
+            var createdSearch = _dataService.AddSearchHistory(searchEntity);
 
             if (createdSearch == null)
             {
@@ -84,14 +91,20 @@ namespace WebApi.Controllers
             }
             
             var model = CreateSearchHisModel(createdSearch);
-            return CreatedAtAction(nameof(GetSearchHistoryById), new { userId = createdSearch.UserId, timestamp = createdSearch.SearchTimeStamp }, model);
+            return CreatedAtAction(nameof(GetSearchHisById), new { searchId = createdSearch.SearchId }, model);
         }
 
 
-        [HttpPut("{userId}/{timestamp}")]
-        public IActionResult UpdateSearchHistory(string userId, DateTime timestamp, [FromBody] SearchHis updatedSearch)
+        [HttpPut("{searchId}")]
+        public IActionResult UpdateSearchHis(int searchId, [FromBody] SearchHisCreateModel updatedSearch)
         {
-            var success = _dataService.UpdateSearchHistory(userId, timestamp, updatedSearch);
+            var updatedEntity = new SearchHis
+            {
+                //UserId = updatedSearch.UserId, // Add back if you desire to allow altering of UserId
+                SearchQuery = updatedSearch.SearchQuery
+            };
+            
+            var success = _dataService.UpdateSearchHis(searchId, updatedEntity);
 
             if (!success)
             {
@@ -101,17 +114,17 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{userId}/{timestamp}")]
-        public IActionResult DeleteSearchHistory(string userId, DateTime timestamp)
+        [HttpDelete("{searchId}")]
+        public IActionResult DeleteSearchHis(int searchId)
         {
-            Console.WriteLine($"[DEBUG] Delete request received: UserId='{userId}', Timestamp='{timestamp}'");
+            Console.WriteLine($"[DEBUG] Delete request received: SearchId='{searchId}'");
 
-            var success = _dataService.DeleteSearchHistory(userId, timestamp);
+            var success = _dataService.DeleteSearchHis(searchId);
 
             if (!success)
             {
                 Console.WriteLine("[DEBUG] No matching record found in the database.");
-                return NotFound($"No search history found for UserId='{userId}' and Timestamp='{timestamp}'.");
+                return NotFound($"No search history found for SearchId='{searchId}'.");
             }
 
             Console.WriteLine("[DEBUG] Record successfully deleted.");
@@ -127,8 +140,9 @@ namespace WebApi.Controllers
                 UserId = searchHis.UserId,
                 SearchQuery = searchHis.SearchQuery,
                 SearchTimeStamp = searchHis.SearchTimeStamp,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetSearchHistoryById),
-                    new { userId = searchHis.UserId, timestamp = searchHis.SearchTimeStamp })
+                SearchId = searchHis.SearchId,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetSearchHisById),
+                    new { searchId = searchHis.SearchId })
             };
         }
         

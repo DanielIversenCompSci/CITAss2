@@ -82,10 +82,11 @@ public class ImdbContext : DbContext
     private static void MapSearchHis(ModelBuilder modelBuilder)
     {
 
-        modelBuilder.Entity<SearchHis>().ToTable("search_his").HasKey(s => new { s.UserId, s.SearchTimeStamp }); // Composite primary key
+        modelBuilder.Entity<SearchHis>().ToTable("search_his").HasKey(s => new { s.SearchId }); // Composite primary key
         modelBuilder.Entity<SearchHis>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchQuery).HasColumnName("searchquery");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchTimeStamp).HasColumnName("searchtimestamp");
+        modelBuilder.Entity<SearchHis>().Property(x => x.SearchId).HasColumnName("search_id");
         
         // Define cascade behavior and foreignkey aswell as relation
         modelBuilder.Entity<SearchHis>()
