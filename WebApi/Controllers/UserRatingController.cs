@@ -57,7 +57,7 @@ namespace WebApi.Controllers
         }
 
         // Get specific title by TConst
-        [HttpGet("{id}", Name = nameof(GetUserRatingById))]
+        [HttpGet("{id}/{tConst}", Name = nameof(GetUserRatingById))]
         public ActionResult<UserRatingModel> GetUserRatingById(string id, string tConst)
         {
             var title = _dataService.GetUserRatingById(id, tConst);
@@ -83,14 +83,14 @@ namespace WebApi.Controllers
             }
 
             var model = CreateUserRatingModel(createdTitle);
-            return CreatedAtAction(nameof(GetUserRatingById), new { id = createdTitle.TConst }, model);
+            return CreatedAtAction(nameof(GetUserRatingById), new { id = createdTitle.UserId, tConst = createdTitle.TConst }, model);
         }
 
         
         [HttpPut("{id}/{tConst}")]
-        public IActionResult UpdateUserRating(string userId, string tConst, [FromBody] UserRating updatedRating)
+        public IActionResult UpdateUserRating(string id, string tConst, [FromBody] UserRating updatedRating)
         {
-            var success = _dataService.UpdateUserRating(userId, tConst, updatedRating);
+            var success = _dataService.UpdateUserRating(id, tConst, updatedRating);
 
             if (!success)
             {
@@ -102,9 +102,9 @@ namespace WebApi.Controllers
 
         
         [HttpDelete("{id}/{tConst}")]
-        public IActionResult DeleteUserRating(string userId, string tConst)
+        public IActionResult DeleteUserRating(string id, string tConst)
         {
-            var success = _dataService.DeleteUserRating(userId, tConst);
+            var success = _dataService.DeleteUserRating(id, tConst);
 
             if (!success)
             {

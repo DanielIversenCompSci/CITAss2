@@ -11,5 +11,7 @@ namespace DataAccessLayer
 
         // Navigation property for the search history
         public ICollection<SearchHis> SearchHistory { get; set; } = new List<SearchHis>();
+        
+        public ICollection<UserRating> UserRatings { get; set; } = new List<UserRating>();
     }
 }

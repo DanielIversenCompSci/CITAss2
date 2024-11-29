@@ -170,11 +170,19 @@ public class ImdbContext : DbContext
     }
     public void MapUserRating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserRating>().ToTable("user_rating").HasNoKey();
+        modelBuilder.Entity<UserRating>().ToTable("user_rating").HasKey(s => new { s.TConst, s.Rating }); // Composite primary key
         modelBuilder.Entity<UserRating>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<UserRating>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<UserRating>().Property(x => x.Rating).HasColumnName("userrating");
-
+        
+        // Define cascade behavior and Fk and rel
+        modelBuilder.Entity<UserRating>()
+            .HasOne<Users>()
+            .WithMany(u => u.UserRatings)
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
+    
+    
 }
