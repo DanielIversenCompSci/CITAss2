@@ -168,4 +168,16 @@ public interface IDataService
     bool UpdateUserRating(int userRatingId, UserRating updatedRating);
     bool DeleteUserRating(int userRatingId);
     int GetUserRatingsCount();
+    
+    
+    
+    // ********************
+    //UserBookmarkings
+    // ********************
+    IList<UserBookmarkings> GetUserBookmarkings();
+    UserBookmarkings GetUserBookmarkingsById(int userBookmarkingsId);
+    UserBookmarkings AddUserBookmarkings(UserBookmarkings newUserBookmarkings);
+    bool UpdateUserBookmarkings(int userBookmarkingsId, UserBookmarkings updatedUserBookmarkings);
+    bool DeleteUserBookmarkings(int userBookmarkingsId);
+    int GetUserBookmarkingsCount();
 }

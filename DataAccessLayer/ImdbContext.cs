@@ -22,6 +22,7 @@ public class ImdbContext : DbContext
     public DbSet<TitleRatings> TitleRatings { get; set; }
     public DbSet<SearchHis> SearchHis { get; set; }
     public DbSet<UserRating> UserRating { get; set; }
+    public DbSet<UserBookmarkings> UserBookmarkings { get; set; }
 
 
 
@@ -47,6 +48,7 @@ public class ImdbContext : DbContext
         MapTitleRatings(modelBuilder);
         MapUsers(modelBuilder);
         MapUserRating(modelBuilder);
+        MapUserBookmarkings(modelBuilder);
     }
 
     private static void MapActorRating(ModelBuilder modelBuilder)
@@ -86,7 +88,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<SearchHis>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchQuery).HasColumnName("searchquery");
         modelBuilder.Entity<SearchHis>().Property(x => x.SearchTimeStamp).HasColumnName("searchtimestamp");
-        modelBuilder.Entity<SearchHis>().Property(x => x.SearchId).HasColumnName("search_id");
+        modelBuilder.Entity<SearchHis>().Property(x => x.SearchId).HasColumnName("searchhis_id");
         
         // Define cascade behavior and foreignkey aswell as relation
         modelBuilder.Entity<SearchHis>()
@@ -184,11 +186,23 @@ public class ImdbContext : DbContext
             .WithMany(u => u.UserRatings)
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-        
-      
-
     }
 
+    public void MapUserBookmarkings(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<UserBookmarkings>().ToTable("user_bookmarkings").HasKey(u => u.UserBookmarkingsId);
+        modelBuilder.Entity<UserBookmarkings>().Property(x => x.UserId).HasColumnName("userid");
+        modelBuilder.Entity<UserBookmarkings>().Property(x => x.TConst).HasColumnName("tconst");
+        modelBuilder.Entity<UserBookmarkings>().Property(x => x.Note).HasColumnName("note");
+        modelBuilder.Entity<UserBookmarkings>().Property(x => x.UserBookmarkingsId).HasColumnName("userbookmarkings_id");
+        
+        // PK/FK and cascade behavior
+        modelBuilder.Entity<UserBookmarkings>()
+            .HasOne<Users>()
+            .WithMany(u => u.UserBookmarkings)
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
     
     
 }

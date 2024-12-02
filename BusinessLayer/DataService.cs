@@ -820,5 +820,67 @@ public class DataService : IDataService
     {
         return _context.UserRating.Count();
     }
+    
+    
+    
+    // ********************
+    // UserBookmarkings
+    // ********************
+    public IList<UserBookmarkings> GetUserBookmarkings()
+    {
+        return _context.UserBookmarkings.ToList();
+    }
+    
+    public UserBookmarkings GetUserBookmarkingsById(int userBookmarkingsId)
+    {
+        return _context.UserBookmarkings.FirstOrDefault(r => r.UserBookmarkingsId == userBookmarkingsId);
+    }
 
+    public UserBookmarkings AddUserBookmarkings(UserBookmarkings newUserBookmarkings)
+    {
+        if (_context.UserBookmarkings.Any(r => r.UserId == newUserBookmarkings.UserId && r.TConst == newUserBookmarkings.TConst))
+        {
+            return null; // User bookmark for this movie already exists
+        }
+
+        _context.UserBookmarkings.Add(newUserBookmarkings);
+        _context.SaveChanges();
+        return newUserBookmarkings;
+    }
+    
+    public bool UpdateUserBookmarkings(int userBookmarkingsId, UserBookmarkings updatedUserBookmarkings)
+    {
+        var existingUserBookmarkings = _context.UserBookmarkings.FirstOrDefault(r => r.UserBookmarkingsId == userBookmarkingsId);
+
+        if (existingUserBookmarkings == null)
+        {
+            return false; // No existing rating found
+        }
+        
+        
+        existingUserBookmarkings.UserId = updatedUserBookmarkings.UserId; //Foreign Key
+        existingUserBookmarkings.TConst = updatedUserBookmarkings.TConst;
+        existingUserBookmarkings.Note = updatedUserBookmarkings.Note;
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool DeleteUserBookmarkings(int userBookmarkingsId)
+    {
+        var existingUserBookmarkings = _context.UserBookmarkings.FirstOrDefault(r => r.UserBookmarkingsId == userBookmarkingsId);
+
+        if (existingUserBookmarkings == null)
+        {
+            return false; // No existing rating found
+        }
+
+        _context.UserBookmarkings.Remove(existingUserBookmarkings);
+        _context.SaveChanges();
+        return true;
+    }
+    
+    public int GetUserBookmarkingsCount()
+    {
+        return _context.UserBookmarkings.Count();
+    }
 }

@@ -13,5 +13,7 @@ namespace DataAccessLayer
         public ICollection<SearchHis> SearchHistory { get; set; } = new List<SearchHis>();
         
         public ICollection<UserRating> UserRatings { get; set; } = new List<UserRating>();
+        
+        public ICollection<UserBookmarkings> UserBookmarkings { get; set; } = new List<UserBookmarkings>();
     }
 }
