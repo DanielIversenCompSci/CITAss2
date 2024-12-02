@@ -9,6 +9,7 @@ namespace DataAccessLayer
         
         public float Rating { get; set; }
         
-        public byte[] RowVersion { get; set; }
+        public int UserRatingId { get; set; }
+        
     }
 }

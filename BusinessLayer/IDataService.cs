@@ -163,9 +163,9 @@ public interface IDataService
     //UserRating
     // ********************
     public IList<UserRating> GetUserRatingsList(); // be by id aswell ?
-    UserRating GetUserRatingById(string userId, string tConst); // ITS RIGHT HERE
+    UserRating GetUserRatingById(int userRatingId); // ITS RIGHT HERE
     UserRating AddUserRating(UserRating newUserRating);
-    bool UpdateUserRating(string userId, string tConst, UserRating updatedRating);
-    bool DeleteUserRating(string userId, string tConst);
+    bool UpdateUserRating(int userRatingId, UserRating updatedRating);
+    bool DeleteUserRating(int userRatingId);
     int GetUserRatingsCount();
 }

@@ -57,10 +57,10 @@ namespace WebApi.Controllers
         }
 
         // Get specific title by TConst
-        [HttpGet("{userId}/{tConst}", Name = nameof(GetUserRatingById))]
-        public ActionResult<UserRatingModel> GetUserRatingById(string userId, string tConst)
+        [HttpGet("{userRatingId}", Name = nameof(GetUserRatingById))]
+        public ActionResult<UserRatingModel> GetUserRatingById(int userRatingId)
         {
-            var title = _dataService.GetUserRatingById(userId, tConst);
+            var title = _dataService.GetUserRatingById(userRatingId);
 
             if (title == null)
             {
@@ -73,9 +73,17 @@ namespace WebApi.Controllers
 
         // POST: Create a new UserRating entry
         [HttpPost]
-        public ActionResult<UserRatingModel> CreateUserRating([FromBody] UserRating newTitle)
+        public ActionResult<UserRatingModel> CreateUserRating([FromBody] UserRatingCreateModel newRating)
         {
-            var createdTitle = _dataService.AddUserRating(newTitle);
+
+            var ratingEntity = new UserRating
+            {
+                UserId = newRating.UserId,
+                TConst = newRating.TConst,
+                Rating = newRating.Rating
+            };
+            
+            var createdTitle = _dataService.AddUserRating(ratingEntity);
 
             if (createdTitle == null)
             {
@@ -87,10 +95,17 @@ namespace WebApi.Controllers
         }
 
         
-        [HttpPut("{userId}/{tConst}")]
-        public IActionResult UpdateUserRating(string userId, string tConst, [FromBody] UserRating updatedRating)
+        [HttpPut("{userRatingId}")]
+        public IActionResult UpdateUserRating(int userRatingId, [FromBody] UserRatingCreateModel updatedRating)
         {
-            var success = _dataService.UpdateUserRating(userId, tConst, updatedRating);
+            var updatedEntity = new UserRating
+            {
+                UserId = updatedRating.UserId,
+                TConst = updatedRating.TConst,
+                Rating = updatedRating.Rating
+            };
+            
+            var success = _dataService.UpdateUserRating(userRatingId, updatedEntity);
 
             if (!success)
             {
@@ -101,10 +116,10 @@ namespace WebApi.Controllers
         }
 
         
-        [HttpDelete("{userId}/{tConst}")]
-        public IActionResult DeleteUserRating(string userId, string tConst)
+        [HttpDelete("{userRatingId}")]
+        public IActionResult DeleteUserRating(int userRatingId)
         {
-            var success = _dataService.DeleteUserRating(userId, tConst);
+            var success = _dataService.DeleteUserRating(userRatingId);
 
             if (!success)
             {
@@ -123,7 +138,7 @@ namespace WebApi.Controllers
                 TConst = userRating.TConst,
                 Rating = userRating.Rating,
                 Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserRatingById),
-                    new { userId = userRating.UserId, tConst = userRating.TConst })
+                    new { userRatingId = userRating.UserRatingId })
             };
         }
     }

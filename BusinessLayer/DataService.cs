@@ -768,9 +768,9 @@ public class DataService : IDataService
         return _context.UserRating.ToList();
     }
     
-    public UserRating GetUserRatingById(string userId, string tConst)
+    public UserRating GetUserRatingById(int userRatingId)
     {
-        return _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
+        return _context.UserRating.FirstOrDefault(r => r.UserRatingId == userRatingId);
     }
 
     public UserRating AddUserRating(UserRating newUserRating)
@@ -785,23 +785,26 @@ public class DataService : IDataService
         return newUserRating;
     }
     
-    public bool UpdateUserRating(string userId, string tConst, UserRating updatedRating)
+    public bool UpdateUserRating(int userRatingId, UserRating updatedRating)
     {
-        var existingRating = _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
+        var existingRating = _context.UserRating.FirstOrDefault(r => r.UserRatingId == userRatingId);
 
         if (existingRating == null)
         {
             return false; // No existing rating found
         }
-
+        
+        
+        existingRating.UserId = updatedRating.UserId; //Foreign Key
+        existingRating.TConst = updatedRating.TConst;
         existingRating.Rating = updatedRating.Rating;
         _context.SaveChanges();
         return true;
     }
 
-    public bool DeleteUserRating(string userId, string tConst)
+    public bool DeleteUserRating(int userRatingId)
     {
-        var existingRating = _context.UserRating.FirstOrDefault(r => r.UserId == userId && r.TConst == tConst);
+        var existingRating = _context.UserRating.FirstOrDefault(r => r.UserRatingId == userRatingId);
 
         if (existingRating == null)
         {
