@@ -171,7 +171,7 @@ public class ImdbContext : DbContext
     }
     public void MapUserRating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserRating>().ToTable("user_rating").HasKey(s => new { s.TConst, s.Rating }); // Composite primary key
+        modelBuilder.Entity<UserRating>().ToTable("user_rating").HasKey(s => new { s.UserId, s.TConst }); // Composite primary key
         modelBuilder.Entity<UserRating>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<UserRating>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<UserRating>().Property(x => x.Rating).HasColumnName("userrating");
@@ -182,6 +182,11 @@ public class ImdbContext : DbContext
             .WithMany(u => u.UserRatings)
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<UserRating>()
+            .Property(r => r.RowVersion)
+            .IsRowVersion();
+
     }
 
     

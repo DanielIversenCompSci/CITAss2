@@ -57,10 +57,10 @@ namespace WebApi.Controllers
         }
 
         // Get specific title by TConst
-        [HttpGet("{id}/{tConst}", Name = nameof(GetUserRatingById))]
-        public ActionResult<UserRatingModel> GetUserRatingById(string id, string tConst)
+        [HttpGet("{userId}/{tConst}", Name = nameof(GetUserRatingById))]
+        public ActionResult<UserRatingModel> GetUserRatingById(string userId, string tConst)
         {
-            var title = _dataService.GetUserRatingById(id, tConst);
+            var title = _dataService.GetUserRatingById(userId, tConst);
 
             if (title == null)
             {
@@ -83,14 +83,14 @@ namespace WebApi.Controllers
             }
 
             var model = CreateUserRatingModel(createdTitle);
-            return CreatedAtAction(nameof(GetUserRatingById), new { id = createdTitle.UserId, tConst = createdTitle.TConst }, model);
+            return CreatedAtAction(nameof(GetUserRatingById), new { userId = createdTitle.UserId, tConst = createdTitle.TConst }, model);
         }
 
         
-        [HttpPut("{id}/{tConst}")]
-        public IActionResult UpdateUserRating(string id, string tConst, [FromBody] UserRating updatedRating)
+        [HttpPut("{userId}/{tConst}")]
+        public IActionResult UpdateUserRating(string userId, string tConst, [FromBody] UserRating updatedRating)
         {
-            var success = _dataService.UpdateUserRating(id, tConst, updatedRating);
+            var success = _dataService.UpdateUserRating(userId, tConst, updatedRating);
 
             if (!success)
             {
@@ -101,10 +101,10 @@ namespace WebApi.Controllers
         }
 
         
-        [HttpDelete("{id}/{tConst}")]
-        public IActionResult DeleteUserRating(string id, string tConst)
+        [HttpDelete("{userId}/{tConst}")]
+        public IActionResult DeleteUserRating(string userId, string tConst)
         {
-            var success = _dataService.DeleteUserRating(id, tConst);
+            var success = _dataService.DeleteUserRating(userId, tConst);
 
             if (!success)
             {
@@ -123,7 +123,7 @@ namespace WebApi.Controllers
                 TConst = userRating.TConst,
                 Rating = userRating.Rating,
                 Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserRatingById),
-                    new { id = userRating.UserId, tConst = userRating.TConst })
+                    new { userId = userRating.UserId, tConst = userRating.TConst })
             };
         }
     }

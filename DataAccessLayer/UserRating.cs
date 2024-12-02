@@ -8,5 +8,7 @@ namespace DataAccessLayer
         public string TConst { get; set; }
         
         public float Rating { get; set; }
+        
+        public byte[] RowVersion { get; set; }
     }
 }
