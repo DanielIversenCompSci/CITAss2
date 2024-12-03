@@ -57,10 +57,10 @@ namespace WebApi.Controllers
         }
 
         // GET: api/Users/{id}
-        [HttpGet("{id}", Name = nameof(GetUserById))]
-        public ActionResult<Users> GetUserById(string id)
+        [HttpGet("{userId}", Name = nameof(GetUserById))]
+        public ActionResult<Users> GetUserById(int userId)
         {
-            var user = _dataService.GetUserById(id);
+            var user = _dataService.GetUserById(userId);
             
             if (user == null)
             {
@@ -71,11 +71,13 @@ namespace WebApi.Controllers
             return Ok(model);
         }
         
+        
         // GET: api/Users/{id}/searchhistory
-        [HttpGet("{id}/searchhistory")]
-        public ActionResult<Users> GetUserWithSearchHistory(string id)
+        /*
+        [HttpGet("{userId}/searchhistory")]
+        public ActionResult<Users> GetUserWithSearchHistory(string userId)
         {
-            var user = _dataService.GetUserWithSearchHistory(id);
+            var user = _dataService.GetUserWithSearchHistory(userId);
             if (user == null)
             {
                 return NotFound();
@@ -91,13 +93,20 @@ namespace WebApi.Controllers
             };
             return Ok(response);
         }
-    
+        */
 
         // POST: api/Users
         [HttpPost]
-        public ActionResult<Users> AddUser([FromBody] Users newUser)
+        public ActionResult<Users> AddUser([FromBody] UsersCreateModel newUser)
         {
-            var createdUser = _dataService.AddUser(newUser);
+            var userEntity = new Users
+            {
+                //UserId = newUser.UserId,
+                Email = newUser.Email,
+                Password = newUser.Password
+            };
+            
+            var createdUser = _dataService.AddUser(userEntity);
 
             if (createdUser == null)
             {
@@ -105,24 +114,45 @@ namespace WebApi.Controllers
             }
             
             var model = CreateUsersModel(createdUser);
-            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.UserId }, model);
+            return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.UserId }, model);
         }
 
         // PUT: api/Users/{id}
-        [HttpPut("{id}")]
-        public ActionResult UpdateUser(string id, [FromBody] Users updatedUser)
+        [HttpPut("{userId}")]
+        public ActionResult UpdateUser(int userId, [FromBody] UsersCreateModel updatedUser)
         {
-            if (!_dataService.UpdateUser(id, updatedUser)) return NotFound();
+            var updatedEntity = new Users
+            {
+                //UserId = updatedUser.UserId,
+                Email = updatedUser.Email,
+                Password = updatedUser.Password
+            };
+            
+            var succes = _dataService.UpdateUser(userId, updatedEntity);
+
+            if (!succes)
+            {
+                return NotFound();
+            }
+            
             return NoContent();
         }
 
         // DELETE: api/Users/{id}
-        [HttpDelete("{id}")]
-        public ActionResult DeleteUser(string id)
+        [HttpDelete("{userId}")]
+        public ActionResult DeleteUser(int userId)
         {
-            if (!_dataService.DeleteUser(id)) return NotFound();
+            var success = _dataService.DeleteUser(userId);
+            
+            if (!success)
+            {
+                return NotFound("Could not delete user");
+            }
+            
             return NoContent();
         }
+        
+        
         
         
         private UsersModel CreateUsersModel(Users user)
@@ -132,8 +162,7 @@ namespace WebApi.Controllers
                 UserId = user.UserId,
                 Email = user.Email,
                 Password = user.Password,
-                SearchHistory = user.SearchHistory,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserById), new { id = user.UserId })
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserById), new { userId = user.UserId })
             };
         }
     }

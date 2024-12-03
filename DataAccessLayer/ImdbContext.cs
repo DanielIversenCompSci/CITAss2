@@ -164,13 +164,33 @@ public class ImdbContext : DbContext
     }
     private static void MapUsers(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Users>().ToTable("users").HasKey(i => i.UserId);
-        modelBuilder.Entity<Users>().Property(x => x.UserId).HasColumnName("userid");
-        modelBuilder.Entity<Users>().Property(x => x.Email).HasColumnName("email");
-        modelBuilder.Entity<Users>().Property(x => x.Password).HasColumnName("password");
-        modelBuilder.Entity<Users>().HasMany(u => u.SearchHistory).WithOne().HasForeignKey(s => s.UserId).OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Users>().ToTable("users").HasKey(u => u.UserId);
+        modelBuilder.Entity<Users>().Property(u => u.UserId).HasColumnName("userid").IsRequired();
+        modelBuilder.Entity<Users>().Property(u => u.Email).HasColumnName("email").IsRequired();
+        modelBuilder.Entity<Users>().Property(u => u.Password).HasColumnName("password").IsRequired();
 
+        // Configure one-to-many relationship with SearchHistory
+        modelBuilder.Entity<Users>()
+            .HasMany(u => u.SearchHistory)         // A User has many SearchHistory entries
+            .WithOne(s => s.User)                  // Each SearchHis references one User
+            .HasForeignKey(s => s.UserId)          // Foreign key in SearchHistory
+            .OnDelete(DeleteBehavior.Cascade);     // Optional: Cascade delete
+
+        // Configure one-to-many relationship with UserRatings
+        modelBuilder.Entity<Users>()
+            .HasMany(u => u.UserRatings)           // A User has many UserRatings
+            .WithOne(r => r.User)                  // Each UserRating references one User
+            .HasForeignKey(r => r.UserId)          // Foreign key in UserRatings
+            .OnDelete(DeleteBehavior.Cascade);     // Optional: Cascade delete
+
+        // Configure one-to-many relationship with UserBookmarkings
+        modelBuilder.Entity<Users>()
+            .HasMany(u => u.UserBookmarkings)      // A User has many UserBookmarkings
+            .WithOne(b => b.User)                  // Each UserBookmarking references one User
+            .HasForeignKey(b => b.UserId)          // Foreign key in UserBookmarkings
+            .OnDelete(DeleteBehavior.Cascade);     // Optional: Cascade delete
     }
+
     public void MapUserRating(ModelBuilder modelBuilder)
     {
         

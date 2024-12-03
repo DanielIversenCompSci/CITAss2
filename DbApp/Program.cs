@@ -199,12 +199,12 @@ static void PrintNameBasicsList(IDataService dataService)
 static void PrintUsersList(IDataService dataService)
 {
     var filteredList = dataService.GetUsersList()
-        .Where(i => i.UserId == "1         "); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
+        .Where(i => i.UserId == 1); // TitleId in title_akas han an empty space by every end of its TCONSTS?????
 
     foreach (var i in filteredList)
     {
         Console.WriteLine(
-            $"{i.UserId ?? ""}, " +
+            $"{i.UserId }, " +
             $"{i.Email ?? ""}, " +
             $"{i.Password ?? ""}"
         );

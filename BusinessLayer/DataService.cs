@@ -351,7 +351,7 @@ public class DataService : IDataService
     }
 
     
-    public Users GetUserById(string userId)
+    public Users GetUserById(int userId)
     {
         return _context.Users.FirstOrDefault(u => u.UserId == userId);
     }
@@ -363,11 +363,12 @@ public class DataService : IDataService
         return newUser;
     }
     
-    public bool UpdateUser(string userId, Users updatedUser)
+    public bool UpdateUser(int userId, Users updatedUser)
     {
         var user = _context.Users.Find(userId);
         if (user == null) return false;
 
+        //user.UserId = updatedUser.UserId + "         ";
         user.Email = updatedUser.Email;
         user.Password = updatedUser.Password;
 
@@ -375,7 +376,7 @@ public class DataService : IDataService
         return true;
     }
     
-    public bool DeleteUser(string userId)
+    public bool DeleteUser(int userId)
     {
         var user = _context.Users.Find(userId);
         if (user == null) return false;
@@ -384,10 +385,11 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
-    public Users GetUserWithSearchHistory(string userId)
+    public Users GetUserWithSearchHistory(int userId)
     {
         return _context.Users.Include(u => u.SearchHistory).FirstOrDefault(u => u.UserId == userId);
     }
+    
     
     public int GetUsersCount()
     {
@@ -678,10 +680,12 @@ public class DataService : IDataService
         return _context.SearchHis.ToList();
     }
     
-    public SearchHis GetSearchHistoryById(string userId, DateTime timestamp)
+    
+    public SearchHis GetSearchHistoryById(int userId, DateTime timestamp)
     {
         return _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
     }
+    
 
     public SearchHis GetSearchHisById(int searchId)
     {
@@ -695,7 +699,8 @@ public class DataService : IDataService
         return newSearch;
     }
     
-    public bool UpdateSearchHistory(string userId, DateTime timestamp, SearchHis updatedSearch)
+    
+    public bool UpdateSearchHistory(int userId, DateTime timestamp, SearchHis updatedSearch)
     {
         var existingSearch = _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
 
@@ -709,6 +714,7 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
 
     public bool UpdateSearchHis(int searchId, SearchHis updatedSearch)
     {
@@ -725,7 +731,8 @@ public class DataService : IDataService
         return true;
     }
     
-    public bool DeleteSearchHistory(string userId, DateTime timestamp)
+    
+    public bool DeleteSearchHistory(int userId, DateTime timestamp)
     {
         var existingSearch = _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
 
@@ -738,6 +745,7 @@ public class DataService : IDataService
         _context.SaveChanges();
         return true;
     }
+    
 
     public bool DeleteSearchHis(int searchId)
     {

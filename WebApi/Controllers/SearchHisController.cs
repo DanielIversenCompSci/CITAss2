@@ -100,7 +100,7 @@ namespace WebApi.Controllers
         {
             var updatedEntity = new SearchHis
             {
-                //UserId = updatedSearch.UserId, // Add back if you desire to allow altering of UserId
+                UserId = updatedSearch.UserId, // Add back if you desire to allow altering of UserId
                 SearchQuery = updatedSearch.SearchQuery
             };
             

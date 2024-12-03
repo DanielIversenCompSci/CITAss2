@@ -63,11 +63,11 @@ public interface IDataService
     //Users
     // ********************
     IList<Users> GetUsersList();
-    Users GetUserById(string userId);
+    Users GetUserById(int userId);
     Users AddUser(Users newUser);
-    bool UpdateUser(string userId, Users updatedUser);
-    bool DeleteUser(string userId);
-    Users GetUserWithSearchHistory(string userId);
+    bool UpdateUser(int userId, Users updatedUser);
+    bool DeleteUser(int userId);
+    Users GetUserWithSearchHistory(int userId);
     int GetUsersCount();
 
     
@@ -148,12 +148,12 @@ public interface IDataService
     //SearchHis
     // ********************
     public IList<SearchHis> GetSearchHisList();
-    SearchHis GetSearchHistoryById(string userId, DateTime timestamp);
+    SearchHis GetSearchHistoryById(int userId, DateTime timestamp);
     SearchHis GetSearchHisById(int searchId); // Updated one
     SearchHis AddSearchHistory(SearchHis newSearch);
-    bool UpdateSearchHistory(string userId, DateTime timestamp, SearchHis updatedSearch);
+    bool UpdateSearchHistory(int userId, DateTime timestamp, SearchHis updatedSearch);
     bool UpdateSearchHis(int searchId, SearchHis updatedSearch);
-    bool DeleteSearchHistory(string userId, DateTime timestamp);
+    bool DeleteSearchHistory(int userId, DateTime timestamp);
     bool DeleteSearchHis(int searchId); // Updated one
     int GetSearchHisCount();
     

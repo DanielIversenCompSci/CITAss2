@@ -2,7 +2,7 @@ namespace WebApi.Models;
 
 public class UserBookmarkingsCreateModel
 {
-    public string UserId { get; set; }
+    public int UserId { get; set; }
     
     public string TConst  { get; set; }
     

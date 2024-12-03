@@ -8,10 +8,12 @@ namespace DataAccessLayer
 {
     public class SearchHis
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public string SearchQuery { get; set; }
         public DateTime SearchTimeStamp { get; set; }
         
         public int SearchId { get; set; }
+        
+        public Users User { get; set; }
     }
 }
