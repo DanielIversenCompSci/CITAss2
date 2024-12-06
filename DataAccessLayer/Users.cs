@@ -9,6 +9,8 @@ namespace DataAccessLayer
         
         public string Password { get; set; }
 
+        public string Salt { get; set; }
+
         // Navigation property for the search history
         public ICollection<SearchHis> SearchHistory { get; set; } = new List<SearchHis>();
         

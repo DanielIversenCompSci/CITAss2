@@ -277,6 +277,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<Users>().Property(u => u.UserId).HasColumnName("userid").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Email).HasColumnName("email").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Password).HasColumnName("password").IsRequired();
+        modelBuilder.Entity<Users>().Property(u => u.Salt).HasColumnName("salt").IsRequired();
 
         // Configure one-to-many relationship with SearchHistory
         modelBuilder.Entity<Users>()
