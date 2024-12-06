@@ -73,6 +73,48 @@ namespace WebApi.Controllers
             return Ok(model);
         }
 
+        [HttpGet("limited", Name = nameof(GetLimitedTitleBasics))]
+        public async Task<ActionResult<PagedResultModel<TitleBasicsModel>>> GetLimitedTitleBasics(int limit = 100, int pageNumber = 1)
+        {
+            if (limit <= 0 || pageNumber <= 0)
+            {
+                return BadRequest("Limit and page number must be greater than zero.");
+            }
+
+            var totalItems = await _dataService.GetTitleBasicsCountAsync(); // Fetch the total count of records
+            var offset = (pageNumber - 1) * limit;
+
+            if (offset >= totalItems)
+            {
+                return BadRequest("Page number exceeds total pages available.");
+            }
+
+            var titleBasicsList = await _dataService.GetLimitedTitleBasicsAsync(limit, offset);
+
+            var totalPages = (int)Math.Ceiling(totalItems / (double)limit);
+
+            var result = new PagedResultModel<TitleBasicsModel>
+            {
+                Items = titleBasicsList.Select(CreateTitleBasicsModel),
+                PageNumber = pageNumber,
+                PageSize = limit,
+                TotalPages = totalPages,
+                TotalItems = totalItems,
+                NextPage = pageNumber < totalPages
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetLimitedTitleBasics), new { limit, pageNumber = pageNumber + 1 })
+                    : null,
+                PrevPage = pageNumber > 1
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetLimitedTitleBasics), new { limit, pageNumber = pageNumber - 1 })
+                    : null
+            };
+
+            return Ok(result);
+        }
+
+
+
+
+
         // POST: Create a new TitleBasics entry
         [HttpPost]
         public ActionResult<TitleBasicsModel> CreateTitleBasics([FromBody] TitleBasics newTitle)

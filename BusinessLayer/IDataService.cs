@@ -1,4 +1,5 @@
 using DataAccessLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer;
 
@@ -8,21 +9,25 @@ public interface IDataService
     // ********************
     // EntityName
     // ********************
-    
-    
-    
+
+
+
     // ********************
     //TitleBasics
     // ********************
+    Task<IList<TitleBasics>> GetLimitedTitleBasicsAsync(int limit, int offset);
+
     public IList<TitleBasics> GetTitleBasicsList();
     TitleBasics GetTitleBasicsById(string tConst);
     TitleBasics AddTitleBasics(TitleBasics newTitle);
     bool UpdateTitleBasics(string tConst, TitleBasics updatedTitle);
     bool DeleteTitleBasics(string tConst);
     int GetTitleBasicsCount();
+    // Gets a count of all TitleBasics entries
+    Task<int> GetTitleBasicsCountAsync();
 
-    
-    
+
+
     // ********************
     //TitlePrincipals
     // ********************

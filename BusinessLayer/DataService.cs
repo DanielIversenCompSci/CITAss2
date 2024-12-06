@@ -15,18 +15,32 @@ public class DataService : IDataService
         _context = context;
     }
 
-    
-    
+
+
     // The different entities af labelled like this for easier navigation:
     // ********************
     // EntityName
     // ********************
-    
-    
-    
+
+
+
     // ********************
     // TitleBasics
     // ********************
+    public async Task<IList<TitleBasics>> GetLimitedTitleBasicsAsync(int limit, int offset)
+    {
+        return await _context.TitleBasics
+            .AsNoTracking() // Optimize for read-only queries
+            .Skip(offset)   // Skip the specified number of records
+            .Take(limit)    // Fetch only the required number of records
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTitleBasicsCountAsync()
+    {
+        return await _context.TitleBasics.CountAsync();
+    }
+
     public IList<TitleBasics> GetTitleBasicsList()
     {
         return _context.TitleBasics.ToList();
@@ -836,7 +850,7 @@ public class DataService : IDataService
     // ********************
     public IList<UserBookmarkings> GetUserBookmarkings()
     {
-        return _context.UserBookmarkings.ToList();
+        return _context.UserBookmarkings.ToList(); //error 
     }
     
     public UserBookmarkings GetUserBookmarkingsById(int userBookmarkingsId)
