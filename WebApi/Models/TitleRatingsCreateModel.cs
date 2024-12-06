@@ -1,14 +1,10 @@
-namespace DataAccessLayer;
+namespace WebApi.Models;
 
-public class TitleRatings
+public class TitleRatingsCreateModel
 {
     public string TConst  { get; set; }
     
     public float AverageRating { get; set; }
     
     public int NumVotes { get; set; }
-    
-    //NAV
-    public TitleBasics TitleBasic { get; set; }
-    
 }

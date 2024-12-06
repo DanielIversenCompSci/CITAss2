@@ -70,9 +70,16 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TitleRatings> CreateTitleRating([FromBody] TitleRatings newTitleRating)
+        public ActionResult<TitleRatings> CreateTitleRating([FromBody] TitleRatingsCreateModel newTitleRating)
         {
-            var createdRating = _dataService.AddTitleRating(newTitleRating);
+            var titleEntity = new TitleRatings
+            {
+                TConst = newTitleRating.TConst,
+                AverageRating = newTitleRating.AverageRating,
+                NumVotes = newTitleRating.NumVotes
+            };
+            
+            var createdRating = _dataService.AddTitleRating(titleEntity);
 
             if (createdRating == null)
             {
@@ -84,9 +91,16 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{tConst}")]
-        public IActionResult UpdateTitleRating(string tConst, [FromBody] TitleRatings updatedTitleRating)
+        public IActionResult UpdateTitleRating(string tConst, [FromBody] TitleRatingsCreateModel updatedTitleRating)
         {
-            var success = _dataService.UpdateTitleRating(tConst, updatedTitleRating);
+            var updatedEntity = new TitleRatings
+            {
+                TConst = updatedTitleRating.TConst,
+                AverageRating = updatedTitleRating.AverageRating,
+                NumVotes = updatedTitleRating.NumVotes
+            };
+            
+            var success = _dataService.UpdateTitleRating(tConst, updatedEntity);
 
             if (!success)
             {

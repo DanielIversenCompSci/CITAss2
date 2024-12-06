@@ -258,8 +258,13 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<TitleRatings>().Property(x => x.AverageRating).HasColumnName("averagerating");
         modelBuilder.Entity<TitleRatings>().Property(x => x.NumVotes).HasColumnName("numvotes");
         
-        
+        modelBuilder.Entity<TitleRatings>()
+            .HasOne(tr => tr.TitleBasic)
+            .WithOne(nb => nb.TitleRating)
+            .HasForeignKey<TitleRatings>(tr => tr.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
+    
     private static void MapUsers(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Users>().ToTable("users").HasKey(u => u.UserId);
