@@ -169,9 +169,9 @@ public class DataService : IDataService
         return _context.TitleAkas.ToList();
     }
     
-    public TitleAkas GetTitleAkasById(string titleId)
+    public TitleAkas GetTitleAkasById(string titleId, int ordering)
     {
-        return _context.TitleAkas.Find(titleId);
+        return _context.TitleAkas.Find(titleId, ordering);
     }
     
     public TitleAkas AddTitleAkas(TitleAkas newTitle)
@@ -181,9 +181,9 @@ public class DataService : IDataService
         return newTitle;
     }
     
-    public bool UpdateTitleAkas(string titleId, TitleAkas updatedTitle)
+    public bool UpdateTitleAkas(string titleId, int ordering, TitleAkas updatedTitle)
     {
-        var existingTitle = _context.TitleAkas.Find(titleId);
+        var existingTitle = _context.TitleAkas.Find(titleId, ordering);
         if (existingTitle == null)
         {
             return false; // Entry not found
@@ -202,9 +202,9 @@ public class DataService : IDataService
         return true;
     }
     
-    public bool DeleteTitleAkas(string titleId)
+    public bool DeleteTitleAkas(string titleId, int ordering)
     {
-        var title = _context.TitleAkas.Find(titleId);
+        var title = _context.TitleAkas.Find(titleId, ordering);
 
         // Check if the entry exists
         if (title == null)

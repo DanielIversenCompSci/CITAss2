@@ -59,40 +59,66 @@ namespace WebApi.Controllers
 
         // Get specific title by TConst
         // GET: api/TitleAkas/{id}
-        [HttpGet("{id}", Name = nameof(GetTitleAkasById))]
-        public ActionResult<TitleAkas> GetTitleAkasById(string id)
+        [HttpGet("{titleId}/{ordering}", Name = nameof(GetTitleAkasById))]
+        public ActionResult<TitleAkas> GetTitleAkasById(string titleId, int ordering)
         {
-            var title = _dataService.GetTitleAkasById(id);
+            var title = _dataService.GetTitleAkasById(titleId, ordering);
 
             if (title == null)
             {
                 return NotFound();
             }
 
-            return Ok(title);
+            var model = CreateTitleAkasModel(title);
+            return Ok(model);
         }
 
         
         // POST: api/TitleAkas
         [HttpPost]
-        public ActionResult<TitleAkas> CreateTitleAkas([FromBody] TitleAkas newTitle)
+        public ActionResult<TitleAkas> CreateTitleAkas([FromBody] TitleAkasCreateModel newTitle)
         {
-            var createdTitle = _dataService.AddTitleAkas(newTitle);
+            var titleEntity = new TitleAkas
+            {
+                TitleId = newTitle.TitleId,
+                Ordering = newTitle.Ordering,
+                Title = newTitle.Title,
+                Region = newTitle.Region,
+                Language = newTitle.Language,
+                Types = newTitle.Types,
+                Attributes = newTitle.Attributes,
+                IsOriginalTitle = newTitle.IsOriginalTitle
+            };
+            
+            var createdTitle = _dataService.AddTitleAkas(titleEntity);
 
             if (createdTitle == null)
             {
                 return BadRequest("An entry with this TConst already exists.");
             }
 
-            return CreatedAtAction(nameof(GetTitleAkasById), new { id = createdTitle.TitleId }, createdTitle);
+            var model = CreateTitleAkasModel(createdTitle);
+            return CreatedAtAction(nameof(GetTitleAkasById), new { titleId = createdTitle.TitleId, ordering = createdTitle.Ordering }, model);
         }
 
         
         // PUT: api/TitleAkas/{id}
-        [HttpPut("{id}")]
-        public IActionResult UpdateTitleAkas(string id, [FromBody] TitleAkas updatedTitle)
+        [HttpPut("{titleId}/{ordering}")]
+        public IActionResult UpdateTitleAkas(string titleId, int ordering, [FromBody] TitleAkasCreateModel updatedTitle)
         {
-            var success = _dataService.UpdateTitleAkas(id, updatedTitle);
+            var updatedEntity = new TitleAkas
+            {
+                TitleId = updatedTitle.TitleId,
+                Ordering = updatedTitle.Ordering,
+                Title = updatedTitle.Title,
+                Region = updatedTitle.Region,
+                Language = updatedTitle.Language,
+                Types = updatedTitle.Types,
+                Attributes = updatedTitle.Attributes,
+                IsOriginalTitle = updatedTitle.IsOriginalTitle
+            };
+            
+            var success = _dataService.UpdateTitleAkas(titleId, ordering, updatedEntity);
 
             if (!success)
             {
@@ -103,10 +129,10 @@ namespace WebApi.Controllers
         }
 
         // DELETE: api/TitleAkas/{id}
-        [HttpDelete("{id}")]
-        public IActionResult DeleteTitleAkas(string id)
+        [HttpDelete("{titleId}/{ordering}")]
+        public IActionResult DeleteTitleAkas(string titleId, int ordering)
         {
-            var success = _dataService.DeleteTitleAkas(id);
+            var success = _dataService.DeleteTitleAkas(titleId, ordering);
 
             if (!success)
             {
@@ -128,7 +154,7 @@ namespace WebApi.Controllers
                 Types = titleAkas.Types,
                 Attributes = titleAkas.Attributes,
                 IsOriginalTitle = titleAkas.IsOriginalTitle,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleAkasById), new { id = titleAkas.TitleId })
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleAkasById), new { titleId = titleAkas.TitleId, ordering = titleAkas.Ordering })
             };
         }
     }

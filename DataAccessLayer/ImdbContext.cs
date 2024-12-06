@@ -151,6 +151,12 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<TitleAkas>().Property(x => x.Types).HasColumnName("types");
         modelBuilder.Entity<TitleAkas>().Property(x => x.Attributes).HasColumnName("attributes");
         modelBuilder.Entity<TitleAkas>().Property(x => x.IsOriginalTitle).HasColumnName("isoriginaltitle");
+        
+        modelBuilder.Entity<TitleAkas>()
+            .HasOne<TitleBasics>()
+            .WithMany(u => u.TitleAkas) // Nav property in Users (Check what its called there)
+            .HasForeignKey(s => s.TitleId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void MapTitleBasics(ModelBuilder modelBuilder)

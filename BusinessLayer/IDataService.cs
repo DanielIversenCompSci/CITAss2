@@ -44,10 +44,10 @@ public interface IDataService
     //TitleAkas
     // ********************
     public IList<TitleAkas> GetTitleAkasList();
-    public TitleAkas GetTitleAkasById(string tConst);
+    public TitleAkas GetTitleAkasById(string titleId, int category);
     public TitleAkas AddTitleAkas(TitleAkas newTitle);
-    public bool UpdateTitleAkas(string tConst, TitleAkas updatedTitle);
-    public bool DeleteTitleAkas(string tConst);
+    public bool UpdateTitleAkas(string titleId, int ordering, TitleAkas updatedTitle);
+    public bool DeleteTitleAkas(string titleId, int ordering);
     int GetTitleAkasCount();
     
     
