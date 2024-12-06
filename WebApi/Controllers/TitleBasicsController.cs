@@ -59,10 +59,10 @@ namespace WebApi.Controllers
         }
 
         // Get specific title by TConst
-        [HttpGet("{id}", Name = nameof(GetTitleBasicsById))]
-        public ActionResult<TitleBasicsModel> GetTitleBasicsById(string id)
+        [HttpGet("{tConst}", Name = nameof(GetTitleBasicsById))]
+        public ActionResult<TitleBasicsModel> GetTitleBasicsById(string tConst)
         {
-            var title = _dataService.GetTitleBasicsById(id);
+            var title = _dataService.GetTitleBasicsById(tConst);
 
             if (title == null)
             {
@@ -75,9 +75,23 @@ namespace WebApi.Controllers
 
         // POST: Create a new TitleBasics entry
         [HttpPost]
-        public ActionResult<TitleBasicsModel> CreateTitleBasics([FromBody] TitleBasics newTitle)
+        public ActionResult<TitleBasicsModel> CreateTitleBasics([FromBody] TitleBasicsCreateModel newTitle)
         {
-            var createdTitle = _dataService.AddTitleBasics(newTitle);
+            var titleEntity = new TitleBasics
+            {
+                TConst = newTitle.TConst,
+                TitleType = newTitle.TitleType,
+                PrimaryTitle = newTitle.PrimaryTitle,
+                OriginalTitle = newTitle.OriginalTitle,
+                IsAdult = newTitle.IsAdult,
+                StartYear = newTitle.StartYear,
+                EndYear = newTitle.EndYear,
+                RuntimeMinutes = newTitle.RuntimeMinutes,
+                Plot = newTitle.Plot,
+                Poster = newTitle.Poster
+            };
+            
+            var createdTitle = _dataService.AddTitleBasics(titleEntity);
 
             if (createdTitle == null)
             {
@@ -85,14 +99,28 @@ namespace WebApi.Controllers
             }
 
             var model = CreateTitleBasicsModel(createdTitle);
-            return CreatedAtAction(nameof(GetTitleBasicsById), new { id = createdTitle.TConst }, model);
+            return CreatedAtAction(nameof(GetTitleBasicsById), new { tConst = createdTitle.TConst }, model);
         }
 
         // PUT: Update an existing TitleBasics entry
-        [HttpPut("{id}")]
-        public IActionResult UpdateTitleBasics(string id, [FromBody] TitleBasics updatedTitle)
+        [HttpPut("{tConst}")]
+        public IActionResult UpdateTitleBasics(string tConst, [FromBody] TitleBasicsCreateModel updatedTitle)
         {
-            var success = _dataService.UpdateTitleBasics(id, updatedTitle);
+            var updatedEntity = new TitleBasics
+            {
+                TConst = updatedTitle.TConst,
+                TitleType = updatedTitle.TitleType,
+                PrimaryTitle = updatedTitle.PrimaryTitle,
+                OriginalTitle = updatedTitle.OriginalTitle,
+                IsAdult = updatedTitle.IsAdult,
+                StartYear = updatedTitle.StartYear,
+                EndYear = updatedTitle.EndYear,
+                RuntimeMinutes = updatedTitle.RuntimeMinutes,
+                Plot = updatedTitle.Plot,
+                Poster = updatedTitle.Poster
+            };
+            
+            var success = _dataService.UpdateTitleBasics(tConst, updatedEntity);
 
             if (!success)
             {
@@ -103,14 +131,14 @@ namespace WebApi.Controllers
         }
 
         // DELETE: Delete an existing TitleBasics entry
-        [HttpDelete("{id}")]
-        public IActionResult DeleteTitleBasics(string id)
+        [HttpDelete("{tConst}")]
+        public IActionResult DeleteTitleBasics(string tConst)
         {
-            var success = _dataService.DeleteTitleBasics(id);
+            var success = _dataService.DeleteTitleBasics(tConst);
 
             if (!success)
             {
-                return NotFound();
+                return NotFound("An entry with this TConst dosent exists.");
             }
 
             return NoContent(); // Success, no content to return
@@ -131,7 +159,7 @@ namespace WebApi.Controllers
                 RuntimeMinutes = title.RuntimeMinutes,
                 Plot = title.Plot,
                 Poster = title.Poster,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasicsById), new { id = title.TConst })
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasicsById), new { tConst = title.TConst })
             };
         }
     }

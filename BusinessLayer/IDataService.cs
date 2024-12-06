@@ -27,10 +27,10 @@ public interface IDataService
     //TitlePrincipals
     // ********************
     public IList<TitlePrincipals> GetTitlePrincipalsList();
-    public TitlePrincipals GetTitlePrincipalsById(string tConst);
+    public TitlePrincipals GetTitlePrincipalsById(string nConst, string category);
     public TitlePrincipals AddTitlePrincipals(TitlePrincipals newTitle);
-    public bool UpdateTitlePrincipals(string tConst, TitlePrincipals updatedTitle);
-    public bool DeleteTitlePrincipals(string tConst);
+    public bool UpdateTitlePrincipals(string tConst, string category, TitlePrincipals updatedTitle);
+    public bool DeleteTitlePrincipals(string tConst, string category);
     public int GetTitlePrincipalsCount();
     
     

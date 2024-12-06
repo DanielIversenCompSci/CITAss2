@@ -1,9 +1,7 @@
 namespace WebApi.Models;
 
-public class NameBasicsModel
+public class NameBasicsCreateModel
 {
-    public string Url  { get; set; }
-    
     public string NConst { get; set; } 
         
     public string? PrimaryName { get; set; } 

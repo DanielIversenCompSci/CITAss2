@@ -67,18 +67,60 @@ public class ImdbContext : DbContext
 
     private static void MapNameBasics(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<NameBasics>().ToTable("name_basics").HasKey(i => i.Nconst);
-        modelBuilder.Entity<NameBasics>().Property(x => x.Nconst).HasColumnName("nconst");
+        modelBuilder.Entity<NameBasics>().ToTable("name_basics").HasKey(i => i.NConst);
+        modelBuilder.Entity<NameBasics>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<NameBasics>().Property(x => x.PrimaryName).HasColumnName("primaryname");
         modelBuilder.Entity<NameBasics>().Property(x => x.BirthYear).HasColumnName("birthyear");
         modelBuilder.Entity<NameBasics>().Property(x => x.DeathYear).HasColumnName("deathyear");
 
+        // Define relationships
+        // 1. Relationship with ActorRating
+        modelBuilder.Entity<NameBasics>()
+            .HasMany(nb => nb.ActorRating) // Navigation property in NameBasics
+            .WithOne(ar => ar.NameBasic) // Navigation property in ActorRating
+            .HasForeignKey(ar => ar.NConst) // FK in ActorRating
+            .OnDelete(DeleteBehavior.Cascade); // Reflect ON DELETE CASCADE
+
+        // 2. Relationship with KnownForTitle
+        modelBuilder.Entity<NameBasics>()
+            .HasMany(nb => nb.KnownForTitle)
+            .WithOne(kft => kft.NameBasic)
+            .HasForeignKey(kft => kft.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // 3. Relationship with PrimaryProfession
+        modelBuilder.Entity<NameBasics>()
+            .HasMany(nb => nb.PrimaryProfession)
+            .WithOne(pp => pp.NameBasic)
+            .HasForeignKey(pp => pp.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // 4. Relationship with TitlePersonnel
+        modelBuilder.Entity<NameBasics>()
+            .HasMany(nb => nb.TitlePersonnel)
+            .WithOne(tp => tp.NameBasic)
+            .HasForeignKey(tp => tp.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // 5. Relationship with TitlePrincipals
+        modelBuilder.Entity<NameBasics>()
+            .HasMany(nb => nb.TitlePrincipals)
+            .WithOne(tp => tp.NameBasic)
+            .HasForeignKey(tp => tp.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
     private static void MapPrimaryProfession(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PrimaryProfession>().ToTable("primary_profession").HasNoKey();
+        modelBuilder.Entity<PrimaryProfession>().ToTable("primary_profession").HasKey(k => new { k.NConst, k.Role });
         modelBuilder.Entity<PrimaryProfession>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<PrimaryProfession>().Property(x => x.Role).HasColumnName("profession");
+        
+        // Define foreign key relation
+        modelBuilder.Entity<PrimaryProfession>()
+            .HasOne(pp => pp.NameBasic)
+            .WithMany(nb => nb.PrimaryProfession)
+            .HasForeignKey(pp => pp.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void MapSearchHis(ModelBuilder modelBuilder)
@@ -100,7 +142,7 @@ public class ImdbContext : DbContext
     
     private static void MapTitleAkas(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitleAkas>().ToTable("title_akas").HasNoKey();
+        modelBuilder.Entity<TitleAkas>().ToTable("title_akas").HasKey(k => new { k.TitleId, k.Ordering });
         modelBuilder.Entity<TitleAkas>().Property(x => x.TitleId).HasColumnName("titleid");
         modelBuilder.Entity<TitleAkas>().Property(x => x.Ordering).HasColumnName("ordering");
         modelBuilder.Entity<TitleAkas>().Property(x => x.Title).HasColumnName("title");
@@ -124,6 +166,55 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<TitleBasics>().Property(x => x.RuntimeMinutes).HasColumnName("runtimeminutes");
         modelBuilder.Entity<TitleBasics>().Property(x => x.Plot).HasColumnName("plot");
         modelBuilder.Entity<TitleBasics>().Property(x => x.Poster).HasColumnName("poster");
+        
+        //FK Title Genre
+        modelBuilder.Entity<TitleBasics>()
+            .HasMany(u => u.TitleGenre)
+            .WithOne(s => s.TitleBasic)
+            .HasForeignKey(s => s.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        //FK User Bookmarkings
+        modelBuilder.Entity<TitleBasics>()
+            .HasMany(u => u.UserBookmarkings)
+            .WithOne(s => s.TitleBasic)
+            .HasForeignKey(s => s.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        //FK Title Principals
+        modelBuilder.Entity<TitleBasics>()
+            .HasMany(u => u.TitlePrincipals)
+            .WithOne(s => s.TitleBasic)
+            .HasForeignKey(s => s.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        //FK Title Akas
+        modelBuilder.Entity<TitleBasics>()
+            .HasMany(u => u.TitleAkas)
+            .WithOne(s => s.TitleBasic)
+            .HasForeignKey(s => s.TitleId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        //FK Title Personnel
+        modelBuilder.Entity<TitleBasics>()
+            .HasMany(u => u.TitlePersonnel)
+            .WithOne(s => s.TitleBasic)
+            .HasForeignKey(s => s.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        //FK Known For Title
+        modelBuilder.Entity<TitleBasics>()
+            .HasMany(u => u.KnownForTitle)
+            .WithOne(s => s.TitleBasic)
+            .HasForeignKey(s => s.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        //FK Title Rating
+        modelBuilder.Entity<TitleBasics>()
+            .HasOne(u => u.TitleRating)
+            .WithOne(s => s.TitleBasic)
+            .HasForeignKey<TitleRatings>(s => s.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void MapTitleGenre(ModelBuilder modelBuilder)
@@ -137,7 +228,7 @@ public class ImdbContext : DbContext
 
     private static void MapTitlePersonnel(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitlePersonnel>().ToTable("title_personnel").HasNoKey();
+        modelBuilder.Entity<TitlePersonnel>().ToTable("title_personnel").HasKey(k => new { k.TConst, k.NConst, k.Role });
         modelBuilder.Entity<TitlePersonnel>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<TitlePersonnel>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<TitlePersonnel>().Property(x => x.Role).HasColumnName("role");
@@ -145,14 +236,19 @@ public class ImdbContext : DbContext
 
     private static void MapTitlePrincipals(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitlePrincipals>().ToTable("title_principals").HasKey(t => t.TConst);
-        modelBuilder.Entity<TitlePrincipals>().ToTable("title_principals").HasKey(t => t.NConst);
+        modelBuilder.Entity<TitlePrincipals>().ToTable("title_principals").HasKey(t => new { t.NConst, t.Category } );
         modelBuilder.Entity<TitlePrincipals>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<TitlePrincipals>().Property(x => x.Ordering).HasColumnName("ordering");
         modelBuilder.Entity<TitlePrincipals>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<TitlePrincipals>().Property(x => x.Category).HasColumnName("category");
         modelBuilder.Entity<TitlePrincipals>().Property(x => x.Job).HasColumnName("job");
         modelBuilder.Entity<TitlePrincipals>().Property(x => x.Characters).HasColumnName("characters");
+        
+        modelBuilder.Entity<TitlePrincipals>()
+            .HasOne(u => u.TitleBasic)
+            .WithMany(s => s.TitlePrincipals)
+            .HasForeignKey(u => u.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void MapTitleRatings(ModelBuilder modelBuilder)
@@ -161,6 +257,8 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<TitleRatings>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<TitleRatings>().Property(x => x.AverageRating).HasColumnName("averagerating");
         modelBuilder.Entity<TitleRatings>().Property(x => x.NumVotes).HasColumnName("numvotes");
+        
+        
     }
     private static void MapUsers(ModelBuilder modelBuilder)
     {

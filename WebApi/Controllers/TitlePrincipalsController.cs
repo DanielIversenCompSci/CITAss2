@@ -61,10 +61,10 @@ public class TitlePrincipalsController : ControllerBase
     
     // Get spicific title by TConst
     // GET: api/TitlePrincipals/{id}
-    [HttpGet("{id}", Name = nameof(GetTitlePrincipalsById))]
-    public ActionResult<TitlePrincipals> GetTitlePrincipalsById(string id)
+    [HttpGet("{nConst}/{category}", Name = nameof(GetTitlePrincipalsById))]
+    public ActionResult<TitlePrincipals> GetTitlePrincipalsById(string nConst, string category)
     {
-        var title = _dataService.GetTitlePrincipalsById(id);
+        var title = _dataService.GetTitlePrincipalsById(nConst, category);
 
         if (title == null)
         {
@@ -79,9 +79,19 @@ public class TitlePrincipalsController : ControllerBase
     // CREATE funcs
     // POST: api/TitlePrincipals
     [HttpPost]
-    public ActionResult<TitlePrincipals> CreateTitlePrincipals([FromBody] TitlePrincipals newTitle)
+    public ActionResult<TitlePrincipals> CreateTitlePrincipals([FromBody] TitlePrincipalsCreateModel newTitle)
     {
-        var createdTitle = _dataService.AddTitlePrincipals(newTitle);
+        var titleEntity = new TitlePrincipals
+        {
+            TConst = newTitle.TConst,
+            Ordering = newTitle.Ordering,
+            NConst = newTitle.NConst,
+            Category = newTitle.Category,
+            Job = newTitle.Job,
+            Characters = newTitle.Characters
+        };
+        
+        var createdTitle = _dataService.AddTitlePrincipals(titleEntity);
 
         if (createdTitle == null)
         {
@@ -89,15 +99,25 @@ public class TitlePrincipalsController : ControllerBase
         }
         
         var model = CreateTitlePrincipalsModel(createdTitle);
-        return CreatedAtAction(nameof(GetTitlePrincipalsById), new { id = createdTitle.TConst }, model);
+        return CreatedAtAction(nameof(GetTitlePrincipalsById), new { nConst = createdTitle.NConst, category = createdTitle.Category }, model);
     }
     
     
     // PUT: api/TitlePrincipals/{id}
-    [HttpPut("{id}")]
-    public IActionResult UpdateTitlePrincipals(string id, [FromBody] TitlePrincipals updatedTitle)
+    [HttpPut("{nConst}/{category}")]
+    public IActionResult UpdateTitlePrincipals(string nConst, string category, [FromBody] TitlePrincipalsCreateModel updatedTitle)
     {
-        var success = _dataService.UpdateTitlePrincipals(id, updatedTitle);
+        var updatedEntity = new TitlePrincipals
+        {
+            TConst = updatedTitle.TConst,
+            Ordering = updatedTitle.Ordering,
+            NConst = updatedTitle.NConst,
+            Category = updatedTitle.Category,
+            Job = updatedTitle.Job,
+            Characters = updatedTitle.Characters
+        };
+        
+        var success = _dataService.UpdateTitlePrincipals(nConst, category, updatedEntity);
 
         if (!success)
         {
@@ -109,14 +129,14 @@ public class TitlePrincipalsController : ControllerBase
     
     
     // DELETE: api/TitlePrincipals/{id}
-    [HttpDelete("{id}")]
-    public IActionResult DeleteTitlePrincipals(string id)
+    [HttpDelete("{nConst}/{category}")]
+    public IActionResult DeleteTitlePrincipals(string nConst, string category)
     {
-        var success = _dataService.DeleteTitlePrincipals(id);
+        var success = _dataService.DeleteTitlePrincipals(nConst, category);
 
         if (!success)
         {
-            return NotFound();
+            return NotFound("An entry with this TConst dosent exists.");
         }
 
         return NoContent(); // Success, no content to return
@@ -128,8 +148,12 @@ public class TitlePrincipalsController : ControllerBase
         return new TitlePrincipalsModel
         {
             TConst = title.TConst,
+            Ordering = title.Ordering,
             NConst = title.NConst,
-            Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitlePrincipalsById), new { id = title.TConst })
+            Category = title.Category,
+            Job = title.Job,
+            Characters = title.Characters,
+            Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitlePrincipalsById), new { nConst = title.NConst, category = title.Category })
         };
     }
 }

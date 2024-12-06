@@ -58,10 +58,10 @@ namespace WebApi.Controllers
 
         // Get specific Name by NConst
         // GET: api/NameBasics/{id}
-        [HttpGet("{id}", Name = nameof(GetNameBasicsById))]
-        public ActionResult<NameBasicsModel> GetNameBasicsById(string id)
+        [HttpGet("{nConst}", Name = nameof(GetNameBasicsById))]
+        public ActionResult<NameBasicsModel> GetNameBasicsById(string nConst)
         {
-            var title = _dataService.GetNameBasicsById(id);
+            var title = _dataService.GetNameBasicsById(nConst);
 
             if (title == null)
             {
@@ -75,24 +75,40 @@ namespace WebApi.Controllers
         
         // POST: api/NameBasics
         [HttpPost]
-        public ActionResult<NameBasics> CreateNameBasics([FromBody] NameBasics newTitle)
+        public ActionResult<NameBasics> CreateNameBasics([FromBody] NameBasicsCreateModel newName)
         {
-            var createdTitle = _dataService.AddNameBasics(newTitle);
+            var nameEntity = new NameBasics
+            {
+                NConst = newName.NConst,
+                PrimaryName = newName.PrimaryName,
+                BirthYear = newName.BirthYear,
+                DeathYear = newName.DeathYear
+            };
+            
+            var createdTitle = _dataService.AddNameBasics(nameEntity);
 
             if (createdTitle == null)
             {
                 return BadRequest("An entry with this TConst already exists.");
             }
 
-            return CreatedAtAction(nameof(GetNameBasicsById), new { id = createdTitle.Nconst }, createdTitle);
+            return CreatedAtAction(nameof(GetNameBasicsById), new { nConst = createdTitle.NConst }, createdTitle);
         }
 
         
         // PUT: api/NameBasics/{id}
-        [HttpPut("{id}")]
-        public IActionResult UpdateNameBasics(string id, [FromBody] NameBasics updatedTitle)
+        [HttpPut("{nConst}")]
+        public IActionResult UpdateNameBasics(string nConst, [FromBody] NameBasicsCreateModel updatedName)
         {
-            var success = _dataService.UpdateNameBasics(id, updatedTitle);
+            var updatedEntity = new NameBasics
+            {
+                NConst = updatedName.NConst,
+                PrimaryName = updatedName.PrimaryName,
+                BirthYear = updatedName.BirthYear,
+                DeathYear = updatedName.DeathYear
+            };
+            
+            var success = _dataService.UpdateNameBasics(nConst, updatedEntity);
 
             if (!success)
             {
@@ -103,10 +119,10 @@ namespace WebApi.Controllers
         }
 
         // DELETE: api/NameBasics/{id}
-        [HttpDelete("{id}")]
-        public IActionResult DeleteNameBasics(string id)
+        [HttpDelete("{nConst}")]
+        public IActionResult DeleteNameBasics(string nConst)
         {
-            var success = _dataService.DeleteNameBasics(id);
+            var success = _dataService.DeleteNameBasics(nConst);
 
             if (!success)
             {
@@ -122,11 +138,11 @@ namespace WebApi.Controllers
         {
             return new NameBasicsModel
             {
-                Nconst = title.Nconst,
+                NConst = title.NConst,
                 PrimaryName = title.PrimaryName,
                 BirthYear = title.BirthYear,
                 DeathYear = title.DeathYear,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetNameBasicsById), new { id = title.Nconst }),
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetNameBasicsById), new { nConst = title.NConst }),
             };
         }
     }

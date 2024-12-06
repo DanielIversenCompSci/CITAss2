@@ -68,25 +68,12 @@ public class DataService : IDataService
     
     public bool DeleteTitleBasics(string tConst)
     {
-        var titleBasic = _context.TitleBasics.AsNoTracking().FirstOrDefault(tb => tb.TConst == tConst);
-        if (titleBasic == null)
-        {
-            return false; // Record does not exist
-        }
+        var title = _context.TitleBasics.Find(tConst);
+        if (title == null) return false;
 
-        // Attach the entity in an Unchanged state, then mark for deletion
-        _context.Attach(titleBasic);
-        _context.Entry(titleBasic).State = EntityState.Deleted;
-
-        try
-        {
-            _context.SaveChanges();
-            return true;
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            return false;
-        }
+        _context.TitleBasics.Remove(title);
+        _context.SaveChanges();
+        return true;
     }
 
     public int GetTitleBasicsCount()
@@ -104,9 +91,9 @@ public class DataService : IDataService
         return _context.TitlePrincipals.ToList();
     }
     
-    public TitlePrincipals GetTitlePrincipalsById(string tConst)
+    public TitlePrincipals GetTitlePrincipalsById(string nConst, string category)
     {
-        return _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst);
+        return _context.TitlePrincipals.FirstOrDefault(tp => tp.NConst == nConst && tp.Category == category);
     }
     
     public TitlePrincipals AddTitlePrincipals(TitlePrincipals newTitle)
@@ -116,9 +103,9 @@ public class DataService : IDataService
         return newTitle;
     }
     
-    public bool UpdateTitlePrincipals(string tConst, TitlePrincipals updatedTitle)
+    public bool UpdateTitlePrincipals(string tConst, string category, TitlePrincipals updatedTitle)
     {
-        var existingTitle = _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst);
+        var existingTitle = _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst && tp.Category == category);
         
         if (existingTitle == null)
         {
@@ -126,7 +113,9 @@ public class DataService : IDataService
         }
 
         // Update properties
+        existingTitle.TConst = tConst;
         existingTitle.Ordering = updatedTitle.Ordering;
+        existingTitle.NConst = category;
         existingTitle.Category = updatedTitle.Category;
         existingTitle.Job = updatedTitle.Job;
         existingTitle.Characters = updatedTitle.Characters;
@@ -135,9 +124,9 @@ public class DataService : IDataService
         return true;
     }
     
-    public bool DeleteTitlePrincipals(string tConst)
+    public bool DeleteTitlePrincipals(string tConst, string category)
     {
-        var title = _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst);
+        var title = _context.TitlePrincipals.FirstOrDefault(tp => tp.TConst == tConst && tp.Category == category);
 
         // Check if the entry exists
         if (title == null)
@@ -232,7 +221,7 @@ public class DataService : IDataService
     
     public NameBasics GetNameBasicsById(string nConst)
     {
-        return _context.NameBasics.FirstOrDefault(tp => tp.Nconst == nConst);
+        return _context.NameBasics.FirstOrDefault(tp => tp.NConst == nConst);
     }
 
     public NameBasics AddNameBasics(NameBasics newTitle)
@@ -244,7 +233,7 @@ public class DataService : IDataService
     
     public bool UpdateNameBasics(string nConst, NameBasics updatedTitle)
     {
-        var existingTitle = _context.NameBasics.FirstOrDefault(tp => tp.Nconst == nConst);
+        var existingTitle = _context.NameBasics.FirstOrDefault(tp => tp.NConst == nConst);
         
         if (existingTitle == null)
         {
@@ -262,7 +251,7 @@ public class DataService : IDataService
     
     public bool DeleteNameBasics(string nConst)
     {
-        var title = _context.NameBasics.FirstOrDefault(tp => tp.Nconst == nConst);
+        var title = _context.NameBasics.FirstOrDefault(tp => tp.NConst == nConst);
 
         // Check if the entry exists
         if (title == null)

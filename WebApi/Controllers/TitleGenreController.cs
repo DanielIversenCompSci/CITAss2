@@ -82,9 +82,15 @@ namespace WebApi.Controllers
 
         
         [HttpPost]
-        public ActionResult<TitleGenreModel> AddTitleGenre([FromBody] TitleGenre newTitleGenre)
+        public ActionResult<TitleGenreModel> AddTitleGenre([FromBody] TitleGenreCreateModel newTitleGenre)
         {
-            var genreEntry = _dataService.AddTitleGenre(newTitleGenre);
+            var titleEntity = new TitleGenre
+            {
+                TConst = newTitleGenre.TConst,
+                Genre = newTitleGenre.Genre
+            };
+            
+            var genreEntry = _dataService.AddTitleGenre(titleEntity);
 
             if (genreEntry == null)
             {
@@ -95,14 +101,23 @@ namespace WebApi.Controllers
             return CreatedAtAction(nameof(GetTitleGenreById), new { tConst = genreEntry.TConst, genre = genreEntry.Genre }, model);
         }
 
-        
+
         [HttpPut("{tConst}/{genre}")]
-        public IActionResult UpdateTitleGenre(string tConst, string genre, TitleGenre updatedTitleGenre)
+        public IActionResult UpdateTitleGenre(string tConst, string genre, TitleGenreCreateModel updatedTitleGenre)
         {
-            if (!_dataService.UpdateTitleGenre(tConst, genre, updatedTitleGenre))
+            var updatedEntity = new TitleGenre
+            {
+                TConst = tConst,
+                Genre = genre
+            };
+            
+            var succes = _dataService.UpdateTitleGenre(tConst, genre, updatedEntity);
+
+            if (!succes)
             {
                 return NotFound();
             }
+
             return NoContent();
         }
 
@@ -110,10 +125,13 @@ namespace WebApi.Controllers
         [HttpDelete("{tConst}/{genre}")]
         public IActionResult DeleteTitleGenre(string tConst, string genre)
         {
-            if (!_dataService.DeleteTitleGenre(tConst, genre))
+            var succes = _dataService.DeleteTitleGenre(tConst, genre);
+
+            if (!succes)
             {
-                return NotFound();
+                return NotFound("Title genre could not be deleted.");
             }
+            
             return NoContent();
         }
 

@@ -17,4 +17,7 @@ public class TitleAkas
     public string Attributes { get; set; }
     
     public bool IsOriginalTitle { get; set; }
+    
+    //NAV
+    public TitleBasics TitleBasic { get; set; }
 }

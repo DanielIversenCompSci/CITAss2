@@ -1,6 +1,6 @@
-namespace DataAccessLayer;
+namespace WebApi.Models;
 
-public class TitlePrincipals
+public class TitlePrincipalsCreateModel
 {
     public string TConst  { get; set; }
     
@@ -13,11 +13,4 @@ public class TitlePrincipals
     public string Job { get; set; }
     
     public string Characters { get; set; }
-    
-    //NAV
-    public TitleBasics TitleBasic { get; set; }
-    
-    public NameBasics NameBasic { get; set; }
-    
-    
 }

@@ -50,7 +50,7 @@ var dataService = serviceProvider.GetService<IDataService>();
 //TestRead(dataService);  // Read again to confirm the update
 //TestDelete(dataService);
 //TestRead(dataService);  // Read again to confirm the deletion
-CreateDBCRUD();
+//CreateDBCRUD();
 
 // ___________
 

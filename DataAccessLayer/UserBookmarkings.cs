@@ -10,6 +10,12 @@ public class UserBookmarkings
     
     public int UserBookmarkingsId { get; set; }
     
+    
+    //NAV
     public Users User { get; set; }
+    
+    public TitleBasics TitleBasic { get; set; }
+    
+    
     
 }

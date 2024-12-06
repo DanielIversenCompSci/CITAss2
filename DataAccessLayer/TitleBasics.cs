@@ -21,4 +21,20 @@ public class TitleBasics
     public string? Plot { get; set; }
     
     public string? Poster { get; set; }
+    
+    //NAV
+    
+    public ICollection<TitleGenre> TitleGenre { get; set; }
+    
+    public ICollection<UserBookmarkings> UserBookmarkings { get; set; }
+    
+    public ICollection<TitlePrincipals> TitlePrincipals { get; set; }
+    
+    public ICollection<TitleAkas> TitleAkas { get; set; }
+    
+    public ICollection<TitlePersonnel> TitlePersonnel { get; set; }
+    
+    public ICollection<KnownForTitle> KnownForTitle { get; set; }
+    
+    public TitleRatings TitleRating { get; set; }
 }
