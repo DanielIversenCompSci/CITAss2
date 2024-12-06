@@ -99,23 +99,38 @@ namespace WebApi.Controllers
         [HttpPost]
         public ActionResult<Users> AddUser([FromBody] UsersCreateModel newUser)
         {
-            var userEntity = new Users
-            {
-                //UserId = newUser.UserId,
-                Email = newUser.Email,
-                Password = newUser.Password
-            };
-            
-            var createdUser = _dataService.AddUser(userEntity);
 
-            if (createdUser == null)
+            if (string.IsNullOrWhiteSpace(newUser.Email) || string.IsNullOrWhiteSpace(newUser.Password))
             {
-                return BadRequest("Could not create user");
+                return BadRequest("Email and Password are required.");
             }
-            
-            var model = CreateUsersModel(createdUser);
-            return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.UserId }, model);
+
+            try
+            {
+                var userEntity = new Users
+                {
+                    //UserId = newUser.UserId,
+                    Email = newUser.Email,
+                    Password = newUser.Password
+                };
+
+                var createdUser = _dataService.AddUser(userEntity);
+
+                if (createdUser == null)
+                {
+                    return BadRequest("Could not create user");
+                }
+
+                var model = CreateUsersModel(createdUser);
+                return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.UserId }, model);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest($"Internal server error: {ex.Message}");
+            }
+           
         }
+
 
         // PUT: api/Users/{id}
         [HttpPut("{userId}")]
@@ -136,6 +151,23 @@ namespace WebApi.Controllers
             }
             
             return NoContent();
+        }
+
+        [HttpPost("login")]
+        public ActionResult LoginUser([FromBody] LoginModel loginModel)
+        {
+            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+            {
+                return (BadRequest("Email and Password are required"));
+            }
+
+            var isAuthenticated = _dataService.LoginUser(loginModel.Email, loginModel.Password);
+
+            if (!isAuthenticated)
+            {
+                return Unauthorized("Invalid Email or Password");
+            }
+            return Ok(new { Message = "login successful" });
         }
 
         // DELETE: api/Users/{id}

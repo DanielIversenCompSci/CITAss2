@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetSection("ConnectionString").Value;
 // Register IDataService and DataService in the DI container
 builder.Services.AddScoped<IDataService, DataService>();
+builder.Services.AddSingleton<AuthenticationHelper>();
+
 
 // Register your DbContext (ImdbContext) in the DI container
 builder.Services.AddDbContext<ImdbContext>(options =>
