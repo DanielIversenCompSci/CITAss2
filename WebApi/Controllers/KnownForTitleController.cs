@@ -57,10 +57,10 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpGet("{tConst}/{nConst}", Name = nameof(GetKnownForTitleById))]
-        public ActionResult<KnownForTitleModel> GetKnownForTitleById(string tConst, string nConst)
+        [HttpGet("{knownForTitleId}", Name = nameof(GetKnownForTitleById))]
+        public ActionResult<KnownForTitleModel> GetKnownForTitleById(int knownForTitleId)
         {
-            var title = _dataService.GetKnownForTitleById(tConst, nConst);
+            var title = _dataService.GetKnownForTitleById(knownForTitleId);
 
             if (title == null)
             {
@@ -73,9 +73,15 @@ namespace WebApi.Controllers
 
 
         [HttpPost]
-        public ActionResult<KnownForTitle> CreateKnownForTitle([FromBody] KnownForTitle newTitle)
+        public ActionResult<KnownForTitle> CreateKnownForTitle([FromBody] KnownForTitleCreateModel newTitle)
         {
-            var createdTitle = _dataService.AddKnownForTitle(newTitle);
+            var titleEntity = new KnownForTitle
+            {
+                TConst = newTitle.TConst,
+                NConst = newTitle.NConst
+            };
+            
+            var createdTitle = _dataService.AddKnownForTitle(titleEntity);
 
             if (createdTitle == null)
             {
@@ -83,14 +89,20 @@ namespace WebApi.Controllers
             }
             
             var model = CreateKnownForTitleModel(createdTitle);
-            return CreatedAtAction(nameof(GetKnownForTitleById), new { userId = createdTitle.TConst, timestamp = createdTitle.NConst}, model);
+            return CreatedAtAction(nameof(GetKnownForTitleById), new { knownForTitleId = createdTitle.KnownForTitleId }, model);
         }
 
 
-        [HttpPut("{tConst}/{nConst}")]
-        public ActionResult<KnownForTitle> UpdateKnownForTitle(string tConst, string nConst, [FromBody] KnownForTitle updatedTitle)
+        [HttpPut("{knownForTitleId}")]
+        public ActionResult<KnownForTitle> UpdateKnownForTitle(int knownForTitleId, [FromBody] KnownForTitleCreateModel updatedTitle)
         {
-            var success = _dataService.UpdateKnownForTitle(tConst, nConst, updatedTitle);
+            var updatedEntity = new KnownForTitle
+            {
+                TConst = updatedTitle.TConst,
+                NConst = updatedTitle.NConst
+            };
+            
+            var success = _dataService.UpdateKnownForTitle(knownForTitleId, updatedEntity);
 
             if (!success)
             {
@@ -100,10 +112,10 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{tConst}/{nConst}")]
-        public IActionResult DeleteKnownForTitle(string tConst, string nConst)
+        [HttpDelete("{knownForTitleId}")]
+        public IActionResult DeleteKnownForTitle(int knownForTitleId)
         {
-            var success = _dataService.DeleteKnownForTitle(tConst, nConst);
+            var success = _dataService.DeleteKnownForTitle(knownForTitleId);
 
             if (!success)
             {
@@ -120,7 +132,8 @@ namespace WebApi.Controllers
             {
                 TConst = title.TConst,
                 NConst = title.NConst,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetKnownForTitleById), new { tConst = title.TConst, nConst = title.NConst })
+                KnownForTitleId = title.KnownForTitleId,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetKnownForTitleById), new { knownForTitleId = title.KnownForTitleId })
             };
         }
     }

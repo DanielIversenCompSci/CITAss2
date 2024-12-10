@@ -59,10 +59,10 @@ namespace WebApi.Controllers
 
         // Get specific title by Nconst
         // GET: api/PrimaryProfession/{id}
-        [HttpGet("{id}", Name = nameof(GetPrimaryProfessionById))]
-        public ActionResult<PrimaryProfessionModel> GetPrimaryProfessionById(string id)
+        [HttpGet("{primaryProfessionId}", Name = nameof(GetPrimaryProfessionById))]
+        public ActionResult<PrimaryProfessionModel> GetPrimaryProfessionById(int primaryProfessionId)
         {
-            var title = _dataService.GetPrimaryProfessionById(id);
+            var title = _dataService.GetPrimaryProfessionById(primaryProfessionId);
 
             if (title == null)
             {
@@ -76,9 +76,15 @@ namespace WebApi.Controllers
         
         // POST: api/PrimaryProfession
         [HttpPost]
-        public ActionResult<PrimaryProfessionModel> CreatePrimaryProfession([FromBody] PrimaryProfession newTitle)
+        public ActionResult<PrimaryProfessionModel> CreatePrimaryProfession([FromBody] PrimaryProfessionCreateModel newTitle)
         {
-            var createdTitle = _dataService.AddPrimaryProfession(newTitle);
+            var professionEntity = new PrimaryProfession
+            {
+                NConst = newTitle.NConst,
+                Role = newTitle.Role
+            };
+            
+            var createdTitle = _dataService.AddPrimaryProfession(professionEntity);
 
             if (createdTitle == null)
             {
@@ -86,15 +92,21 @@ namespace WebApi.Controllers
             }
 
             var model = CreatePrimaryProfessionModel(createdTitle);
-            return CreatedAtAction(nameof(GetPrimaryProfessionById), new { id = createdTitle.NConst }, model);
+            return CreatedAtAction(nameof(GetPrimaryProfessionById), new { primaryProfessionId = createdTitle.PrimaryProfessionId }, model);
         }
 
         
         // PUT: api/PrimaryProfession/{id}
-        [HttpPut("{id}")]
-        public IActionResult UpdatePrimaryProfession(string id, [FromBody] PrimaryProfession updatedTitle)
+        [HttpPut("{primaryProfessionId}")]
+        public IActionResult UpdatePrimaryProfession(int primaryProfessionId, [FromBody] PrimaryProfessionCreateModel updatedTitle)
         {
-            var success = _dataService.UpdatePrimaryProfession(id, updatedTitle);
+            var updatedEntity = new PrimaryProfession
+            {
+                NConst = updatedTitle.NConst,
+                Role = updatedTitle.Role,
+            };
+            
+            var success = _dataService.UpdatePrimaryProfession(primaryProfessionId, updatedEntity);
 
             if (!success)
             {
@@ -105,10 +117,10 @@ namespace WebApi.Controllers
         }
 
         // DELETE: api/PrimaryProfession/{id}
-        [HttpDelete("{id}")]
-        public IActionResult DeletePrimaryProfession(string id)
+        [HttpDelete("{primaryProfessionId}")]
+        public IActionResult DeletePrimaryProfession(int primaryProfessionId)
         {
-            var success = _dataService.DeletePrimaryProfession(id);
+            var success = _dataService.DeletePrimaryProfession(primaryProfessionId);
 
             if (!success)
             {
@@ -126,7 +138,8 @@ namespace WebApi.Controllers
             {
                 NConst = title.NConst,
                 Role = title.Role,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetPrimaryProfessionById), new { id = title.NConst })
+                PrimaryProfessionId = title.PrimaryProfessionId,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetPrimaryProfessionById), new { primaryProfessionId = title.PrimaryProfessionId })
             };
         }
     }

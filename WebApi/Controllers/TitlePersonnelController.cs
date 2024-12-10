@@ -58,10 +58,10 @@ namespace WebApi.Controllers
         }
 
         // Get specific title by TConst
-        [HttpGet("{id}", Name = nameof(GetTitlePersonnelById))]
-        public ActionResult<TitlePersonnelModel> GetTitlePersonnelById(string id)
+        [HttpGet("{titlePersonnelId}", Name = nameof(GetTitlePersonnelById))]
+        public ActionResult<TitlePersonnelModel> GetTitlePersonnelById(int titlePersonnelId)
         {
-            var title = _dataService.GetTitlePersonnelById(id);
+            var title = _dataService.GetTitlePersonnelById(titlePersonnelId);
 
             if (title == null)
             {
@@ -74,24 +74,41 @@ namespace WebApi.Controllers
         
         // POST: api/TitlePersonnel
         [HttpPost]
-        public ActionResult<TitlePersonnel> CreateTitlePersonnel([FromBody] TitlePersonnel newTitle)
+        public ActionResult<TitlePersonnel> CreateTitlePersonnel([FromBody] TitlePersonnelCreateModel newTitle)
         {
-            var createdTitle = _dataService.AddTitlePersonnel(newTitle);
+            var personnelEntity = new TitlePersonnel
+            {
+                TConst = newTitle.TConst,
+                NConst = newTitle.NConst,
+                Role = newTitle.Role
+            };
+            
+            var createdTitle = _dataService.AddTitlePersonnel(personnelEntity);
 
             if (createdTitle == null)
             {
                 return BadRequest("An entry with this TConst already exists.");
             }
 
-            return CreatedAtAction(nameof(GetTitlePersonnelById), new { id = createdTitle.TConst }, createdTitle);
+            var model = CreateTitlePersonnelModel(createdTitle);
+            return CreatedAtAction(nameof(GetTitlePersonnelById), new { titlePersonnelId = createdTitle.TitlePersonnelId }, model);
         }
 
         
         // PUT: api/TitlePersonnel/{id}
-        [HttpPut("{id}")]
-        public IActionResult UpdateTitlePersonnel(string id, [FromBody] TitlePersonnel updatedTitle)
+        [HttpPut("{titlePersonnelId}")]
+        public IActionResult UpdateTitlePersonnel(int titlePersonnelId, [FromBody] TitlePersonnelCreateModel updatedTitle)
         {
-            var success = _dataService.UpdateTitlePersonnel(id, updatedTitle);
+            var updatedEntity = new TitlePersonnel
+            {
+                TConst = updatedTitle.TConst,
+                NConst = updatedTitle.NConst,
+                Role = updatedTitle.Role
+            };
+            
+            
+            
+            var success = _dataService.UpdateTitlePersonnel(titlePersonnelId, updatedEntity);
 
             if (!success)
             {
@@ -102,10 +119,10 @@ namespace WebApi.Controllers
         }
 
         // DELETE: api/TitlePersonnel/{id}
-        [HttpDelete("{id}")]
-        public IActionResult DeleteTitlePersonnel(string id)
+        [HttpDelete("{titlePersonnelId}")]
+        public IActionResult DeleteTitlePersonnel(int titlePersonnelId)
         {
-            var success = _dataService.DeleteTitlePersonnel(id);
+            var success = _dataService.DeleteTitlePersonnel(titlePersonnelId);
 
             if (!success)
             {
@@ -123,7 +140,8 @@ namespace WebApi.Controllers
                 TConst = titlePersonnel.TConst,
                 NConst = titlePersonnel.NConst,
                 Role = titlePersonnel.Role,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitlePersonnelById), new { id = titlePersonnel.TConst })
+                TitlePersonnelId = titlePersonnel.TitlePersonnelId,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitlePersonnelById), new { titlePersonnelId = titlePersonnel.TitlePersonnelId })
             };
         }
     }

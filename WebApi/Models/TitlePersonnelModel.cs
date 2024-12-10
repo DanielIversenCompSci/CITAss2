@@ -9,4 +9,6 @@ public class TitlePersonnelModel
     public string NConst  { get; set; }
     
     public string Role  { get; set; }
+    
+    public int TitlePersonnelId { get; set; }
 }

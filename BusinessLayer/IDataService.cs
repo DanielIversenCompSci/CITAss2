@@ -81,10 +81,10 @@ public interface IDataService
     //TitlePersonnel
     // ********************
     public IList<TitlePersonnel> GetTitlePersonnelList();
-    TitlePersonnel GetTitlePersonnelById(string tConst);
+    TitlePersonnel GetTitlePersonnelById(int titlePersonnelId);
     TitlePersonnel AddTitlePersonnel(TitlePersonnel newTitle);
-    bool UpdateTitlePersonnel(string tConst, TitlePersonnel updatedTitle);
-    bool DeleteTitlePersonnel(string tConst);
+    bool UpdateTitlePersonnel(int titlePersonnelId, TitlePersonnel updatedTitle);
+    bool DeleteTitlePersonnel(int titlePersonnelId);
     int GetTitlePersonnelCount();
     
     
@@ -93,10 +93,10 @@ public interface IDataService
     //KnownForTitle
     // ********************
     public IList<KnownForTitle> GetKnownForTitleList();
-    public KnownForTitle GetKnownForTitleById(string nConst, string tConst);
+    public KnownForTitle GetKnownForTitleById(int knownForTitleId);
     public KnownForTitle AddKnownForTitle(KnownForTitle newTitle);
-    public bool UpdateKnownForTitle(string tConst, string nConst, KnownForTitle updatedTitle);
-    public bool DeleteKnownForTitle(string tConst, string nConst);
+    public bool UpdateKnownForTitle(int knownForTitleId, KnownForTitle updatedTitle);
+    public bool DeleteKnownForTitle(int knownForTitleId);
     int GetKnownForTitleCount();
 
 
@@ -105,10 +105,10 @@ public interface IDataService
     //PrimaryProfession
     // ********************
     public IList<PrimaryProfession> GetPrimaryProfessionList();
-    public PrimaryProfession GetPrimaryProfessionById(string nConst);
+    public PrimaryProfession GetPrimaryProfessionById(int primaryProfessionId);
     public PrimaryProfession AddPrimaryProfession(PrimaryProfession newTitle);
-    public bool UpdatePrimaryProfession(string nConst, PrimaryProfession updatedTitle);
-    public bool DeletePrimaryProfession(string nConst);
+    public bool UpdatePrimaryProfession(int primaryProfessionId, PrimaryProfession updatedTitle);
+    public bool DeletePrimaryProfession(int primaryProfessionId);
     int GetPrimaryProfessionCount();
     
     
