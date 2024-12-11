@@ -23,18 +23,36 @@ public class ImdbContext : DbContext
     public DbSet<SearchHis> SearchHis { get; set; }
     public DbSet<UserRating> UserRating { get; set; }
     public DbSet<UserBookmarkings> UserBookmarkings { get; set; }
+    
+    // Combined DTOs
+    public DbSet<NameWithRating> NameWithRatings { get; set; }
 
-
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
         optionsBuilder.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs");
     }
+    
+    public IQueryable<NameWithRating> GetTopRatedNames()
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetTopRatedNames());
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
+        
+        base.OnModelCreating(modelBuilder);
+        // Map SQL function for top100 Actors
+        modelBuilder.Entity<NameWithRating>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetTopRatedNames())
+            .HasName("gettopratednames") // Name of the function in the database
+            .HasSchema("public"); 
+        
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
         MapNameBasics(modelBuilder);

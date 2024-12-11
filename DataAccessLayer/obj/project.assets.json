@@ -1602,26 +1602,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\abjar\\.nuget\\packages\\": {}
+    "/Users/danieliversen/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
+      "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj",
       "projectName": "DataAccessLayer",
-      "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
-      "packagesPath": "C:\\Users\\abjar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\obj\\",
+      "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj",
+      "packagesPath": "/Users/danieliversen/.nuget/packages/",
+      "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\abjar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1696,7 +1694,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

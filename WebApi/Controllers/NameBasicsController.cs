@@ -112,6 +112,27 @@ namespace WebApi.Controllers
             return Ok(result);
         }
         
+        [HttpGet("topNames100")]
+        public async Task<ActionResult<List<NameWithRating>>> GetTopRatedNames()
+        {
+            var topRatedNames = await _dataService.GetTopRatedNamesAsync();
+            return Ok(topRatedNames);
+        }
+        
+        // details/nconst
+        [HttpGet("details/{nConst}", Name = nameof(GetNameWithRatingById))]
+        public async Task<ActionResult<NameWithRating>> GetNameWithRatingById(string nConst)
+        {
+            var nameWithRating = await _dataService.GetNameWithRatingByIdAsync(nConst);
+
+            if (nameWithRating == null)
+                return NotFound();
+
+            return Ok(nameWithRating);
+        }
+
+
+        
         
         // POST: api/NameBasics
         [HttpPost]
