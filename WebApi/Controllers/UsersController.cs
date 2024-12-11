@@ -71,46 +71,35 @@ namespace WebApi.Controllers
             return Ok(model);
         }
         
-        
-        // GET: api/Users/{id}/searchhistory
-        /*
-        [HttpGet("{userId}/searchhistory")]
-        public ActionResult<Users> GetUserWithSearchHistory(string userId)
-        {
-            var user = _dataService.GetUserWithSearchHistory(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            var response = new
-            {
-                user,
-                _links = new
-                {
-                    self = Url.Action(nameof(GetUserById), new { id = user.UserId }),
-                    SearchHistory = Url.Action(nameof(GetUserWithSearchHistory), new { id = user.UserId }),
-                }
-            };
-            return Ok(response);
-        }
-        */
 
         // POST: api/Users
         [HttpPost]
         public ActionResult<Users> AddUser([FromBody] UsersCreateModel newUser)
         {
 
-            if (string.IsNullOrWhiteSpace(newUser.Email) || string.IsNullOrWhiteSpace(newUser.Password))
+            if (string.IsNullOrWhiteSpace(newUser.Email) /*|| string.IsNullOrWhiteSpace(newUser.Username) */|| string.IsNullOrWhiteSpace(newUser.Password))
             {
-                return BadRequest("Email and Password are required.");
+                return BadRequest("Email, Username and Password are required.");
             }
 
             try
             {
+                if (_dataService.GetUsersList().Any(u => u.Email == newUser.Email))
+                {
+                    return Conflict("A user with this email already exists.");
+                }
+
+                // Check if the username already exists
+                if (_dataService.GetUsersList().Any(u => u.Username == newUser.Username))
+                {
+                    return Conflict("A user with this username already exists.");
+                }
+
                 var userEntity = new Users
                 {
                     //UserId = newUser.UserId,
                     Email = newUser.Email,
+                    Username = newUser.Username,
                     Password = newUser.Password
                 };
 
@@ -140,6 +129,7 @@ namespace WebApi.Controllers
             {
                 //UserId = updatedUser.UserId,
                 Email = updatedUser.Email,
+                Username = updatedUser.Username,
                 Password = updatedUser.Password
             };
             
@@ -161,13 +151,19 @@ namespace WebApi.Controllers
                 return (BadRequest("Email and Password are required"));
             }
 
+            var user = _dataService.GetUsersList().FirstOrDefault(u => u.Email == loginModel.Email);
+
             var isAuthenticated = _dataService.LoginUser(loginModel.Email, loginModel.Password);
 
             if (!isAuthenticated)
             {
                 return Unauthorized("Invalid Email or Password");
             }
-            return Ok(new { Message = "login successful" });
+            return Ok(new {
+                email = user.Email,
+                username = user.Username
+                
+            });
         }
 
         // DELETE: api/Users/{id}
