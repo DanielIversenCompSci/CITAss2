@@ -8,11 +8,13 @@ namespace BusinessLayer;
 public class DataService : IDataService
 {
     private readonly ImdbContext _context;
+    private readonly AuthenticationHelper authHelper;
 
     // Constructor with dependency injection for ImdbContext
-    public DataService(ImdbContext context)
+    public DataService(ImdbContext context, AuthenticationHelper authHelper)
     {
         _context = context;
+        this.authHelper = authHelper;
     }
 
 
@@ -228,6 +230,20 @@ public class DataService : IDataService
     // ********************
     // NameBasics
     // ********************
+    public async Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset)
+    {
+        return await _context.NameBasics
+            .AsNoTracking() // Optimize for read-only queries
+            .Skip(offset)   // Skip the specified number of records
+            .Take(limit)    // Fetch only the required number of records
+            .ToListAsync();
+    }
+    
+    public async Task<int> GetNameBasicsCountAsync()
+    {
+        return await _context.NameBasics.CountAsync();
+    }
+    
     public IList<NameBasics> GetNameBasicsList()
     {
         return _context.NameBasics.ToList();
@@ -361,8 +377,21 @@ public class DataService : IDataService
     
     public Users AddUser(Users newUser)
     {
+        if (string.IsNullOrWhiteSpace(newUser.Email))
+            throw new ArgumentException("Email cannot be empty.");
+        if (string.IsNullOrWhiteSpace(newUser.Username))
+            throw new ArgumentException("Email cannot be empty.");
+        if (string.IsNullOrWhiteSpace(newUser.Password))
+            throw new ArgumentException("Password cannot be empty.");
+
+        Tuple<string, string> hashedPassword = authHelper.hash(newUser.Password);
+            newUser.Password = hashedPassword.Item1;
+            newUser.Salt = hashedPassword.Item2;
+
+
         _context.Users.Add(newUser);
         _context.SaveChanges();
+
         return newUser;
     }
     
@@ -373,12 +402,22 @@ public class DataService : IDataService
 
         //user.UserId = updatedUser.UserId + "         ";
         user.Email = updatedUser.Email;
+        user.Username = updatedUser.Username;
         user.Password = updatedUser.Password;
 
         _context.SaveChanges();
         return true;
     }
-    
+
+    public bool LoginUser(string username, string password)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.Email == username);
+        if (user == null) return false;
+
+        // Use Authenticator to verify the password
+        return authHelper.verify(password, user.Password, user.Salt);
+    }
+
     public bool DeleteUser(int userId)
     {
         var user = _context.Users.Find(userId);

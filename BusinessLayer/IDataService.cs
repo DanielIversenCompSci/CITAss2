@@ -61,6 +61,8 @@ public interface IDataService
     public bool UpdateNameBasics(string nConst, NameBasics updatedTitle);
     public bool DeleteNameBasics(string nConst);
     int GetNameBasicsCount();
+    Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset);
+    Task<int> GetNameBasicsCountAsync();
 
     
     
@@ -71,6 +73,7 @@ public interface IDataService
     Users GetUserById(int userId);
     Users AddUser(Users newUser);
     bool UpdateUser(int userId, Users updatedUser);
+    bool LoginUser(string username, string password);
     bool DeleteUser(int userId);
     Users GetUserWithSearchHistory(int userId);
     int GetUsersCount();

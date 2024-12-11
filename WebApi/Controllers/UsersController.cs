@@ -3,6 +3,10 @@ using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace WebApi.Controllers
 {
@@ -71,51 +75,55 @@ namespace WebApi.Controllers
             return Ok(model);
         }
         
-        
-        // GET: api/Users/{id}/searchhistory
-        /*
-        [HttpGet("{userId}/searchhistory")]
-        public ActionResult<Users> GetUserWithSearchHistory(string userId)
-        {
-            var user = _dataService.GetUserWithSearchHistory(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            var response = new
-            {
-                user,
-                _links = new
-                {
-                    self = Url.Action(nameof(GetUserById), new { id = user.UserId }),
-                    SearchHistory = Url.Action(nameof(GetUserWithSearchHistory), new { id = user.UserId }),
-                }
-            };
-            return Ok(response);
-        }
-        */
 
         // POST: api/Users
         [HttpPost]
         public ActionResult<Users> AddUser([FromBody] UsersCreateModel newUser)
         {
-            var userEntity = new Users
-            {
-                //UserId = newUser.UserId,
-                Email = newUser.Email,
-                Password = newUser.Password
-            };
-            
-            var createdUser = _dataService.AddUser(userEntity);
 
-            if (createdUser == null)
+            if (string.IsNullOrWhiteSpace(newUser.Email) /*|| string.IsNullOrWhiteSpace(newUser.Username) */|| string.IsNullOrWhiteSpace(newUser.Password))
             {
-                return BadRequest("Could not create user");
+                return BadRequest("Email, Username and Password are required.");
             }
-            
-            var model = CreateUsersModel(createdUser);
-            return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.UserId }, model);
+
+            try
+            {
+                if (_dataService.GetUsersList().Any(u => u.Email == newUser.Email))
+                {
+                    return Conflict("A user with this email already exists.");
+                }
+
+                // Check if the username already exists
+                if (_dataService.GetUsersList().Any(u => u.Username == newUser.Username))
+                {
+                    return Conflict("A user with this username already exists.");
+                }
+
+                var userEntity = new Users
+                {
+                    //UserId = newUser.UserId,
+                    Email = newUser.Email,
+                    Username = newUser.Username,
+                    Password = newUser.Password
+                };
+
+                var createdUser = _dataService.AddUser(userEntity);
+
+                if (createdUser == null)
+                {
+                    return BadRequest("Could not create user");
+                }
+
+                var model = CreateUsersModel(createdUser);
+                return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.UserId }, model);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest($"Internal server error: {ex.Message}");
+            }
+           
         }
+
 
         // PUT: api/Users/{id}
         [HttpPut("{userId}")]
@@ -125,6 +133,7 @@ namespace WebApi.Controllers
             {
                 //UserId = updatedUser.UserId,
                 Email = updatedUser.Email,
+                Username = updatedUser.Username,
                 Password = updatedUser.Password
             };
             
@@ -136,6 +145,50 @@ namespace WebApi.Controllers
             }
             
             return NoContent();
+        }
+
+        [HttpPost("login")]
+        public ActionResult LoginUser([FromBody] LoginModel loginModel)
+        {
+            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+            {
+                return (BadRequest("Email and Password are required"));
+            }
+
+            var user = _dataService.GetUsersList().FirstOrDefault(u => u.Email == loginModel.Email);
+
+            var isAuthenticated = _dataService.LoginUser(loginModel.Email, loginModel.Password);
+
+            if (!isAuthenticated)
+            {
+                return Unauthorized("Invalid Email or Password");
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("vaeP+GUisPHhX+33WaDHzxCULyUd/zC+OTMRZJyWjzU=");
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim ("UserId", user.UserId.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.Username)
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = tokenHandler.WriteToken(token);
+
+
+            return Ok(new {
+                token = jwt,
+                userId = user.UserId,
+                email = user.Email,
+                username = user.Username
+            });
         }
 
         // DELETE: api/Users/{id}

@@ -74,6 +74,7 @@ namespace WebApi.Controllers
             return Ok(model);
         }
 
+        //GET Limit 100
         [HttpGet("limited", Name = nameof(GetLimitedTitleBasics))]
         public async Task<ActionResult<PagedResultModel<TitleBasicsModel>>> GetLimitedTitleBasics(int limit = 100, int pageNumber = 1)
         {
