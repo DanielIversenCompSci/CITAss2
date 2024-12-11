@@ -11,4 +11,5 @@ public class NameBasicsModel
     public string? BirthYear { get; set; } 
         
     public string? DeathYear { get; set; } 
+    
 }

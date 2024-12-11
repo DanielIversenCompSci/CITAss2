@@ -22,19 +22,37 @@ public class ImdbContext : DbContext
     public DbSet<TitleRatings> TitleRatings { get; set; }
     public DbSet<SearchHis> SearchHis { get; set; }
     public DbSet<UserRating> UserRating { get; set; }
-    public DbSet<UserBookmarks> UserBookmarks { get; set; }
+    public DbSet<UserBookmarkings> UserBookmarkings { get; set; }
+    
+    // Combined DTOs
+    public DbSet<NameWithRating> NameWithRatings { get; set; }
 
-
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
         optionsBuilder.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs");
     }
+    
+    public IQueryable<NameWithRating> GetTopRatedNames()
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetTopRatedNames());
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
+        
+        base.OnModelCreating(modelBuilder);
+        // Map SQL function for top100 Actors
+        modelBuilder.Entity<NameWithRating>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetTopRatedNames())
+            .HasName("gettopratednames") // Name of the function in the database
+            .HasSchema("public"); 
+        
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
         MapNameBasics(modelBuilder);
@@ -309,7 +327,6 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<Users>().ToTable("users").HasKey(u => u.UserId);
         modelBuilder.Entity<Users>().Property(u => u.UserId).HasColumnName("userid").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Email).HasColumnName("email").IsRequired();
-        modelBuilder.Entity<Users>().Property(u => u.Username).HasColumnName("username").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Password).HasColumnName("password").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Salt).HasColumnName("salt").IsRequired();
 

@@ -25,6 +25,8 @@ public interface IDataService
     int GetTitleBasicsCount();
     // Gets a count of all TitleBasics entries
     Task<int> GetTitleBasicsCountAsync();
+    
+    
 
 
 
@@ -63,6 +65,11 @@ public interface IDataService
     int GetNameBasicsCount();
     Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset);
     Task<int> GetNameBasicsCountAsync();
+    Task<List<NameWithRating>> GetTopRatedNamesAsync();
+    
+    Task<NameWithRating> GetNameWithRatingByIdAsync(string nConst);
+
+
 
     
     

@@ -230,6 +230,13 @@ public class DataService : IDataService
     // ********************
     // NameBasics
     // ********************
+    public async Task<List<NameWithRating>> GetTopRatedNamesAsync()
+    {
+        var result = await _context.GetTopRatedNames().ToListAsync();
+        return result;
+    }
+    
+    // SPecific DTO THINGS:
     public async Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset)
     {
         return await _context.NameBasics
@@ -238,6 +245,14 @@ public class DataService : IDataService
             .Take(limit)    // Fetch only the required number of records
             .ToListAsync();
     }
+    public async Task<NameWithRating> GetNameWithRatingByIdAsync(string nConst)
+    {
+        // Use the existing stored function and filter by nConst
+        return await _context.GetTopRatedNames()
+            .Where(nwr => nwr.NConst == nConst)
+            .FirstOrDefaultAsync();
+    }
+
     
     public async Task<int> GetNameBasicsCountAsync()
     {
@@ -934,4 +949,18 @@ public class DataService : IDataService
     {
         return _context.UserBookmarks.Count();
     }
+
+
+    // ********************
+    // MovieRankingWithDetails
+    // ********************
+
+
+    public async Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes)
+    {
+        //return await _context.GetRankedMoviesWithDetails(limit, minVotes);
+        return null;
+    }
+
+
 }
