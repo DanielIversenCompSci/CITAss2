@@ -3,6 +3,10 @@ using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace WebApi.Controllers
 {
@@ -159,10 +163,31 @@ namespace WebApi.Controllers
             {
                 return Unauthorized("Invalid Email or Password");
             }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("vaeP+GUisPHhX+33WaDHzxCULyUd/zC+OTMRZJyWjzU=");
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim ("UserId", user.UserId.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.Username)
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = tokenHandler.WriteToken(token);
+
+
             return Ok(new {
+                token = jwt,
+                userId = user.UserId,
                 email = user.Email,
                 username = user.Username
-                
             });
         }
 

@@ -1,6 +1,9 @@
 using BusinessLayer;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,27 +29,52 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 5. **Add Controllers**
+// 5. **JWT Configuration**
+var jwtKey = builder.Configuration["Jwt:Key"];
+var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+    };
+});
+
+// 6. **Add Controllers**
 builder.Services.AddControllers();
 
-// 6. **Swagger Configuration**
+// 7. **Swagger Configuration**
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// 7. **Middleware Configuration**
+// 8. **Middleware Configuration**
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// 8. **Enable CORS Middleware**
+// 9. **Enable CORS Middleware**
 app.UseCors("AllowAll");
 
+// 10. **Enable Authentication and Authorization Middleware**
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); // Add this before Authorization
 app.UseAuthorization();
 
 app.MapControllers();

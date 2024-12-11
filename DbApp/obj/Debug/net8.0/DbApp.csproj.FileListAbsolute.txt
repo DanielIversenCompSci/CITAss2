@@ -126,3 +126,9 @@ C:/Users/Jonathan Olsen/Desktop/CS 1Semester/Portfolie 2/CITAss2-master/DbApp/ob
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/WebApi
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/WebApi.dll
 /Users/danieliversen/RiderProjects/WebApplication1/DbApp/bin/Debug/net8.0/WebApi.pdb
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.csproj.AssemblyReference.cache
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.AssemblyInfoInputs.cache
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.AssemblyInfo.cs
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.csproj.CoreCompileInputs.cache
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.sourcelink.json
