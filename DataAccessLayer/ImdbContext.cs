@@ -56,13 +56,32 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<ActorRating>().ToTable("actor_rating").HasKey(x => x.NConst);
         modelBuilder.Entity<ActorRating>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<ActorRating>().Property(x => x.ARating).HasColumnName("arating");
+        
+        modelBuilder.Entity<ActorRating>()
+            .HasOne(tr => tr.NameBasic)
+            .WithOne(nb => nb.ActorRating)
+            .HasForeignKey<ActorRating>(tr => tr.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void MapKnownForTitle(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<KnownForTitle>().ToTable("known_for_title").HasKey(k => new {k.TConst, k.NConst});
+        modelBuilder.Entity<KnownForTitle>().ToTable("known_for_title").HasKey(k => new {k.KnownForTitleId});
+        modelBuilder.Entity<KnownForTitle>().Property(x => x.KnownForTitleId).HasColumnName("knownfortitle_id");
         modelBuilder.Entity<KnownForTitle>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<KnownForTitle>().Property(x => x.NConst).HasColumnName("nconst");
+        
+        modelBuilder.Entity<KnownForTitle>()
+            .HasOne(p => p.NameBasic)
+            .WithMany(p => p.KnownForTitle)
+            .HasForeignKey(p => p.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<KnownForTitle>()
+            .HasOne(p => p.TitleBasic)
+            .WithMany(p => p.KnownForTitle)
+            .HasForeignKey(p => p.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void MapNameBasics(ModelBuilder modelBuilder)
@@ -76,9 +95,9 @@ public class ImdbContext : DbContext
         // Define relationships
         // 1. Relationship with ActorRating
         modelBuilder.Entity<NameBasics>()
-            .HasMany(nb => nb.ActorRating) // Navigation property in NameBasics
+            .HasOne(nb => nb.ActorRating) // Navigation property in NameBasics
             .WithOne(ar => ar.NameBasic) // Navigation property in ActorRating
-            .HasForeignKey(ar => ar.NConst) // FK in ActorRating
+            .HasForeignKey<NameBasics>(ar => ar.NConst) // FK in ActorRating
             .OnDelete(DeleteBehavior.Cascade); // Reflect ON DELETE CASCADE
 
         // 2. Relationship with KnownForTitle
@@ -111,7 +130,8 @@ public class ImdbContext : DbContext
     }
     private static void MapPrimaryProfession(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PrimaryProfession>().ToTable("primary_profession").HasKey(k => new { k.NConst, k.Role });
+        modelBuilder.Entity<PrimaryProfession>().ToTable("primary_profession").HasKey(k => k.PrimaryProfessionId);
+        modelBuilder.Entity<PrimaryProfession>().Property(x => x.PrimaryProfessionId).HasColumnName("primaryprofession_id");
         modelBuilder.Entity<PrimaryProfession>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<PrimaryProfession>().Property(x => x.Role).HasColumnName("profession");
         
@@ -234,10 +254,23 @@ public class ImdbContext : DbContext
 
     private static void MapTitlePersonnel(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitlePersonnel>().ToTable("title_personnel").HasKey(k => new { k.TConst, k.NConst, k.Role });
+        modelBuilder.Entity<TitlePersonnel>().ToTable("title_personnel").HasKey(k => k.TitlePersonnelId);
+        modelBuilder.Entity<TitlePersonnel>().Property(x => x.TitlePersonnelId).HasColumnName("titlepersonnel_id");
         modelBuilder.Entity<TitlePersonnel>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<TitlePersonnel>().Property(x => x.NConst).HasColumnName("nconst");
         modelBuilder.Entity<TitlePersonnel>().Property(x => x.Role).HasColumnName("role");
+        
+        modelBuilder.Entity<TitlePersonnel>()
+            .HasOne(u => u.NameBasic)
+            .WithMany(t => t.TitlePersonnel)
+            .HasForeignKey(k => k.NConst)
+            .OnDelete(DeleteBehavior.Cascade);
+            
+        modelBuilder.Entity<TitlePersonnel>()
+            .HasOne(u => u.TitleBasic)
+            .WithMany(t => t.TitlePersonnel)
+            .HasForeignKey(k => k.TConst)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void MapTitlePrincipals(ModelBuilder modelBuilder)

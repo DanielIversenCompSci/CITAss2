@@ -2,6 +2,8 @@ namespace DataAccessLayer;
 
 public class TitlePersonnel
 {
+    public int TitlePersonnelId { get; set; }
+    
     public string TConst  { get; set; }
     
     public string NConst  { get; set; }

@@ -296,9 +296,9 @@ public class DataService : IDataService
         return _context.PrimaryProfession.ToList();
     }
     
-    public PrimaryProfession GetPrimaryProfessionById(string nConst)
+    public PrimaryProfession GetPrimaryProfessionById(int primaryProfessionId)
     {
-        return _context.PrimaryProfession.FirstOrDefault(tp => tp.NConst == nConst);
+        return _context.PrimaryProfession.FirstOrDefault(tp => tp.PrimaryProfessionId == primaryProfessionId);
     }
 
     public PrimaryProfession AddPrimaryProfession(PrimaryProfession newTitle)
@@ -308,9 +308,9 @@ public class DataService : IDataService
         return newTitle;
     }
     
-    public bool UpdatePrimaryProfession(string nConst, PrimaryProfession updatedTitle)
+    public bool UpdatePrimaryProfession(int primaryProfessionId, PrimaryProfession updatedTitle)
     {
-        var existingTitle = _context.PrimaryProfession.FirstOrDefault(tp => tp.NConst == nConst);
+        var existingTitle = _context.PrimaryProfession.FirstOrDefault(tp => tp.PrimaryProfessionId == primaryProfessionId);
         
         if (existingTitle == null)
         {
@@ -318,20 +318,20 @@ public class DataService : IDataService
         }
 
         // Update properties
+        existingTitle.NConst = updatedTitle.NConst;
         existingTitle.Role = updatedTitle.Role;
 
         _context.SaveChanges();
         return true;
     }
     
-    public bool DeletePrimaryProfession(string nConst)
+    public bool DeletePrimaryProfession(int primaryProfessionId)
     {
-        var title = _context.PrimaryProfession.FirstOrDefault(tp => tp.NConst == nConst);
+        var title = _context.PrimaryProfession.FirstOrDefault(tp => tp.PrimaryProfessionId == primaryProfessionId);
 
         // Check if the entry exists
         if (title == null)
         {
-            Console.WriteLine($"No PrimaryProfession entry found with NConst '{nConst}' to delete.");
             return false; // Entry not found, nothing to delete
         }
 
@@ -431,9 +431,9 @@ public class DataService : IDataService
         return _context.TitlePersonnel.ToList();
     }
 
-    public TitlePersonnel GetTitlePersonnelById(string tConst)
+    public TitlePersonnel GetTitlePersonnelById(int titlePersonnelId)
     {
-        return _context.TitlePersonnel.Find(tConst);
+        return _context.TitlePersonnel.FirstOrDefault(k => k.TitlePersonnelId == titlePersonnelId);
     }
     
     public TitlePersonnel AddTitlePersonnel(TitlePersonnel newTitle)
@@ -443,29 +443,30 @@ public class DataService : IDataService
         return newTitle;
     }
     
-    public bool UpdateTitlePersonnel(string tConst, TitlePersonnel updatedTitle)
+    public bool UpdateTitlePersonnel(int titlePersonnelId, TitlePersonnel updatedTitle)
     {
-        var existingTitle = _context.TitlePersonnel.Find(tConst);
+        var existingTitle = _context.TitlePersonnel.Find(titlePersonnelId);
         if (existingTitle == null)
         {
             return false; // Entry not found
         }
         
         // Update properties
+        existingTitle.TConst = updatedTitle.TConst;
+        existingTitle.NConst = updatedTitle.NConst;
         existingTitle.Role = updatedTitle.Role;
 
         _context.SaveChanges();
         return true;
     }
     
-    public bool DeleteTitlePersonnel(string tConst)
+    public bool DeleteTitlePersonnel(int titlePersonnelId)
     {
-        var title = _context.TitlePersonnel.Find(tConst);
+        var title = _context.TitlePersonnel.Find(titlePersonnelId);
 
         // Check if the entry exists
         if (title == null)
         {
-            Console.WriteLine($"No TitlePersonnel entry found with TConst '{tConst}' to delete.");
             return false; // Entry not found, nothing to delete
         }
 
@@ -489,9 +490,9 @@ public class DataService : IDataService
         return _context.KnownForTitle.ToList();
     }
 
-    public KnownForTitle GetKnownForTitleById(string nConst, string tConst)
+    public KnownForTitle GetKnownForTitleById(int knownForTitleId)
     {
-        return _context.KnownForTitle.FirstOrDefault(k => k.TConst == tConst && k.NConst == nConst);
+        return _context.KnownForTitle.FirstOrDefault(k => k.KnownForTitleId == knownForTitleId);
     }
 
     public KnownForTitle AddKnownForTitle(KnownForTitle newTitle)
@@ -501,9 +502,9 @@ public class DataService : IDataService
         return newTitle;
     }
 
-    public bool UpdateKnownForTitle(string tConst, string nConst, KnownForTitle updatedTitle) 
+    public bool UpdateKnownForTitle(int knownForTitleId, KnownForTitle updatedTitle) 
     {
-        var existingTitle = _context.KnownForTitle.FirstOrDefault(k => k.TConst == tConst && k.NConst == nConst);
+        var existingTitle = _context.KnownForTitle.FirstOrDefault(k => k.KnownForTitleId == knownForTitleId);
         if (existingTitle == null) 
         {
             return false;
@@ -516,9 +517,9 @@ public class DataService : IDataService
         return true;
     }
 
-    public bool DeleteKnownForTitle(string tConst, string nConst)
+    public bool DeleteKnownForTitle(int knownForTitleId)
     {
-        var title = _context.KnownForTitle.FirstOrDefault(k => k.TConst == tConst && k.NConst == nConst);
+        var title = _context.KnownForTitle.FirstOrDefault(k => k.KnownForTitleId == knownForTitleId);
         if (title == null)
         {
             Console.WriteLine($"No KnownForTitle entry found to delete.");

@@ -71,9 +71,15 @@ namespace WebApi.Controllers
 
         
         [HttpPost]
-        public ActionResult<ActorRatingModel> AddActorRating([FromBody] ActorRating newActorRating)
+        public ActionResult<ActorRatingModel> AddActorRating([FromBody] ActorRatingCreateModel newActorRating)
         {
-            var createdRating = _dataService.AddActorRating(newActorRating);
+            var aRatingEntity = new ActorRating
+            {
+                NConst = newActorRating.NConst,
+                ARating = newActorRating.ARating
+            };
+            
+            var createdRating = _dataService.AddActorRating(aRatingEntity);
 
             if (createdRating == null)
             {
@@ -86,11 +92,21 @@ namespace WebApi.Controllers
 
         
         [HttpPut("{nConst}")]
-        public IActionResult UpdateActorRating(string nConst, [FromBody] ActorRating updatedActorRating)
+        public IActionResult UpdateActorRating(string nConst, [FromBody] ActorRatingCreateModel updatedActorRating)
         {
-            var success = _dataService.UpdateActorRating(nConst, updatedActorRating);
+            var updatedEntiy = new ActorRating
+            {
+                NConst = updatedActorRating.NConst,
+                ARating = updatedActorRating.ARating
+            };
+            
+            var success = _dataService.UpdateActorRating(nConst, updatedEntiy);
+            
             if (!success)
+            {
                 return NotFound();
+            }
+
             return NoContent();
         }
 
@@ -99,8 +115,12 @@ namespace WebApi.Controllers
         public IActionResult DeleteActorRating(string nConst)
         {
             var success = _dataService.DeleteActorRating(nConst);
+
             if (!success)
+            {
                 return NotFound();
+            }
+
             return NoContent();
         }
 

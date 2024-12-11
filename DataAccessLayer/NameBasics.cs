@@ -12,7 +12,7 @@ namespace DataAccessLayer
         
         //NAV
         
-        public ICollection<ActorRating> ActorRating { get; set; }
+        public ActorRating ActorRating { get; set; }
         
         public ICollection<KnownForTitle> KnownForTitle { get; set; }
         
