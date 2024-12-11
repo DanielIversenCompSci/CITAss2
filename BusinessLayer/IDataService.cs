@@ -193,4 +193,11 @@ public interface IDataService
     bool UpdateUserBookmarkings(int userBookmarkingsId, UserBookmarkings updatedUserBookmarkings);
     bool DeleteUserBookmarkings(int userBookmarkingsId);
     int GetUserBookmarkingsCount();
+
+
+    // ********************
+    //MovieRankingWithDetails
+    // ********************
+    Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes);
+
 }

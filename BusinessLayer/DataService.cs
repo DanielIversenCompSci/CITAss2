@@ -394,6 +394,8 @@ public class DataService : IDataService
     {
         if (string.IsNullOrWhiteSpace(newUser.Email))
             throw new ArgumentException("Email cannot be empty.");
+        if (string.IsNullOrWhiteSpace(newUser.Username))
+            throw new ArgumentException("Email cannot be empty.");
         if (string.IsNullOrWhiteSpace(newUser.Password))
             throw new ArgumentException("Password cannot be empty.");
 
@@ -415,6 +417,7 @@ public class DataService : IDataService
 
         //user.UserId = updatedUser.UserId + "         ";
         user.Email = updatedUser.Email;
+        user.Username = updatedUser.Username;
         user.Password = updatedUser.Password;
 
         _context.SaveChanges();
@@ -946,4 +949,17 @@ public class DataService : IDataService
     {
         return _context.UserBookmarkings.Count();
     }
+
+
+    // ********************
+    // MovieRankingWithDetails
+    // ********************
+
+
+    public async Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes)
+    {
+        return await _context.GetRankedMoviesWithDetails(limit, minVotes);
+    }
+
+
 }
