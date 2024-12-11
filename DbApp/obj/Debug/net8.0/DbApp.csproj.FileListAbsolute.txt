@@ -132,3 +132,9 @@ C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.As
 C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.AssemblyInfo.cs
 C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.csproj.CoreCompileInputs.cache
 C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\DbApp\obj\Debug\net8.0\DbApp.sourcelink.json
+C:\Users\Jonathan Olsen\Desktop\CS 1Semester\Portfolie 2\CITAss2-master\DbApp\obj\Debug\net8.0\DbApp.csproj.AssemblyReference.cache
+C:\Users\Jonathan Olsen\Desktop\CS 1Semester\Portfolie 2\CITAss2-master\DbApp\obj\Debug\net8.0\DbApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Jonathan Olsen\Desktop\CS 1Semester\Portfolie 2\CITAss2-master\DbApp\obj\Debug\net8.0\DbApp.AssemblyInfoInputs.cache
+C:\Users\Jonathan Olsen\Desktop\CS 1Semester\Portfolie 2\CITAss2-master\DbApp\obj\Debug\net8.0\DbApp.AssemblyInfo.cs
+C:\Users\Jonathan Olsen\Desktop\CS 1Semester\Portfolie 2\CITAss2-master\DbApp\obj\Debug\net8.0\DbApp.csproj.CoreCompileInputs.cache
+C:\Users\Jonathan Olsen\Desktop\CS 1Semester\Portfolie 2\CITAss2-master\DbApp\obj\Debug\net8.0\DbApp.sourcelink.json
