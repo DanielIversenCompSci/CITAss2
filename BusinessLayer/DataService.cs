@@ -955,11 +955,10 @@ public class DataService : IDataService
     // MovieRankingWithDetails
     // ********************
 
-
-    public async Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes)
+    public async Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync()
     {
-        return await _context.GetRankedMoviesWithDetails(limit, minVotes);
+        // Call the EF Core mapped function
+        return await _context.GetTopRatedMovies().ToListAsync();
     }
-
 
 }

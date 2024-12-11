@@ -27,7 +27,7 @@ public class ImdbContext : DbContext
     // Combined DTOs
     public DbSet<NameWithRating> NameWithRatings { get; set; }
 
-    
+    public DbSet<MovieRankingWithDetails> MovieRankingWithDetails { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -41,6 +41,12 @@ public class ImdbContext : DbContext
         return FromExpression(() => GetTopRatedNames());
     }
 
+    public IQueryable<MovieRankingWithDetails> GetTopRatedMovies()
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetTopRatedMovies());
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -51,8 +57,17 @@ public class ImdbContext : DbContext
         modelBuilder
             .HasDbFunction(() => GetTopRatedNames())
             .HasName("gettopratednames") // Name of the function in the database
-            .HasSchema("public"); 
+            .HasSchema("public");
         
+
+        // Map SQL function for top-rated movies
+        modelBuilder.Entity<MovieRankingWithDetails>().HasNoKey(); // Indicates this result has no primary key.
+
+        modelBuilder
+            .HasDbFunction(() => GetTopRatedMovies())
+            .HasName("get_top_weighted_movies_with_details")
+            .HasSchema("public");
+
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
         MapNameBasics(modelBuilder);
@@ -384,6 +399,6 @@ public class ImdbContext : DbContext
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
-    
-    
+
+
 }

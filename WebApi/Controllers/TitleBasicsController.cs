@@ -207,19 +207,17 @@ namespace WebApi.Controllers
             };
         }
 
-        [HttpGet("top-rated-with-details")]
-        public async Task<IActionResult> GetRankedMoviesWithDetails([FromQuery] int limit = 10, [FromQuery] int minVotes = 100)
+        [HttpGet("top-rated", Name = nameof(GetTopRatedMovies))]
+        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatedMovies()
         {
-            try
-            {
-                var movies = await _dataService.GetRankedMoviesWithDetails(limit, minVotes);
-                return Ok(movies);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { error = ex.Message });
-            }
+            var movies = await _dataService.GetTopRatedMoviesAsync();
+
+            if (movies == null || movies.Count == 0)
+                return NotFound();
+
+            return Ok(movies);
         }
+
 
 
     }

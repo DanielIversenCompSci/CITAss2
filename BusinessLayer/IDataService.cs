@@ -26,6 +26,8 @@ public interface IDataService
     // Gets a count of all TitleBasics entries
     Task<int> GetTitleBasicsCountAsync();
 
+    Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync();
+
 
 
     // ********************
@@ -193,11 +195,5 @@ public interface IDataService
     bool UpdateUserBookmarkings(int userBookmarkingsId, UserBookmarkings updatedUserBookmarkings);
     bool DeleteUserBookmarkings(int userBookmarkingsId);
     int GetUserBookmarkingsCount();
-
-
-    // ********************
-    //MovieRankingWithDetails
-    // ********************
-    Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes);
 
 }
