@@ -14,7 +14,11 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
+<<<<<<< HEAD
       "applicationUrl": "https://localhost:7247",
+=======
+      "applicationUrl": "http://localhost:7247",
+>>>>>>> 71aa2b737ccf1089a72072e117d55d2f6fa78d0e
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -24,7 +28,11 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
+<<<<<<< HEAD
       "applicationUrl": "https://localhost:7247",
+=======
+      "applicationUrl": "https://localhost:7247;http://localhost:7247",
+>>>>>>> 71aa2b737ccf1089a72072e117d55d2f6fa78d0e
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
