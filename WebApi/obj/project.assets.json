@@ -1656,11 +1656,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\WebApi\\WebApi.csproj",
+      "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\WebApi\\WebApi.csproj",
+      "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\WebApi.csproj",
       "packagesPath": "C:\\Users\\abjar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\WebApi\\obj\\",
+      "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\abjar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1677,11 +1677,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj": {
-              "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj"
+            "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj": {
+              "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj"
             },
-            "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
-              "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj"
+            "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj"
             }
           }
         }
