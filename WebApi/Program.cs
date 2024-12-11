@@ -4,45 +4,46 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// 1. **Get the Connection String**
 var connectionString = builder.Configuration.GetSection("ConnectionString").Value;
-// Register IDataService and DataService in the DI container
+
+// 2. **Register Services**
 builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddSingleton<AuthenticationHelper>();
 
-
-// Register your DbContext (ImdbContext) in the DI container
+// 3. **Register DbContext**
 builder.Services.AddDbContext<ImdbContext>(options =>
     options.UseNpgsql(connectionString));
 
-// Add CORS policy
+// 4. **Configure CORS Policy** for Development
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin() // Allow requests from any origin (frontend URL)
-              .AllowAnyMethod() // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
-              .AllowAnyHeader(); // Allow all headers (e.g., Content-Type, Authorization)
+        policy.AllowAnyOrigin()   // Allow requests from any origin
+              .AllowAnyMethod()   // Allow all HTTP methods
+              .AllowAnyHeader();  // Allow all headers
     });
 });
 
+// 5. **Add Controllers**
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// 6. **Swagger Configuration**
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 7. **Middleware Configuration**
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Use CORS middleware
-app.UseCors();
+// 8. **Enable CORS Middleware**
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
