@@ -26,7 +26,7 @@ public class TitleBasics
     
     public ICollection<TitleGenre> TitleGenre { get; set; }
     
-    public ICollection<UserBookmarkings> UserBookmarkings { get; set; }
+    public ICollection<UserBookmarks> UserBookmarks { get; set; }
     
     public ICollection<TitlePrincipals> TitlePrincipals { get; set; }
     
