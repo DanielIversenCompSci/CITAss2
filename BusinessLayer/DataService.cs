@@ -228,6 +228,20 @@ public class DataService : IDataService
     // ********************
     // NameBasics
     // ********************
+    public async Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset)
+    {
+        return await _context.NameBasics
+            .AsNoTracking() // Optimize for read-only queries
+            .Skip(offset)   // Skip the specified number of records
+            .Take(limit)    // Fetch only the required number of records
+            .ToListAsync();
+    }
+    
+    public async Task<int> GetNameBasicsCountAsync()
+    {
+        return await _context.NameBasics.CountAsync();
+    }
+    
     public IList<NameBasics> GetNameBasicsList()
     {
         return _context.NameBasics.ToList();

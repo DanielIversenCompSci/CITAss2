@@ -61,6 +61,8 @@ public interface IDataService
     public bool UpdateNameBasics(string nConst, NameBasics updatedTitle);
     public bool DeleteNameBasics(string nConst);
     int GetNameBasicsCount();
+    Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset);
+    Task<int> GetNameBasicsCountAsync();
 
     
     

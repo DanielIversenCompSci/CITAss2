@@ -73,6 +73,46 @@ namespace WebApi.Controllers
         }
         
         
+        //GET Limit 100
+        [HttpGet("limited", Name = nameof(GetLimitedNameBasics))]
+        public async Task<ActionResult<PagedResultModel<NameBasicsModel>>> GetLimitedNameBasics(int limit = 100, int pageNumber = 1)
+        {
+            if (limit <= 0 || pageNumber <= 0)
+            {
+                return BadRequest("Limit and page number must be greater than zero.");
+            }
+
+            var totalItems = await _dataService.GetNameBasicsCountAsync(); // Fetch the total count of records
+            var offset = (pageNumber - 1) * limit;
+
+            if (offset >= totalItems)
+            {
+                return BadRequest("Page number exceeds total pages available.");
+            }
+
+            var nameBasicsList = await _dataService.GetLimitedNameBasicsAsync(limit, offset);
+
+            var totalPages = (int)Math.Ceiling(totalItems / (double)limit);
+
+            var result = new PagedResultModel<NameBasicsModel>
+            {
+                Items = nameBasicsList.Select(CreateNameBasicsModel),
+                PageNumber = pageNumber,
+                PageSize = limit,
+                TotalPages = totalPages,
+                TotalItems = totalItems,
+                NextPage = pageNumber < totalPages
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetLimitedNameBasics), new { limit, pageNumber = pageNumber + 1 })
+                    : null,
+                PrevPage = pageNumber > 1
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetLimitedNameBasics), new { limit, pageNumber = pageNumber - 1 })
+                    : null
+            };
+
+            return Ok(result);
+        }
+        
+        
         // POST: api/NameBasics
         [HttpPost]
         public ActionResult<NameBasics> CreateNameBasics([FromBody] NameBasicsCreateModel newName)
