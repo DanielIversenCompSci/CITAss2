@@ -25,6 +25,8 @@ public interface IDataService
     int GetTitleBasicsCount();
     // Gets a count of all TitleBasics entries
     Task<int> GetTitleBasicsCountAsync();
+    
+    
 
 
 
@@ -67,7 +69,7 @@ public interface IDataService
     
     Task<NameWithRating> GetNameWithRatingByIdAsync(string nConst);
 
-    
+
 
     
     
