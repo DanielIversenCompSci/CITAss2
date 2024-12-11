@@ -1,33 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "/Users/danieliversen/RiderProjects/WebApplication1/WebApi/WebApi.csproj": {}
+    "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj": {
+    "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj",
         "projectName": "BusinessLayer",
-        "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj",
-        "packagesPath": "/Users/danieliversen/.nuget/packages/",
-        "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/obj/",
+        "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj",
+        "packagesPath": "C:\\Users\\abjar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\abjar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
-                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj"
+              "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj"
               }
             }
           }
@@ -90,26 +92,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
+    "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj",
-        "packagesPath": "/Users/danieliversen/.nuget/packages/",
-        "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/obj/",
+        "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\abjar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\abjar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -184,37 +188,39 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/danieliversen/RiderProjects/WebApplication1/WebApi/WebApi.csproj": {
+    "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/danieliversen/RiderProjects/WebApplication1/WebApi/WebApi.csproj",
+        "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/WebApi/WebApi.csproj",
-        "packagesPath": "/Users/danieliversen/.nuget/packages/",
-        "outputPath": "/Users/danieliversen/RiderProjects/WebApplication1/WebApi/obj/",
+        "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\WebApi.csproj",
+        "packagesPath": "C:\\Users\\abjar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/danieliversen/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\abjar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj": {
-                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/BusinessLayer/BusinessLayer.csproj"
+              "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj": {
+                "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\BusinessLayer\\BusinessLayer.csproj"
               },
-              "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj": {
-                "projectPath": "/Users/danieliversen/RiderProjects/WebApplication1/DataAccessLayer/DataAccessLayer.csproj"
+              "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\Programmering\\CitP3\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj"
               }
             }
           }
@@ -288,7 +294,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,6 +1,6 @@
 using DataAccessLayer;
 
-//namespace WebApi.Models;
+namespace WebApi.Models;
 
 public class UsersModel
 {
