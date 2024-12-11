@@ -1,6 +1,6 @@
 namespace WebApi.Models;
 
-public class UserBookmarkingsCreateModel
+public class UserBookmarksCreateModel
 {
     public int UserId { get; set; }
     

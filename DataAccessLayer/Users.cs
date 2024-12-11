@@ -18,6 +18,6 @@ namespace DataAccessLayer
         
         public ICollection<UserRating> UserRatings { get; set; } = new List<UserRating>();
         
-        public ICollection<UserBookmarkings> UserBookmarkings { get; set; } = new List<UserBookmarkings>();
+        public ICollection<UserBookmarks> UserBookmarks { get; set; } = new List<UserBookmarks>();
     }
 }
