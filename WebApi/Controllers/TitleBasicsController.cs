@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Routing;
 using WebApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers
 {
@@ -204,5 +205,21 @@ namespace WebApi.Controllers
                 Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasicsById), new { tConst = title.TConst })
             };
         }
+
+        [HttpGet("top-rated-with-details")]
+        public async Task<IActionResult> GetRankedMoviesWithDetails([FromQuery] int limit = 10, [FromQuery] int minVotes = 100)
+        {
+            try
+            {
+                var movies = await _dataService.GetRankedMoviesWithDetails(limit, minVotes);
+                return Ok(movies);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+
     }
 }

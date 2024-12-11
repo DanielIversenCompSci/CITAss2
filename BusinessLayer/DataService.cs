@@ -895,4 +895,17 @@ public class DataService : IDataService
     {
         return _context.UserBookmarkings.Count();
     }
+
+
+    // ********************
+    // MovieRankingWithDetails
+    // ********************
+
+
+    public async Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes)
+    {
+        return await _context.GetRankedMoviesWithDetails(limit, minVotes);
+    }
+
+
 }

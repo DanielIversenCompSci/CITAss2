@@ -26,6 +26,8 @@ public class ImdbContext : DbContext
 
 
 
+
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
@@ -34,6 +36,8 @@ public class ImdbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Configure keyless entity for MovieRankingWithDetails
+       // modelBuilder.Entity<MovieRankingWithDetails>().HasNoKey();
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
@@ -49,7 +53,30 @@ public class ImdbContext : DbContext
         MapUsers(modelBuilder);
         MapUserRating(modelBuilder);
         MapUserBookmarkings(modelBuilder);
+
+        // Add configuration for MovieRankingWithDetails
+        modelBuilder.Entity<MovieRankingWithDetails>(entity =>
+        {
+            entity.HasNoKey(); // Mark as keyless
+
+            // Explicitly map properties to column names
+            entity.Property(m => m.Tconst).HasColumnName("tconst");
+            entity.Property(m => m.WeightedRating).HasColumnName("weighted_rating");
+            entity.Property(m => m.AverageRating).HasColumnName("average_rating");
+            entity.Property(m => m.NumVotes).HasColumnName("num_votes");
+            entity.Property(m => m.TitleType).HasColumnName("title_type");
+            entity.Property(m => m.PrimaryTitle).HasColumnName("primary_title");
+            entity.Property(m => m.OriginalTitle).HasColumnName("original_title");
+            entity.Property(m => m.IsAdult).HasColumnName("is_adult");
+            entity.Property(m => m.StartYear).HasColumnName("start_year");
+            entity.Property(m => m.EndYear).HasColumnName("end_year");
+            entity.Property(m => m.RuntimeMinutes).HasColumnName("runtime_minutes");
+            entity.Property(m => m.Plot).HasColumnName("plot");
+            entity.Property(m => m.Poster).HasColumnName("poster");
+        });
     }
+
+
 
     private static void MapActorRating(ModelBuilder modelBuilder)
     {
@@ -365,6 +392,14 @@ public class ImdbContext : DbContext
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
-    
-    
+
+
+    public async Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes)
+    {
+        return await this.Set<MovieRankingWithDetails>()
+            .FromSqlRaw("SELECT * FROM get_top_weighted_movies_with_details({0}, {1})", limit, minVotes)
+            .ToListAsync();
+    }
+
+
 }
