@@ -52,6 +52,11 @@ public class ImdbContext : DbContext
     {
         return FromExpression(() => GetSimilarMovies(tconst));
     }
+     public IQueryable<BookmarksWithTitles> GetBookmarksWithTitles(int user_id)
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetBookmarksWithTitles(user_id));
+    }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -80,6 +85,16 @@ public class ImdbContext : DbContext
             .HasName("find_similar_movies_by_genre")
             .HasSchema("public")
             .HasParameter("tconst", ParameterBuilder => { }); // Ensure the parameter name matches the stored function.
+
+
+        //creating new endpoint for fetching user bookmarks in frontend
+        modelBuilder.Entity<BookmarksWithTitles>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetBookmarksWithTitles(default))
+            .HasName("get_user_bookmarks_with_titles")
+            .HasSchema("public")
+            .HasParameter("user_id", ParameterBuilder => { });
+
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
