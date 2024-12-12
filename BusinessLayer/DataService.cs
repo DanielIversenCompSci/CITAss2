@@ -975,10 +975,23 @@ public class DataService : IDataService
 
     public async Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync(string titleType)
     {
-
         // Call the EF Core mapped function
         return await _context.GetTopRatedMovies(titleType).ToListAsync();
+    }
+
+    public async Task<List<BookmarksWithTitles>> GetBookmarksWithTitlesAsync(int user_id)
+    {
+        return await _context.GetBookmarksWithTitles(user_id).ToListAsync();
+    }
+
+    public async Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst)
+    {
+
+        // Call the EF Core mapped function
+        return await _context.GetSimilarMovies(tconst).ToListAsync();
         
     }
+
+
 
 }

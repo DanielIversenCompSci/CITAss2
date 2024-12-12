@@ -218,6 +218,19 @@ namespace WebApi.Controllers
             return Ok(movies);
         }
 
+        [HttpGet("similar-movies", Name = nameof(GetSimilarMovies))]
+        public async Task<ActionResult<List<SimilarMovie>>> GetSimilarMovies(string tconst)
+        {
+            var movies = await _dataService.GetSimilarMoviesAsync(tconst);
+
+            if (movies == null || !movies.Any())
+                return NotFound();
+
+            return Ok(movies);
+        }
+
+
+
 
 
     }

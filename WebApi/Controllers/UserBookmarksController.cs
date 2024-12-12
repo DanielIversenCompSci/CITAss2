@@ -58,6 +58,44 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("user/{userId}/bookmarksWithTitles", Name = nameof(GetBookmarksWithTitlesAsync))]
+        public async Task<ActionResult<List<BookmarksWithTitles>>> GetBookmarksWithTitlesAsync(int userId)
+        {
+            var bookmarks = await _dataService.GetBookmarksWithTitlesAsync(userId);
+
+            if (bookmarks == null || !bookmarks.Any())
+            {
+                return NotFound("No bookmarks found for the specified user.");
+            }
+
+            return Ok(bookmarks);
+        }
+
+        /*[HttpGet("withTitle", Name = nameof(GetBookmarksWithTitle))]
+        //[Authorize]
+        public ActionResult<IEnumerable<BookmarkWithTitleModel>> GetBookmarksWithTitle(int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageNumber <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Page number and page size must be greater than zero.");
+            }
+
+            var userBookmarksList = _dataService.GetUserBookmarks()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(b => new BookmarkWithTitleModel
+                {
+                    UserBookmarksId = b.UserBookmarksId,
+                    UserId = b.UserId,
+                    TConst = b.TConst,
+                    Note = b.Note,
+                    Title = b.TitleBasic?.PrimaryTitle // Assuming 'PrimaryTitle' is the movie name
+                })
+                .ToList();
+
+            return Ok(userBookmarksList);
+        }*/
+
         // Get specific title by TConst
         [HttpGet("{userBookmarksId}", Name = nameof(GetUserBookmarksById))]
         public ActionResult<UserBookmarksModel> GetUserBookmarksById(int userBookmarksId)
