@@ -70,6 +70,30 @@ public class ImdbContext : DbContext
     {
         return FromExpression(() => GetNameByNConstSQL(nconst_param));
     }
+    
+    // **********
+    // Map SQL function for get similar movies
+    // **********
+    public IQueryable<SimilarMovie> GetSimilarMovies(string tconst)
+    {
+        return FromExpression(() => GetSimilarMovies(tconst));
+    }
+    
+    // **********
+    // Map SQL function for get bookmarks w titles
+    // **********
+    public IQueryable<BookmarksWithTitles> GetBookmarksWithTitles(int user_id)
+    {
+        return FromExpression(() => GetBookmarksWithTitles(user_id));
+    }
+    
+    // **********
+    // Map SQL function for top 5 movies by genre
+    // **********
+    public IQueryable<MovieRankingByGenre> GetMovieRankingByGenre(string genre_param)
+    {
+        return FromExpression(() => GetMovieRankingByGenre(genre_param));
+    }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -113,6 +137,19 @@ public class ImdbContext : DbContext
             .HasName("get_top_weighted_movies_with_details")
             .HasSchema("public")
             .HasParameter("titleType", ParameterBuilder => { });
+        
+        
+        // **********
+        // Map SQL function for top 5 movies by genre
+        // **********
+        modelBuilder.Entity<MovieRankingByGenre>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetMovieRankingByGenre(default))
+            .HasName("get_top_5_highest_avg_ratings")
+            .HasSchema("public")
+            .HasParameter("genre_param", ParameterBuilder => { });
+        
+        
         
         
         

@@ -38,6 +38,12 @@ public class DataService : IDataService
             .ToListAsync();
     }
 
+    public async Task<IList<MovieRankingByGenre>> GetMovieRankingByGenreAsync(string genre_param)
+    {
+        var result = await _context.GetMovieRankingByGenre(genre_param).ToListAsync();
+        return result;
+    }
+
     public async Task<int> GetTitleBasicsCountAsync()
     {
         return await _context.TitleBasics.CountAsync();
@@ -986,10 +992,8 @@ public class DataService : IDataService
 
     public async Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst)
     {
-
         // Call the EF Core mapped function
         return await _context.GetSimilarMovies(tconst).ToListAsync();
-        
     }
 
 

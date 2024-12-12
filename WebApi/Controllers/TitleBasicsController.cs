@@ -228,6 +228,17 @@ namespace WebApi.Controllers
 
             return Ok(movies);
         }
+        
+        [HttpGet("movie-rankings-by-genre", Name = nameof(GetMovieRankingByGenre))]
+        public async Task<ActionResult<List<MovieRankingByGenre>>> GetMovieRankingByGenre(string genre_param)
+        {
+            var movies = await _dataService.GetMovieRankingByGenreAsync(genre_param);
+
+            if (movies == null || !movies.Any())
+                return NotFound();
+
+            return Ok(movies);
+        }
 
 
     }

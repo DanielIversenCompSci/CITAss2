@@ -15,7 +15,7 @@ public interface IDataService
     //TitleBasics
     // ********************
     Task<IList<TitleBasics>> GetLimitedTitleBasicsAsync(int limit, int offset);
-
+    Task<IList<MovieRankingByGenre>> GetMovieRankingByGenreAsync(string genre_param);
     public IList<TitleBasics> GetTitleBasicsList();
     TitleBasics GetTitleBasicsById(string tConst);
     TitleBasics AddTitleBasics(TitleBasics newTitle);
@@ -26,6 +26,7 @@ public interface IDataService
     Task<int> GetTitleBasicsCountAsync();
     
     Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync(string titleType);
+    Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst);
 
 
 
@@ -196,6 +197,7 @@ public interface IDataService
     bool UpdateUserBookmarks(int userBookmarksId, UserBookmarks updatedUserBookmarks);
     bool DeleteUserBookmarks(int userBookmarksId);
     int GetUserBookmarksCount();
+    Task<List<BookmarksWithTitles>> GetBookmarksWithTitlesAsync(int user_id);
 
 
 }
