@@ -13,4 +13,6 @@ public class NameWithRating
     public string KnownForTitles { get; set; }
     
     public string PrimaryProfession { get; set; }
+    
+    public string? Poster { get; set; }
 }
