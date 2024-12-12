@@ -59,7 +59,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("user/{userId}/bookmarksWithTitles", Name = nameof(GetBookmarksWithTitlesAsync))]
-        public async Task<ActionResult<List<BookmarksWithTitles>>> GetBookmarksWithTitlesAsync(int userId)
+        public async Task<ActionResult<List<BookmarksWithTitles>>> GetBookmarksWithTitlesAsync(string userId)
         {
             var bookmarks = await _dataService.GetBookmarksWithTitlesAsync(userId);
 

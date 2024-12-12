@@ -37,6 +37,19 @@ public class ImdbContext : DbContext
     }
 
 
+    // IQueryable for SimilarMovie
+    public IQueryable<SimilarMovie> GetSimilarMovies(string tconst)
+    {
+        return FromExpression(() => GetSimilarMovies(tconst));
+    }
+
+    // IQueryable for BookmarksWithTitles
+    public IQueryable<BookmarksWithTitles> GetBookmarksWithTitles(string user_id)
+    {
+        return FromExpression(() => GetBookmarksWithTitles(user_id));
+    }
+
+    // IQueryable for MovieCast
     public IQueryable<MovieCast> GetMovieCast(string tconst)
     {
         return FromExpression(() => GetMovieCast(tconst));

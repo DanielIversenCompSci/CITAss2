@@ -27,7 +27,11 @@ public interface IDataService
     
     Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync(string titleType);
 
+    // Fetch similar movies
+    Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst);
 
+    // Fetch movie cast
+    Task<List<MovieCast>> GetMovieCastAsync(string tconst);
 
     // ********************
     //TitlePrincipals
@@ -196,6 +200,8 @@ public interface IDataService
     bool UpdateUserBookmarks(int userBookmarksId, UserBookmarks updatedUserBookmarks);
     bool DeleteUserBookmarks(int userBookmarksId);
     int GetUserBookmarksCount();
+    Task<List<BookmarksWithTitles>> GetBookmarksWithTitlesAsync(string user_id);
+
 
 
 }

@@ -229,6 +229,18 @@ namespace WebApi.Controllers
             return Ok(movies);
         }
 
+        [HttpGet("movie-cast", Name = nameof(GetMovieCast))]
+        public async Task<ActionResult<List<MovieCast>>> GetMovieCast(string tconst)
+        {
+            var cast = await _dataService.GetMovieCastAsync(tconst);
+
+            if (cast == null || !cast.Any())
+                return NotFound();
+
+            return Ok(cast);
+        }
+
+
 
     }
 }

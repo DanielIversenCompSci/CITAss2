@@ -979,7 +979,7 @@ public class DataService : IDataService
         return await _context.GetTopRatedMovies(titleType).ToListAsync();
     }
 
-    public async Task<List<BookmarksWithTitles>> GetBookmarksWithTitlesAsync(int user_id)
+    public async Task<List<BookmarksWithTitles>> GetBookmarksWithTitlesAsync(string user_id)
     {
         return await _context.GetBookmarksWithTitles(user_id).ToListAsync();
     }
@@ -990,6 +990,11 @@ public class DataService : IDataService
         // Call the EF Core mapped function
         return await _context.GetSimilarMovies(tconst).ToListAsync();
         
+    }
+
+    public async Task<List<MovieCast>> GetMovieCastAsync(string tconst)
+    {
+        return await _context.GetMovieCast(tconst).ToListAsync();
     }
 
 
