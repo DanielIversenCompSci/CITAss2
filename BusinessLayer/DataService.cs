@@ -966,4 +966,14 @@ public class DataService : IDataService
         return await _context.GetBookmarksWithTitles(user_id).ToListAsync();
     }
 
+    public async Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst)
+    {
+
+        // Call the EF Core mapped function
+        return await _context.GetSimilarMovies(tconst).ToListAsync();
+        
+    }
+
+
+
 }
