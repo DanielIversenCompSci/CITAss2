@@ -62,6 +62,14 @@ public class ImdbContext : DbContext
         // This is a marker for the stored SQL function
         return FromExpression(() => GetTopRatedMovies(titleType));
     }
+    
+    // **********
+    // Map SQL function for get actor pr nconst
+    // **********
+    public IQueryable<NameWithRating> GetNameByNConstSQL(string nconst_param)
+    {
+        return FromExpression(() => GetNameByNConstSQL(nconst_param));
+    }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -76,6 +84,15 @@ public class ImdbContext : DbContext
             .HasDbFunction(() => GetTopRatedNames())
             .HasName("gettopratednames") // Name of the function in the database
             .HasSchema("public");
+        
+        // **********
+        // Map SQL function for get actor pr nconst
+        // **********
+        modelBuilder
+            .HasDbFunction(() => GetNameByNConstSQL(default))
+            .HasName("get_person_details")
+            .HasSchema("public")
+            .HasParameter("nconst_param", ParameterBuilder => { });
         
         // **********
         // Map SQL function for top 100 actors search w substring
@@ -96,6 +113,9 @@ public class ImdbContext : DbContext
             .HasName("get_top_weighted_movies_with_details")
             .HasSchema("public")
             .HasParameter("titleType", ParameterBuilder => { });
+        
+        
+        
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);

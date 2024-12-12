@@ -262,6 +262,15 @@ public class DataService : IDataService
             .FirstOrDefaultAsync();
     }
 
+    public async Task<NameWithRating?> GetNameByNConstSQL(string nconst_param)
+    {
+        // Use the mapped SQL function
+        var result = await _context.GetNameByNConstSQL(nconst_param).FirstOrDefaultAsync();
+        return result;
+    }
+
+
+
     
     public async Task<int> GetNameBasicsCountAsync()
     {

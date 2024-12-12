@@ -56,6 +56,7 @@ public interface IDataService
     // ********************
     //NameBasics
     // ********************
+    Task<NameWithRating?> GetNameByNConstSQL(string nconst_param);
     Task<List<NameWithRating>> GetTopRatedNamesSubAsync(string substring_filter);
     public IList<NameBasics> GetNameBasicsList();
     public NameBasics GetNameBasicsById(string nConst);
