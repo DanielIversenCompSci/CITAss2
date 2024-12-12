@@ -62,6 +62,17 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<ActionResult<List<BookmarksWithTitles>>> GetBookmarksWithTitlesAsync(int userId)
         {
+
+            var identity = HttpContext.User.Identity;
+            if (identity != null)
+            {
+                Console.WriteLine($"User Identity: {identity.Name}");
+            }
+            else
+            {
+                Console.WriteLine("No user identity found");
+            }
+
             var bookmarks = await _dataService.GetBookmarksWithTitlesAsync(userId);
 
             if (bookmarks == null || !bookmarks.Any())
