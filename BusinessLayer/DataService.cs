@@ -996,6 +996,11 @@ public class DataService : IDataService
         return await _context.GetSimilarMovies(tconst).ToListAsync();
     }
 
+    public async Task<List<MovieCast>> GetMovieCastAsync(string tconst)
+    {
+        return await _context.GetMovieCast(tconst).ToListAsync();
+    }
+
 
 
 }
