@@ -35,10 +35,13 @@ public class ImdbContext : DbContext
         optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
         optionsBuilder.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs");
     }
-    
-    // **********
-    // Map SQL function for top100 Actors
-    // **********
+
+
+    public IQueryable<MovieCast> GetMovieCast(string tconst)
+    {
+        return FromExpression(() => GetMovieCast(tconst));
+    }
+
     public IQueryable<NameWithRating> GetTopRatedNames()
     {
         // This is a marker for the stored SQL function
@@ -113,9 +116,34 @@ public class ImdbContext : DbContext
             .HasName("get_top_weighted_movies_with_details")
             .HasSchema("public")
             .HasParameter("titleType", ParameterBuilder => { });
-        
-        
-        
+
+
+        // Configuration for SimilarMovie
+        modelBuilder.Entity<SimilarMovie>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetSimilarMovies(default))
+            .HasName("find_similar_movies_by_genre")
+            .HasSchema("public")
+            .HasParameter("tconst", ParameterBuilder => { }); // Ensure the parameter name matches the stored function.
+
+
+        //creating new endpoint for fetching user bookmarks in frontend
+        modelBuilder.Entity<BookmarksWithTitles>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetBookmarksWithTitles(default))
+            .HasName("get_user_bookmarks_with_titles")
+            .HasSchema("public")
+            .HasParameter("user_id", ParameterBuilder => { });
+
+        // Configuration for MovieCast
+        modelBuilder.Entity<MovieCast>().HasNoKey(); // This result set has no primary key
+        modelBuilder
+            .HasDbFunction(() => GetMovieCast(default))
+            .HasName("get_movie_cast")
+            .HasSchema("public")
+            .HasParameter("tconst", parameterBuilder => { }); // Matches the stored function parameter
+
+
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
