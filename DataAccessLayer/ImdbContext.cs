@@ -342,6 +342,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<Users>().ToTable("users").HasKey(u => u.UserId);
         modelBuilder.Entity<Users>().Property(u => u.UserId).HasColumnName("userid").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Email).HasColumnName("email").IsRequired();
+        modelBuilder.Entity<Users>().Property(u => u.Username).HasColumnName("username").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Password).HasColumnName("password").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Salt).HasColumnName("salt").IsRequired();
 

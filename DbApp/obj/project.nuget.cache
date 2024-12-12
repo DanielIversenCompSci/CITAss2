@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FXHjwN9Ycac=",
+  "dgSpecHash": "RNNj0m4UCqk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CitP3\\CITAss2\\DbApp\\DbApp.csproj",
+  "projectFilePath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DbApp\\DbApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\abjar\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\abjar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.11\\microsoft.aspnetcore.authentication.jwtbearer.8.0.11.nupkg.sha512",
