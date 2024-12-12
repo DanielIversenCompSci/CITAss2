@@ -218,7 +218,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<SearchHis>()
             .HasOne(b => b.User)
             .WithMany(u => u.SearchHistory) // Nav property in Users (Check what its called there)
-            .HasForeignKey(s => s.UserId)
+            .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
     
@@ -371,6 +371,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<Users>().ToTable("users").HasKey(u => u.UserId);
         modelBuilder.Entity<Users>().Property(u => u.UserId).HasColumnName("userid").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Email).HasColumnName("email").IsRequired();
+        modelBuilder.Entity<Users>().Property(u => u.Username).HasColumnName("username").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Password).HasColumnName("password").IsRequired();
         modelBuilder.Entity<Users>().Property(u => u.Salt).HasColumnName("salt").IsRequired();
 
@@ -409,7 +410,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<UserRating>()
             .HasOne(b => b.User)
             .WithMany(u => u.UserRatings)
-            .HasForeignKey(s => s.UserId)
+            .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 
@@ -425,7 +426,7 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<UserBookmarks>()
             .HasOne(b => b.User)
             .WithMany(u => u.UserBookmarks)
-            .HasForeignKey(s => s.UserId)
+            .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 
