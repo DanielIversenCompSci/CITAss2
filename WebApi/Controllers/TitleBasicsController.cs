@@ -212,7 +212,7 @@ namespace WebApi.Controllers
         {
             var movies = await _dataService.GetTopRatedMoviesAsync(titleType);
 
-            if (movies == null || movies.Count == 0)
+            if (movies == null || !movies.Any())
                 return NotFound();
 
             return Ok(movies);
