@@ -230,11 +230,20 @@ public class DataService : IDataService
     // ********************
     // NameBasics
     // ********************
+    //Top 100
     public async Task<List<NameWithRating>> GetTopRatedNamesAsync()
     {
         var result = await _context.GetTopRatedNames().ToListAsync();
         return result;
     }
+    
+    // Top 100 w search
+    public async Task<List<NameWithRating>> GetTopRatedNamesSubAsync(string substring_filter)
+    {
+        var result = await _context.GetTopRatedNamesSub(substring_filter).ToListAsync();
+        return result;
+    }
+
     
     // SPecific DTO THINGS:
     public async Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset)
@@ -252,6 +261,15 @@ public class DataService : IDataService
             .Where(nwr => nwr.NConst == nConst)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<NameWithRating?> GetNameByNConstSQL(string nconst_param)
+    {
+        // Use the mapped SQL function
+        var result = await _context.GetNameByNConstSQL(nconst_param).FirstOrDefaultAsync();
+        return result;
+    }
+
+
 
     
     public async Task<int> GetNameBasicsCountAsync()

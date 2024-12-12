@@ -36,42 +36,77 @@ public class ImdbContext : DbContext
         optionsBuilder.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs");
     }
     
+    // **********
+    // Map SQL function for top100 Actors
+    // **********
     public IQueryable<NameWithRating> GetTopRatedNames()
     {
         // This is a marker for the stored SQL function
         return FromExpression(() => GetTopRatedNames());
     }
-
+    
+    // **********
+    // Map SQL function for top 100 actors search w substring
+    // **********
+    public IQueryable<NameWithRating> GetTopRatedNamesSub(string substring_filter)
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetTopRatedNamesSub(substring_filter));
+    }
+    
+    // **********
+    // Map SQL function for top-rated movies
+    // **********
     public IQueryable<MovieRankingWithDetails> GetTopRatedMovies(string titleType)
     {
         // This is a marker for the stored SQL function
         return FromExpression(() => GetTopRatedMovies(titleType));
     }
-
-    public IQueryable<SimilarMovie> GetSimilarMovies(string tconst)
+    
+    // **********
+    // Map SQL function for get actor pr nconst
+    // **********
+    public IQueryable<NameWithRating> GetNameByNConstSQL(string nconst_param)
     {
-        return FromExpression(() => GetSimilarMovies(tconst));
-    }
-     public IQueryable<BookmarksWithTitles> GetBookmarksWithTitles(int user_id)
-    {
-        // This is a marker for the stored SQL function
-        return FromExpression(() => GetBookmarksWithTitles(user_id));
+        return FromExpression(() => GetNameByNConstSQL(nconst_param));
     }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         base.OnModelCreating(modelBuilder);
+        
+        // **********
         // Map SQL function for top100 Actors
+        // **********
         modelBuilder.Entity<NameWithRating>().HasNoKey();
         modelBuilder
             .HasDbFunction(() => GetTopRatedNames())
             .HasName("gettopratednames") // Name of the function in the database
             .HasSchema("public");
         
+        // **********
+        // Map SQL function for get actor pr nconst
+        // **********
+        modelBuilder
+            .HasDbFunction(() => GetNameByNConstSQL(default))
+            .HasName("get_person_details")
+            .HasSchema("public")
+            .HasParameter("nconst_param", ParameterBuilder => { });
+        
+        // **********
+        // Map SQL function for top 100 actors search w substring
+        // **********
+        modelBuilder
+            .HasDbFunction(() => GetTopRatedNamesSub(default))
+            .HasName("gettopratednames_sub")
+            .HasSchema("public")
+            .HasParameter("substring_filter"); // Match the C# parameter name to the SQL parameter name
 
+        
+        // **********
         // Map SQL function for top-rated movies
+        // **********
         modelBuilder.Entity<MovieRankingWithDetails>().HasNoKey(); // Indicates this result has no primary key.
         modelBuilder
             .HasDbFunction(() => GetTopRatedMovies(default))
@@ -79,22 +114,8 @@ public class ImdbContext : DbContext
             .HasSchema("public")
             .HasParameter("titleType", ParameterBuilder => { });
         
-        modelBuilder.Entity<SimilarMovie>().HasNoKey();
-        modelBuilder
-            .HasDbFunction(() => GetSimilarMovies(default))
-            .HasName("find_similar_movies_by_genre")
-            .HasSchema("public")
-            .HasParameter("tconst", ParameterBuilder => { }); // Ensure the parameter name matches the stored function.
-
-
-        //creating new endpoint for fetching user bookmarks in frontend
-        modelBuilder.Entity<BookmarksWithTitles>().HasNoKey();
-        modelBuilder
-            .HasDbFunction(() => GetBookmarksWithTitles(default))
-            .HasName("get_user_bookmarks_with_titles")
-            .HasSchema("public")
-            .HasParameter("user_id", ParameterBuilder => { });
-
+        
+        
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);

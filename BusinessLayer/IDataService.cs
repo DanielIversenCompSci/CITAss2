@@ -1,6 +1,4 @@
 using DataAccessLayer;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace BusinessLayer;
 
@@ -29,7 +27,7 @@ public interface IDataService
     
     Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync(string titleType);
 
-    Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst);
+
 
     // ********************
     //TitlePrincipals
@@ -58,6 +56,8 @@ public interface IDataService
     // ********************
     //NameBasics
     // ********************
+    Task<NameWithRating?> GetNameByNConstSQL(string nconst_param);
+    Task<List<NameWithRating>> GetTopRatedNamesSubAsync(string substring_filter);
     public IList<NameBasics> GetNameBasicsList();
     public NameBasics GetNameBasicsById(string nConst);
     public NameBasics AddNameBasics(NameBasics newTitle);
@@ -179,7 +179,7 @@ public interface IDataService
     //UserRating
     // ********************
     public IList<UserRating> GetUserRatingsList(); // be by id aswell ?
-    UserRating GetUserRatingById(int userRatingId); // ITS RIGHT HERE
+    UserRating GetUserRatingById(int userRatingId); // IT IS RIGHT HERE
     UserRating AddUserRating(UserRating newUserRating);
     bool UpdateUserRating(int userRatingId, UserRating updatedRating);
     bool DeleteUserRating(int userRatingId);
@@ -196,6 +196,6 @@ public interface IDataService
     bool UpdateUserBookmarks(int userBookmarksId, UserBookmarks updatedUserBookmarks);
     bool DeleteUserBookmarks(int userBookmarksId);
     int GetUserBookmarksCount();
-    Task<List<BookmarksWithTitles>> GetBookmarksWithTitlesAsync(int user_id);
+
 
 }

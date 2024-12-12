@@ -119,8 +119,17 @@ namespace WebApi.Controllers
             return Ok(topRatedNames);
         }
         
+        // Top w Searchd
+        [HttpGet("topNames100Sub")]
+        public async Task<ActionResult<List<NameWithRating>>> GetTopRatedNamesSub([FromQuery] string substring_filter = null)
+        {
+            var topRatedNamesSub = await _dataService.GetTopRatedNamesSubAsync(substring_filter);
+            return Ok(topRatedNamesSub);
+        }
+
+        
         // details/nconst
-        [HttpGet("details/{nConst}", Name = nameof(GetNameWithRatingById))]
+        [HttpGet("detailss/{nConst}", Name = nameof(GetNameWithRatingById))]
         public async Task<ActionResult<NameWithRating>> GetNameWithRatingById(string nConst)
         {
             var nameWithRating = await _dataService.GetNameWithRatingByIdAsync(nConst);
@@ -130,6 +139,19 @@ namespace WebApi.Controllers
 
             return Ok(nameWithRating);
         }
+        
+        // details/nconst
+        [HttpGet("details/{nConst}", Name = nameof(GetNameByNConstSQL))]
+        public async Task<ActionResult<NameWithRating>> GetNameByNConstSQL(string nConst)
+        {
+            var nameWithRating = await _dataService.GetNameByNConstSQL(nConst);
+
+            if (nameWithRating == null)
+                return NotFound();
+
+            return Ok(nameWithRating);
+        }
+
 
 
         
