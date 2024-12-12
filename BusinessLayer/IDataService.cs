@@ -28,6 +28,8 @@ public interface IDataService
     Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync(string titleType);
     Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst);
 
+    Task<List<MovieCast>> GetMovieCastAsync(string tconst);
+
 
 
     // ********************

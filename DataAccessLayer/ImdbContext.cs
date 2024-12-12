@@ -95,6 +95,11 @@ public class ImdbContext : DbContext
         return FromExpression(() => GetMovieRankingByGenre(genre_param));
     }
 
+    public IQueryable<MovieCast> GetMovieCast(string tconst)
+    {
+        return FromExpression(() => GetMovieCast(tconst));
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -148,11 +153,32 @@ public class ImdbContext : DbContext
             .HasName("get_top_5_highest_avg_ratings")
             .HasSchema("public")
             .HasParameter("genre_param", ParameterBuilder => { });
-        
-        
-        
-        
-        
+
+        // Configuration for MovieCast
+        modelBuilder.Entity<MovieCast>().HasNoKey(); // This result set has no primary key
+        modelBuilder
+            .HasDbFunction(() => GetMovieCast(default))
+            .HasName("get_movie_cast") // Name of the stored function
+            .HasSchema("public")       // Schema where the function resides
+            .HasParameter("tconst", parameterBuilder => { });
+
+
+        modelBuilder.Entity<SimilarMovie>().HasNoKey(); // SimilarMovie result has no primary key
+        modelBuilder
+            .HasDbFunction(() => GetSimilarMovies(default))
+            .HasName("find_similar_movies_by_genre") // Stored function name
+            .HasSchema("public")                    // Schema name
+            .HasParameter("tconst", parameterBuilder => { }); // Parameter for the stored function
+
+        modelBuilder.Entity<BookmarksWithTitles>().HasNoKey(); // BookmarksWithTitles result has no primary key
+        modelBuilder
+            .HasDbFunction(() => GetBookmarksWithTitles(default))
+            .HasName("get_user_bookmarks_with_titles") // Stored function name
+            .HasSchema("public")                      // Schema name
+            .HasParameter("user_id", parameterBuilder => { }); // Parameter for the stored function
+
+
+
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
