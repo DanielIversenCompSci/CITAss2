@@ -1995,11 +1995,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\DbApp\\DbApp.csproj",
       "projectName": "DbApp",
       "projectPath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\DbApp\\DbApp.csproj",
       "packagesPath": "C:\\Users\\Jonathan Olsen\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\DbApp\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DbApp\\DbApp.csproj",
+      "projectName": "DbApp",
+      "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DbApp\\DbApp.csproj",
+      "packagesPath": "C:\\Users\\abjar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DbApp\\obj\\",
+>>>>>>> 1aaf3177ee2525bd31c3a97ffc04596bf665d781
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jonathan Olsen\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2017,6 +2025,7 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+<<<<<<< HEAD
             "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\BusinessLayer\\BusinessLayer.csproj": {
               "projectPath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\BusinessLayer\\BusinessLayer.csproj"
             },
@@ -2025,6 +2034,16 @@
             },
             "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\WebApi\\WebApi.csproj": {
               "projectPath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\WebApi\\WebApi.csproj"
+=======
+            "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\BusinessLayer\\BusinessLayer.csproj": {
+              "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\BusinessLayer\\BusinessLayer.csproj"
+            },
+            "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\DataAccessLayer\\DataAccessLayer.csproj"
+            },
+            "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\WebApi\\WebApi.csproj": {
+              "projectPath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\WebApi\\WebApi.csproj"
+>>>>>>> 1aaf3177ee2525bd31c3a97ffc04596bf665d781
             }
           }
         }

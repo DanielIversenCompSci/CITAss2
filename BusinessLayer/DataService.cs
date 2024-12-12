@@ -395,7 +395,7 @@ public class DataService : IDataService
         if (string.IsNullOrWhiteSpace(newUser.Email))
             throw new ArgumentException("Email cannot be empty.");
         if (string.IsNullOrWhiteSpace(newUser.Username))
-            throw new ArgumentException("Email cannot be empty.");
+            throw new ArgumentException("Username cannot be empty.");
         if (string.IsNullOrWhiteSpace(newUser.Password))
             throw new ArgumentException("Password cannot be empty.");
 

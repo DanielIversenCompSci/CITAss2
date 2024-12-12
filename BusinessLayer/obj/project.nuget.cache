@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "oVcQ+GhiBF8=",
   "success": true,
   "projectFilePath": "C:\\Users\\Jonathan Olsen\\Desktop\\CS 1Semester\\Portfolie 2\\CITAss2-master\\BusinessLayer\\BusinessLayer.csproj",
+=======
+  "dgSpecHash": "nMEzs21aFG4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\abjar\\OneDrive\\Skrivebord\\CITAss2\\BusinessLayer\\BusinessLayer.csproj",
+>>>>>>> 1aaf3177ee2525bd31c3a97ffc04596bf665d781
   "expectedPackageFiles": [
     "C:\\Users\\Jonathan Olsen\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\Jonathan Olsen\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.11\\microsoft.aspnetcore.authentication.jwtbearer.8.0.11.nupkg.sha512",
