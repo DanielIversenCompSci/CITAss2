@@ -22,7 +22,7 @@ public class ImdbContext : DbContext
     public DbSet<TitleRatings> TitleRatings { get; set; }
     public DbSet<SearchHis> SearchHis { get; set; }
     public DbSet<UserRating> UserRating { get; set; }
-    public DbSet<UserBookmarkings> UserBookmarkings { get; set; }
+    public DbSet<UserBookmarks> UserBookmarks { get; set; }
     
     // Combined DTOs
     public DbSet<NameWithRating> NameWithRatings { get; set; }
