@@ -344,3 +344,7 @@ Properties/launchSettings.json
 /DbApp/obj/
 /WebApi/bin/
 /WebApi/obj/
+
+# Ensure these files are included
+!**/ImdbContext.cs
+!**/IDataService.cs
