@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -129,6 +130,11 @@ namespace WebApi.Controllers
         [HttpPut("{userId}")]
         public ActionResult UpdateUser(int userId, [FromBody] UsersCreateModel updatedUser)
         {
+            if (userId <= 0 || updatedUser == null)
+            {
+                return BadRequest("Invalid user data.");
+            }
+
             var updatedEntity = new Users
             {
                 //UserId = updatedUser.UserId,
@@ -166,6 +172,7 @@ namespace WebApi.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes("vaeP+GUisPHhX+33WaDHzxCULyUd/zC+OTMRZJyWjzU=");
+
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
