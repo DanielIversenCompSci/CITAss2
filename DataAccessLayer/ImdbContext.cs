@@ -48,6 +48,12 @@ public class ImdbContext : DbContext
         return FromExpression(() => GetTopRatedMovies(titleType));
     }
 
+     public IQueryable<BookmarksWithTitles> GetBookmarksWithTitles(int user_id)
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetBookmarksWithTitles(user_id));
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -68,6 +74,15 @@ public class ImdbContext : DbContext
             .HasName("get_top_weighted_movies_with_details")
             .HasSchema("public")
             .HasParameter("titleType", ParameterBuilder => { });
+
+        //creating new endpoint for fetching user bookmarks in frontend
+        modelBuilder.Entity<BookmarksWithTitles>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetBookmarksWithTitles(default))
+            .HasName("get_user_bookmarks_with_titles")
+            .HasSchema("public")
+            .HasParameter("user_id", ParameterBuilder => { });
+
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
