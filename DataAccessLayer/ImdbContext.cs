@@ -99,7 +99,11 @@ public class ImdbContext : DbContext
     {
         return FromExpression(() => GetMovieCast(tconst));
     }
-
+    // Function to map to the database function
+    public IQueryable<CoPlayer> GetCoPlayers(string actor_name)
+    {
+        return FromExpression(() => GetCoPlayers(actor_name));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -177,10 +181,19 @@ public class ImdbContext : DbContext
             .HasSchema("public")                      // Schema name
             .HasParameter("user_id", parameterBuilder => { }); // Parameter for the stored function
 
+        // Configuration for the `find_co_players` function
+        modelBuilder.Entity<CoPlayer>().HasNoKey();
+
+        modelBuilder
+            .HasDbFunction(() => GetCoPlayers(default))
+            .HasName("find_co_players")
+            .HasSchema("public")
+            .HasParameter("actor_name", p => { }); // Match the parameter in the stored function
+    
 
 
 
-        MapActorRating(modelBuilder);
+    MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
         MapNameBasics(modelBuilder);
         MapPrimaryProfession(modelBuilder);
