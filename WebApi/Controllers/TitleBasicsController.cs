@@ -208,11 +208,11 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("top-rated", Name = nameof(GetTopRatedMovies))]
-        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatedMovies()
+        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatedMovies(string titleType)
         {
-            var movies = await _dataService.GetTopRatedMoviesAsync();
+            var movies = await _dataService.GetTopRatedMoviesAsync(titleType);
 
-            if (movies == null || movies.Count == 0)
+            if (movies == null || !movies.Any())
                 return NotFound();
 
             return Ok(movies);

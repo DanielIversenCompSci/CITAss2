@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 //Db context
@@ -41,10 +42,10 @@ public class ImdbContext : DbContext
         return FromExpression(() => GetTopRatedNames());
     }
 
-    public IQueryable<MovieRankingWithDetails> GetTopRatedMovies()
+    public IQueryable<MovieRankingWithDetails> GetTopRatedMovies(string titleType)
     {
         // This is a marker for the stored SQL function
-        return FromExpression(() => GetTopRatedMovies());
+        return FromExpression(() => GetTopRatedMovies(titleType));
     }
 
 
@@ -62,11 +63,11 @@ public class ImdbContext : DbContext
 
         // Map SQL function for top-rated movies
         modelBuilder.Entity<MovieRankingWithDetails>().HasNoKey(); // Indicates this result has no primary key.
-
         modelBuilder
-            .HasDbFunction(() => GetTopRatedMovies())
+            .HasDbFunction(() => GetTopRatedMovies(default))
             .HasName("get_top_weighted_movies_with_details")
-            .HasSchema("public");
+            .HasSchema("public")
+            .HasParameter("titleType", ParameterBuilder => { });
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);

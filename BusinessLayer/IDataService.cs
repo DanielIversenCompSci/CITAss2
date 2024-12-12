@@ -26,9 +26,7 @@ public interface IDataService
     // Gets a count of all TitleBasics entries
     Task<int> GetTitleBasicsCountAsync();
     
-    
-
-    Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync();
+    Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync(string titleType);
 
 
 
