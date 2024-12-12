@@ -119,6 +119,15 @@ namespace WebApi.Controllers
             return Ok(topRatedNames);
         }
         
+        // Top w Searchd
+        [HttpGet("topNames100Sub")]
+        public async Task<ActionResult<List<NameWithRating>>> GetTopRatedNamesSub([FromQuery] string substring_filter = null)
+        {
+            var topRatedNamesSub = await _dataService.GetTopRatedNamesSubAsync(substring_filter);
+            return Ok(topRatedNamesSub);
+        }
+
+        
         // details/nconst
         [HttpGet("details/{nConst}", Name = nameof(GetNameWithRatingById))]
         public async Task<ActionResult<NameWithRating>> GetNameWithRatingById(string nConst)

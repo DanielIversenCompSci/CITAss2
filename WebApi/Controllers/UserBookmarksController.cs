@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         
         // GET all Titles with pagination
         [HttpGet(Name = nameof(GetUserBookmarks))]
-        [Authorize]
+        //[Authorize]
         public ActionResult<IEnumerable<UserBookmarksModel>> GetUserBookmarks(int pageNumber = 1, int pageSize = 10)
         {
             if (pageNumber <= 0 || pageSize <= 0)

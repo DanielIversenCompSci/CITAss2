@@ -36,12 +36,27 @@ public class ImdbContext : DbContext
         optionsBuilder.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs");
     }
     
+    // **********
+    // Map SQL function for top100 Actors
+    // **********
     public IQueryable<NameWithRating> GetTopRatedNames()
     {
         // This is a marker for the stored SQL function
         return FromExpression(() => GetTopRatedNames());
     }
-
+    
+    // **********
+    // Map SQL function for top 100 actors search w substring
+    // **********
+    public IQueryable<NameWithRating> GetTopRatedNamesSub(string substring_filter)
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetTopRatedNamesSub(substring_filter));
+    }
+    
+    // **********
+    // Map SQL function for top-rated movies
+    // **********
     public IQueryable<MovieRankingWithDetails> GetTopRatedMovies(string titleType)
     {
         // This is a marker for the stored SQL function
@@ -51,17 +66,30 @@ public class ImdbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         base.OnModelCreating(modelBuilder);
+        
+        // **********
         // Map SQL function for top100 Actors
+        // **********
         modelBuilder.Entity<NameWithRating>().HasNoKey();
         modelBuilder
             .HasDbFunction(() => GetTopRatedNames())
             .HasName("gettopratednames") // Name of the function in the database
             .HasSchema("public");
         
+        // **********
+        // Map SQL function for top 100 actors search w substring
+        // **********
+        modelBuilder
+            .HasDbFunction(() => GetTopRatedNamesSub(default))
+            .HasName("gettopratednames_sub")
+            .HasSchema("public")
+            .HasParameter("substring_filter"); // Match the C# parameter name to the SQL parameter name
 
+        
+        // **********
         // Map SQL function for top-rated movies
+        // **********
         modelBuilder.Entity<MovieRankingWithDetails>().HasNoKey(); // Indicates this result has no primary key.
         modelBuilder
             .HasDbFunction(() => GetTopRatedMovies(default))
@@ -188,7 +216,7 @@ public class ImdbContext : DbContext
         
         // Define cascade behavior and foreignkey aswell as relation
         modelBuilder.Entity<SearchHis>()
-            .HasOne<Users>()
+            .HasOne(b => b.User)
             .WithMany(u => u.SearchHistory) // Nav property in Users (Check what its called there)
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -379,7 +407,7 @@ public class ImdbContext : DbContext
         
         // Define cascade behavior and Fk and rel
         modelBuilder.Entity<UserRating>()
-            .HasOne<Users>()
+            .HasOne(b => b.User)
             .WithMany(u => u.UserRatings)
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -387,15 +415,15 @@ public class ImdbContext : DbContext
 
     public void MapUserBookmarks(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserBookmarks>().ToTable("user_Bookmarks").HasKey(u => u.UserBookmarksId);
+        modelBuilder.Entity<UserBookmarks>().ToTable("user_bookmarkings").HasKey(u => u.UserBookmarksId);
         modelBuilder.Entity<UserBookmarks>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<UserBookmarks>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<UserBookmarks>().Property(x => x.Note).HasColumnName("note");
-        modelBuilder.Entity<UserBookmarks>().Property(x => x.UserBookmarksId).HasColumnName("userBookmarks_id");
+        modelBuilder.Entity<UserBookmarks>().Property(x => x.UserBookmarksId).HasColumnName("userbookmarkings_id");
         
         // PK/FK and cascade behavior
         modelBuilder.Entity<UserBookmarks>()
-            .HasOne<Users>()
+            .HasOne(b => b.User)
             .WithMany(u => u.UserBookmarks)
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);

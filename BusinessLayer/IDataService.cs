@@ -1,5 +1,4 @@
 using DataAccessLayer;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer;
 
@@ -57,6 +56,7 @@ public interface IDataService
     // ********************
     //NameBasics
     // ********************
+    Task<List<NameWithRating>> GetTopRatedNamesSubAsync(string substring_filter);
     public IList<NameBasics> GetNameBasicsList();
     public NameBasics GetNameBasicsById(string nConst);
     public NameBasics AddNameBasics(NameBasics newTitle);
@@ -178,7 +178,7 @@ public interface IDataService
     //UserRating
     // ********************
     public IList<UserRating> GetUserRatingsList(); // be by id aswell ?
-    UserRating GetUserRatingById(int userRatingId); // ITS RIGHT HERE
+    UserRating GetUserRatingById(int userRatingId); // IT IS RIGHT HERE
     UserRating AddUserRating(UserRating newUserRating);
     bool UpdateUserRating(int userRatingId, UserRating updatedRating);
     bool DeleteUserRating(int userRatingId);
