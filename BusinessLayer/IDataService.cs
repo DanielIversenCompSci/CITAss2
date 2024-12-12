@@ -1,5 +1,6 @@
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace BusinessLayer;
 
@@ -195,6 +196,6 @@ public interface IDataService
     bool UpdateUserBookmarks(int userBookmarksId, UserBookmarks updatedUserBookmarks);
     bool DeleteUserBookmarks(int userBookmarksId);
     int GetUserBookmarksCount();
-
+    Task<List<BookmarksWithTitles>> GetBookmarksWithTitlesAsync(int user_id);
 
 }
