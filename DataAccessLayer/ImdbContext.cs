@@ -48,6 +48,11 @@ public class ImdbContext : DbContext
         return FromExpression(() => GetTopRatedMovies(titleType));
     }
 
+    public IQueryable<SimilarMovie> GetSimilarMovies(string tconst)
+    {
+        return FromExpression(() => GetSimilarMovies(tconst));
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -68,6 +73,13 @@ public class ImdbContext : DbContext
             .HasName("get_top_weighted_movies_with_details")
             .HasSchema("public")
             .HasParameter("titleType", ParameterBuilder => { });
+        
+        modelBuilder.Entity<SimilarMovie>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetSimilarMovies(default))
+            .HasName("find_similar_movies_by_genre")
+            .HasSchema("public")
+            .HasParameter("tconst", ParameterBuilder => { }); // Ensure the parameter name matches the stored function.
 
         MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
