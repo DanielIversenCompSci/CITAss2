@@ -81,7 +81,7 @@ namespace WebApi.Controllers
         public ActionResult<Users> AddUser([FromBody] UsersCreateModel newUser)
         {
 
-            if (string.IsNullOrWhiteSpace(newUser.Email) /*|| string.IsNullOrWhiteSpace(newUser.Username) */|| string.IsNullOrWhiteSpace(newUser.Password))
+            if (string.IsNullOrWhiteSpace(newUser.Email) || string.IsNullOrWhiteSpace(newUser.Username) || string.IsNullOrWhiteSpace(newUser.Password))
             {
                 return BadRequest("Email, Username and Password are required.");
             }

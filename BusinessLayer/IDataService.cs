@@ -28,6 +28,8 @@ public interface IDataService
     
     
 
+    Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync();
+
 
 
     // ********************
@@ -187,19 +189,14 @@ public interface IDataService
     
     
     // ********************
-    //UserBookmarkings
+    //UserBookmarks
     // ********************
-    IList<UserBookmarkings> GetUserBookmarkings();
-    UserBookmarkings GetUserBookmarkingsById(int userBookmarkingsId);
-    UserBookmarkings AddUserBookmarkings(UserBookmarkings newUserBookmarkings);
-    bool UpdateUserBookmarkings(int userBookmarkingsId, UserBookmarkings updatedUserBookmarkings);
-    bool DeleteUserBookmarkings(int userBookmarkingsId);
-    int GetUserBookmarkingsCount();
+    IList<UserBookmarks> GetUserBookmarks();
+    UserBookmarks GetUserBookmarksById(int userBookmarksId);
+    UserBookmarks AddUserBookmarks(UserBookmarks newUserBookmarks);
+    bool UpdateUserBookmarks(int userBookmarksId, UserBookmarks updatedUserBookmarks);
+    bool DeleteUserBookmarks(int userBookmarksId);
+    int GetUserBookmarksCount();
 
-
-    // ********************
-    //MovieRankingWithDetails
-    // ********************
-    Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes);
 
 }

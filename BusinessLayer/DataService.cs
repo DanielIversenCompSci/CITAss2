@@ -890,64 +890,64 @@ public class DataService : IDataService
     
     
     // ********************
-    // UserBookmarkings
+    // UserBookmarks
     // ********************
-    public IList<UserBookmarkings> GetUserBookmarkings()
+    public IList<UserBookmarks> GetUserBookmarks()
     {
-        return _context.UserBookmarkings.ToList(); //error 
+        return _context.UserBookmarks.ToList(); //error 
     }
     
-    public UserBookmarkings GetUserBookmarkingsById(int userBookmarkingsId)
+    public UserBookmarks GetUserBookmarksById(int userBookmarksId)
     {
-        return _context.UserBookmarkings.FirstOrDefault(r => r.UserBookmarkingsId == userBookmarkingsId);
+        return _context.UserBookmarks.FirstOrDefault(r => r.UserBookmarksId == userBookmarksId);
     }
 
-    public UserBookmarkings AddUserBookmarkings(UserBookmarkings newUserBookmarkings)
+    public UserBookmarks AddUserBookmarks(UserBookmarks newUserBookmarks)
     {
-        if (_context.UserBookmarkings.Any(r => r.UserId == newUserBookmarkings.UserId && r.TConst == newUserBookmarkings.TConst))
+        if (_context.UserBookmarks.Any(r => r.UserId == newUserBookmarks.UserId && r.TConst == newUserBookmarks.TConst))
         {
             return null; // User bookmark for this movie already exists
         }
 
-        _context.UserBookmarkings.Add(newUserBookmarkings);
+        _context.UserBookmarks.Add(newUserBookmarks);
         _context.SaveChanges();
-        return newUserBookmarkings;
+        return newUserBookmarks;
     }
     
-    public bool UpdateUserBookmarkings(int userBookmarkingsId, UserBookmarkings updatedUserBookmarkings)
+    public bool UpdateUserBookmarks(int userBookmarksId, UserBookmarks updatedUserBookmarks)
     {
-        var existingUserBookmarkings = _context.UserBookmarkings.FirstOrDefault(r => r.UserBookmarkingsId == userBookmarkingsId);
+        var existingUserBookmarks = _context.UserBookmarks.FirstOrDefault(r => r.UserBookmarksId == userBookmarksId);
 
-        if (existingUserBookmarkings == null)
+        if (existingUserBookmarks == null)
         {
             return false; // No existing rating found
         }
         
         
-        existingUserBookmarkings.UserId = updatedUserBookmarkings.UserId; //Foreign Key
-        existingUserBookmarkings.TConst = updatedUserBookmarkings.TConst;
-        existingUserBookmarkings.Note = updatedUserBookmarkings.Note;
+        existingUserBookmarks.UserId = updatedUserBookmarks.UserId; //Foreign Key
+        existingUserBookmarks.TConst = updatedUserBookmarks.TConst;
+        existingUserBookmarks.Note = updatedUserBookmarks.Note;
         _context.SaveChanges();
         return true;
     }
 
-    public bool DeleteUserBookmarkings(int userBookmarkingsId)
+    public bool DeleteUserBookmarks(int userBookmarksId)
     {
-        var existingUserBookmarkings = _context.UserBookmarkings.FirstOrDefault(r => r.UserBookmarkingsId == userBookmarkingsId);
+        var existingUserBookmarks = _context.UserBookmarks.FirstOrDefault(r => r.UserBookmarksId == userBookmarksId);
 
-        if (existingUserBookmarkings == null)
+        if (existingUserBookmarks == null)
         {
             return false; // No existing rating found
         }
 
-        _context.UserBookmarkings.Remove(existingUserBookmarkings);
+        _context.UserBookmarks.Remove(existingUserBookmarks);
         _context.SaveChanges();
         return true;
     }
     
-    public int GetUserBookmarkingsCount()
+    public int GetUserBookmarksCount()
     {
-        return _context.UserBookmarkings.Count();
+        return _context.UserBookmarks.Count();
     }
 
 
@@ -955,12 +955,15 @@ public class DataService : IDataService
     // MovieRankingWithDetails
     // ********************
 
-
-    public async Task<IList<MovieRankingWithDetails>> GetRankedMoviesWithDetails(int limit, int minVotes)
+    public async Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync()
     {
+<<<<<<< HEAD
+        // Call the EF Core mapped function
+        return await _context.GetTopRatedMovies().ToListAsync();
+=======
         //return await _context.GetRankedMoviesWithDetails(limit, minVotes);
         return null;
+>>>>>>> 2f4234c9ff043c6427cf0d501d68aae91c9daaf1
     }
-
 
 }

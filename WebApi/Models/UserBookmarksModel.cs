@@ -1,9 +1,9 @@
 namespace WebApi.Models;
 
-public class UserBookmarkingsModel
+public class UserBookmarksModel
 {
+    public int UserBookmarksId { get; set; }
     public string Url { get; set; }
-    
     public int UserId { get; set; }
     
     public string TConst  { get; set; }
