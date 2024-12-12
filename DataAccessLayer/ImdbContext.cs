@@ -187,9 +187,9 @@ public class ImdbContext : DbContext
         
         // Define cascade behavior and foreignkey aswell as relation
         modelBuilder.Entity<SearchHis>()
-            .HasOne<Users>()
+            .HasOne(b => b.User)
             .WithMany(u => u.SearchHistory) // Nav property in Users (Check what its called there)
-            .HasForeignKey(s => s.UserId)
+            .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
     
@@ -379,25 +379,25 @@ public class ImdbContext : DbContext
         
         // Define cascade behavior and Fk and rel
         modelBuilder.Entity<UserRating>()
-            .HasOne<Users>()
+            .HasOne(b => b.User)
             .WithMany(u => u.UserRatings)
-            .HasForeignKey(s => s.UserId)
+            .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 
     public void MapUserBookmarks(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserBookmarks>().ToTable("user_Bookmarks").HasKey(u => u.UserBookmarksId);
+        modelBuilder.Entity<UserBookmarks>().ToTable("user_bookmarkings").HasKey(u => u.UserBookmarksId);
         modelBuilder.Entity<UserBookmarks>().Property(x => x.UserId).HasColumnName("userid");
         modelBuilder.Entity<UserBookmarks>().Property(x => x.TConst).HasColumnName("tconst");
         modelBuilder.Entity<UserBookmarks>().Property(x => x.Note).HasColumnName("note");
-        modelBuilder.Entity<UserBookmarks>().Property(x => x.UserBookmarksId).HasColumnName("userBookmarks_id");
+        modelBuilder.Entity<UserBookmarks>().Property(x => x.UserBookmarksId).HasColumnName("userbookmarkings_id");
         
         // PK/FK and cascade behavior
         modelBuilder.Entity<UserBookmarks>()
-            .HasOne<Users>()
+            .HasOne(b => b.User)
             .WithMany(u => u.UserBookmarks)
-            .HasForeignKey(s => s.UserId)
+            .HasForeignKey(b => b.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 
