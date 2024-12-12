@@ -191,20 +191,12 @@ public interface IDataService
     // ********************
     //UserBookmarks
     // ********************
-<<<<<<< HEAD
-    IList<UserBookmarkings> GetUserBookmarkings();
-    UserBookmarkings GetUserBookmarkingsById(int userBookmarkingsId);
-    UserBookmarkings AddUserBookmarkings(UserBookmarkings newUserBookmarkings);
-    bool UpdateUserBookmarkings(int userBookmarkingsId, UserBookmarkings updatedUserBookmarkings);
-    bool DeleteUserBookmarkings(int userBookmarkingsId);
-    int GetUserBookmarkingsCount();
-
-=======
     IList<UserBookmarks> GetUserBookmarks();
     UserBookmarks GetUserBookmarksById(int userBookmarksId);
     UserBookmarks AddUserBookmarks(UserBookmarks newUserBookmarks);
     bool UpdateUserBookmarks(int userBookmarksId, UserBookmarks updatedUserBookmarks);
     bool DeleteUserBookmarks(int userBookmarksId);
     int GetUserBookmarksCount();
->>>>>>> 2f4234c9ff043c6427cf0d501d68aae91c9daaf1
+
+
 }
