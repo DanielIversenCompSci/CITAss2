@@ -285,3 +285,14 @@ C:/Users/Jonathan Olsen/Desktop/CS 1Semester/Portfolie 2/CITAss2-master/WebApi/b
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/danieliversen/RiderProjects/WebApplication1/WebApi/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.csproj.AssemblyReference.cache
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.AssemblyInfoInputs.cache
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.AssemblyInfo.cs
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.csproj.CoreCompileInputs.cache
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.sourcelink.json
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.dll
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\refint\WebApi.dll
+C:\Users\abjar\OneDrive\Skrivebord\CitP3\CITAss2\WebApi\obj\Debug\net8.0\WebApi.pdb
