@@ -58,19 +58,20 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpGet("{searchId}", Name = nameof(GetSearchHisById))]
-        public ActionResult<SearchHis> GetSearchHisById(int searchId)
+        [HttpGet("{userId}", Name = nameof(GetSearchHistoryByUserId))]
+        public ActionResult<IEnumerable<SearchHisModel>> GetSearchHistoryByUserId(int userId)
         {
-            var searchEntry = _dataService.GetSearchHisById(searchId);
+            var searchEntries = _dataService.GetSearchHistoryByUserId(userId);
 
-            if (searchEntry == null)
+            if (searchEntries == null || !searchEntries.Any())
             {
-                return NotFound();
+                return NotFound("No search history found for this user.");
             }
 
-            var model = CreateSearchHisModel(searchEntry);
-            return Ok(model);
+            var models = searchEntries.Select(CreateSearchHisModel).ToList();
+            return Ok(models);
         }
+
 
 
         [HttpPost]
@@ -91,7 +92,7 @@ namespace WebApi.Controllers
             }
             
             var model = CreateSearchHisModel(createdSearch);
-            return CreatedAtAction(nameof(GetSearchHisById), new { searchId = createdSearch.SearchId }, model);
+            return CreatedAtAction(nameof(GetSearchHistoryByUserId), new { searchId = createdSearch.SearchId }, model);
         }
 
 
@@ -141,7 +142,7 @@ namespace WebApi.Controllers
                 SearchQuery = searchHis.SearchQuery,
                 SearchTimeStamp = searchHis.SearchTimeStamp,
                 SearchId = searchHis.SearchId,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetSearchHisById),
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetSearchHistoryByUserId),
                     new { searchId = searchHis.SearchId })
             };
         }

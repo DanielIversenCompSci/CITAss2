@@ -167,7 +167,7 @@ public interface IDataService
     //SearchHis
     // ********************
     public IList<SearchHis> GetSearchHisList();
-    SearchHis GetSearchHistoryById(int userId, DateTime timestamp);
+    IEnumerable<SearchHis> GetSearchHistoryByUserId(int userId);
     SearchHis GetSearchHisById(int searchId); // Updated one
     SearchHis AddSearchHistory(SearchHis newSearch);
     bool UpdateSearchHistory(int userId, DateTime timestamp, SearchHis updatedSearch);
