@@ -36,6 +36,9 @@ public class ImdbContext : DbContext
         optionsBuilder.UseNpgsql("host=cit.ruc.dk;db=cit04;uid=cit04;pwd=1paLIXo0SHSs");
     }
     
+    // ********** // **********
+    // SQL Stored functions realted to 'Names'
+    // ********** // **********
     // **********
     // Map SQL function for top100 Actors
     // **********
@@ -55,20 +58,40 @@ public class ImdbContext : DbContext
     }
     
     // **********
+    // Map SQL function for get actor pr nconst
+    // **********
+    public IQueryable<NameWithRating> GetNameByNConstSQL(string nconst_param)
+    {
+        return FromExpression(() => GetNameByNConstSQL(nconst_param));
+    }
+    
+    // **********
+    // Map SQL function for getting the cast for a movie
+    // **********
+    public IQueryable<MovieCast> GetMovieCast(string tconst)
+    {
+        return FromExpression(() => GetMovieCast(tconst));
+    }
+    
+    // **********
+    // Map SQL stored function for getting CoPlayers for a actor
+    // **********
+    public IQueryable<CoPlayer> GetCoPlayers(string actor_name)
+    {
+        return FromExpression(() => GetCoPlayers(actor_name));
+    }
+    
+    
+    // ********** // **********
+    // SQL Stored functions realted to 'Titles'
+    // ********** // **********
+    // **********
     // Map SQL function for top-rated movies
     // **********
     public IQueryable<MovieRankingWithDetails> GetTopRatedMovies(string titleType)
     {
         // This is a marker for the stored SQL function
         return FromExpression(() => GetTopRatedMovies(titleType));
-    }
-    
-    // **********
-    // Map SQL function for get actor pr nconst
-    // **********
-    public IQueryable<NameWithRating> GetNameByNConstSQL(string nconst_param)
-    {
-        return FromExpression(() => GetNameByNConstSQL(nconst_param));
     }
     
     // **********
@@ -104,20 +127,13 @@ public class ImdbContext : DbContext
         return FromExpression(() => GetTopRatedMoviesSub(search_text));
     }
 
-    public IQueryable<MovieCast> GetMovieCast(string tconst)
-    {
-        return FromExpression(() => GetMovieCast(tconst));
-    }
-    // Function to map to the database function
-    public IQueryable<CoPlayer> GetCoPlayers(string actor_name)
-    {
-        return FromExpression(() => GetCoPlayers(actor_name));
-    }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+        // ********** // **********
+        // SQL Stored functions realted to 'Names'
+        // ********** // **********
         // **********
         // Map SQL function for top100 Actors
         // **********
@@ -126,6 +142,15 @@ public class ImdbContext : DbContext
             .HasDbFunction(() => GetTopRatedNames())
             .HasName("gettopratednames") // Name of the function in the database
             .HasSchema("public");
+        
+        // **********
+        // Map SQL function for top 100 actors search w substring
+        // **********
+        modelBuilder
+            .HasDbFunction(() => GetTopRatedNamesSub(default))
+            .HasName("gettopratednames_sub")
+            .HasSchema("public")
+            .HasParameter("substring_filter"); // Match the C# parameter name to the SQL parameter name
         
         // **********
         // Map SQL function for get actor pr nconst
@@ -137,25 +162,58 @@ public class ImdbContext : DbContext
             .HasParameter("nconst_param", ParameterBuilder => { });
         
         // **********
-        // Map SQL function for top 100 actors search w substring
+        // Map SQL function for get MovieCast for a Title
         // **********
+        modelBuilder.Entity<MovieCast>().HasNoKey(); // This result set has no primary key
         modelBuilder
-            .HasDbFunction(() => GetTopRatedNamesSub(default))
-            .HasName("gettopratednames_sub")
-            .HasSchema("public")
-            .HasParameter("substring_filter"); // Match the C# parameter name to the SQL parameter name
-
+            .HasDbFunction(() => GetMovieCast(default))
+            .HasName("get_movie_cast") // Name of the stored function
+            .HasSchema("public")       // Schema where the function resides
+            .HasParameter("tconst", parameterBuilder => { });
         
+        // **********
+        // Map SQL function for get CoPlayers for a Actor
+        // **********
+        modelBuilder.Entity<CoPlayer>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetCoPlayers(default))
+            .HasName("find_co_players")
+            .HasSchema("public")
+            .HasParameter("actor_name", p => { }); // Match the parameter in the stored function
+        
+        
+        // ********** // **********
+        // SQL Stored functions realted to 'Titles'
+        // ********** // **********
         // **********
         // Map SQL function for top-rated movies
         // **********
-        modelBuilder.Entity<MovieRankingWithDetails>().HasNoKey(); // Indicates this result has no primary key.
+        modelBuilder.Entity<MovieRankingWithDetails>().HasNoKey();
         modelBuilder
             .HasDbFunction(() => GetTopRatedMovies(default))
             .HasName("get_top_weighted_movies_with_details")
             .HasSchema("public")
             .HasParameter("titleType", ParameterBuilder => { });
         
+        // **********
+        // Map SQL function for Get Similar Titles
+        // **********
+        modelBuilder.Entity<SimilarMovie>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetSimilarMovies(default))
+            .HasName("find_similar_movies_by_genre")
+            .HasSchema("public")
+            .HasParameter("tconst", parameterBuilder => { });
+        
+        // **********
+        // Map SQL function for Get Bookmarks with more info
+        // **********
+        modelBuilder.Entity<BookmarksWithTitles>().HasNoKey();
+        modelBuilder
+            .HasDbFunction(() => GetBookmarksWithTitles(default))
+            .HasName("get_user_bookmarks_with_titles")
+            .HasSchema("public")
+            .HasParameter("user_id", parameterBuilder => { });
         
         // **********
         // Map SQL function for top 5 movies by genre
@@ -167,51 +225,19 @@ public class ImdbContext : DbContext
             .HasSchema("public")
             .HasParameter("genre_param", ParameterBuilder => { });
 
-        // Configuration for MovieCast
-        modelBuilder.Entity<MovieCast>().HasNoKey(); // This result set has no primary key
-        modelBuilder
-            .HasDbFunction(() => GetMovieCast(default))
-            .HasName("get_movie_cast") // Name of the stored function
-            .HasSchema("public")       // Schema where the function resides
-            .HasParameter("tconst", parameterBuilder => { });
-
-
-        modelBuilder.Entity<SimilarMovie>().HasNoKey(); // SimilarMovie result has no primary key
-        modelBuilder
-            .HasDbFunction(() => GetSimilarMovies(default))
-            .HasName("find_similar_movies_by_genre") // Stored function name
-            .HasSchema("public")                    // Schema name
-            .HasParameter("tconst", parameterBuilder => { }); // Parameter for the stored function
-
-        modelBuilder.Entity<BookmarksWithTitles>().HasNoKey(); // BookmarksWithTitles result has no primary key
-        modelBuilder
-            .HasDbFunction(() => GetBookmarksWithTitles(default))
-            .HasName("get_user_bookmarks_with_titles") // Stored function name
-            .HasSchema("public")                      // Schema name
-            .HasParameter("user_id", parameterBuilder => { }); // Parameter for the stored function
-
-        // Configuration for the `find_co_players` function
-        modelBuilder.Entity<CoPlayer>().HasNoKey();
-
-        modelBuilder
-            .HasDbFunction(() => GetCoPlayers(default))
-            .HasName("find_co_players")
-            .HasSchema("public")
-            .HasParameter("actor_name", p => { }); // Match the parameter in the stored function
-    
         // **********
-    // Map SQL function for get top 20 rated movies
-    // **********
+        // Map SQL function for get top 20 rated movies
+        // **********
         modelBuilder
             .HasDbFunction(() => GetTopRatedMoviesSub(default))
             .HasName("get_top_20_rated_movies")
             .HasSchema("public")
             .HasParameter("search_text", ParameterBuilder => { });
 
-
-
-
-    MapActorRating(modelBuilder);
+        // **********
+        // Calling our mapping of DB tables, defined below
+        // **********
+        MapActorRating(modelBuilder);
         MapKnownForTitle(modelBuilder);
         MapNameBasics(modelBuilder);
         MapPrimaryProfession(modelBuilder);

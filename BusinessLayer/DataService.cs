@@ -770,13 +770,14 @@ public class DataService : IDataService
     {
         return _context.SearchHis.ToList();
     }
-    
-    
-    public SearchHis GetSearchHistoryById(int userId, DateTime timestamp)
+
+
+    public IEnumerable<SearchHis> GetSearchHistoryByUserId(int userId)
     {
-        return _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
+        return _context.SearchHis.Where(s => s.UserId == userId).ToList();
     }
-    
+
+
 
     public SearchHis GetSearchHisById(int searchId)
     {

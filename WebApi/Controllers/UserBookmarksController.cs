@@ -59,7 +59,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("user/{userId}/bookmarksWithTitles", Name = nameof(GetBookmarksWithTitlesAsync))]
-        [Authorize]
+       // [Authorize]
         public async Task<ActionResult<List<BookmarksWithTitles>>> GetBookmarksWithTitlesAsync(int userId)
         {
 
@@ -151,7 +151,7 @@ namespace WebApi.Controllers
 
         
         [HttpDelete("{userBookmarksId}")]
-        [Authorize]
+        //[Authorize]
         public IActionResult DeleteUserBookmarks(int userBookmarksId)
         {
             var success = _dataService.DeleteUserBookmarks(userBookmarksId);
