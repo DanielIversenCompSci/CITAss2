@@ -239,6 +239,18 @@ namespace WebApi.Controllers
 
             return Ok(movies);
         }
+        
+        [HttpGet("top-movie-search", Name = nameof(GetTopRatingMoviesSub))]
+        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatingMoviesSub(string search_text)
+        {
+            var movies = await _dataService.GetTopRatedMoviesSearchAsync(search_text);
+
+            if (movies == null || !movies.Any())
+                return NotFound();
+
+            return Ok(movies);
+        }
+
 
         [HttpGet("movie-cast", Name = nameof(GetMovieCast))]
         public async Task<ActionResult<List<MovieCast>>> GetMovieCast(string tconst)

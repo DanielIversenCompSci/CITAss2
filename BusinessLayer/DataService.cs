@@ -38,11 +38,20 @@ public class DataService : IDataService
             .ToListAsync();
     }
 
+    // Genre parameter
     public async Task<IList<MovieRankingByGenre>> GetMovieRankingByGenreAsync(string genre_param)
     {
         var result = await _context.GetMovieRankingByGenre(genre_param).ToListAsync();
         return result;
     }
+    
+    // Title sub string search parameter
+    public async Task<IList<MovieRankingByGenre>> GetTopRatedMoviesSearchAsync(string search_text)
+    {
+        var result = await _context.GetTopRatedMoviesSub(search_text).ToListAsync();
+        return result;
+    }
+
 
     public async Task<int> GetTitleBasicsCountAsync()
     {

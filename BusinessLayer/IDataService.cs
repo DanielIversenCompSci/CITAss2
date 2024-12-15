@@ -16,6 +16,7 @@ public interface IDataService
     // ********************
     Task<IList<TitleBasics>> GetLimitedTitleBasicsAsync(int limit, int offset);
     Task<IList<MovieRankingByGenre>> GetMovieRankingByGenreAsync(string genre_param);
+    Task<IList<MovieRankingByGenre>> GetTopRatedMoviesSearchAsync(string search_text);
     public IList<TitleBasics> GetTitleBasicsList();
     TitleBasics GetTitleBasicsById(string tConst);
     TitleBasics AddTitleBasics(TitleBasics newTitle);

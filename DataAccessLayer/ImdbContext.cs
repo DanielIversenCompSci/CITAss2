@@ -1,4 +1,3 @@
-using DataAccessLayer.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -94,6 +93,15 @@ public class ImdbContext : DbContext
     public IQueryable<MovieRankingByGenre> GetMovieRankingByGenre(string genre_param)
     {
         return FromExpression(() => GetMovieRankingByGenre(genre_param));
+    }
+    
+    // **********
+    // Map SQL function for top 20 rated movies search with substring
+    // **********
+    public IQueryable<MovieRankingByGenre> GetTopRatedMoviesSub(string search_text)
+    {
+        // This is a marker for the stored SQL function
+        return FromExpression(() => GetTopRatedMoviesSub(search_text));
     }
 
     public IQueryable<MovieCast> GetMovieCast(string tconst)
@@ -191,6 +199,15 @@ public class ImdbContext : DbContext
             .HasSchema("public")
             .HasParameter("actor_name", p => { }); // Match the parameter in the stored function
     
+        // **********
+    // Map SQL function for get top 20 rated movies
+    // **********
+        modelBuilder
+            .HasDbFunction(() => GetTopRatedMoviesSub(default))
+            .HasName("get_top_20_rated_movies")
+            .HasSchema("public")
+            .HasParameter("search_text", ParameterBuilder => { });
+
 
 
 
