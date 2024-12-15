@@ -111,7 +111,25 @@ namespace WebApi.Controllers
 
             return Ok(result);
         }
-        
+
+        [HttpGet("co-players", Name = nameof(GetCoPlayers))]
+        public async Task<ActionResult<List<CoPlayer>>> GetCoPlayers(string actorName)
+        {
+            if (string.IsNullOrWhiteSpace(actorName))
+            {
+                return BadRequest("Actor name is required.");
+            }
+
+            var coPlayers = await _dataService.GetCoPlayersAsync(actorName);
+
+            if (coPlayers == null || !coPlayers.Any())
+            {
+                return NotFound($"No co-players found for actor '{actorName}'.");
+            }
+
+            return Ok(coPlayers);
+        }
+
         [HttpGet("topNames100")]
         public async Task<ActionResult<List<NameWithRating>>> GetTopRatedNames()
         {

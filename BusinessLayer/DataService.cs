@@ -1003,5 +1003,10 @@ public class DataService : IDataService
     }
 
 
+    public async Task<List<CoPlayer>> GetCoPlayersAsync(string actorName)
+    {
+        return await _context.GetCoPlayers(actorName).ToListAsync();
+    }
+
 
 }

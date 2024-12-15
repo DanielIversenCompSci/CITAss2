@@ -73,10 +73,11 @@ public interface IDataService
     
     Task<NameWithRating> GetNameWithRatingByIdAsync(string nConst);
 
+    Task<List<CoPlayer>> GetCoPlayersAsync(string actorName);
 
 
-    
-    
+
+
     // ********************
     //Users
     // ********************
