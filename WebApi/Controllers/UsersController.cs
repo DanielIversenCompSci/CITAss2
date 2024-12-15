@@ -131,7 +131,7 @@ namespace WebApi.Controllers
 
 
         // PUT: api/Users/{id}
-        [HttpPut("{userId}")]
+       /* [HttpPut("{userId}")]
         public ActionResult UpdateUser(int userId, [FromBody] UsersCreateModel updatedUser)
         {
             if (userId <= 0 || updatedUser == null)
@@ -155,9 +155,9 @@ namespace WebApi.Controllers
             }
             
             return NoContent();
-        }
+        }*/
 
-        [HttpPut]
+        [HttpPut("login")]
         public ActionResult LoginUser( LoginModel loginModel)
         {
             if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
