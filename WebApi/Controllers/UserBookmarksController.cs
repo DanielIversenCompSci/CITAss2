@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         
         // GET all Titles with pagination
         [HttpGet(Name = nameof(GetUserBookmarks))]
-        //[Authorize]
+        
         public ActionResult<IEnumerable<UserBookmarksModel>> GetUserBookmarks(int pageNumber = 1, int pageSize = 10)
         {
             if (pageNumber <= 0 || pageSize <= 0)
@@ -59,7 +59,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("user/{userId}/bookmarksWithTitles", Name = nameof(GetBookmarksWithTitlesAsync))]
-       // [Authorize]
+        [Authorize]
         public async Task<ActionResult<List<BookmarksWithTitles>>> GetBookmarksWithTitlesAsync(int userId)
         {
 

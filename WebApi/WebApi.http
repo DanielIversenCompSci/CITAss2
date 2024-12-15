@@ -2,3 +2,18 @@
 
 GET {{Ass2_HostAddress}}/weatherforecast/
 Accept: application/json
+
+
+###
+PUT {{Ass2_HostAddress}}/api/users
+Accept: application/json
+Content-Type: application/json
+{
+  "email": "admin@admin.com""
+  "password": "admin4000"
+}
+
+###
+GET {{Ass2_HostAddress}}/api/users
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0MSIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsIm5iZiI6MTczNDI4NzkyMCwiZXhwIjoxNzM0MjkxNTIwLCJpYXQiOjE3MzQyODc5MjB9.xge3Gcxh4Fw7j8IKpmkRk8HqpWk6eJKeRSv7hw0zIHQ

@@ -17,17 +17,21 @@ namespace WebApi.Controllers
     {
         private readonly IDataService _dataService;
         private readonly LinkGenerator _linkGenerator;
+        private readonly IConfiguration _configuration;
 
         public UsersController(
             IDataService dataService,
-            LinkGenerator linkGenerator)
+            LinkGenerator linkGenerator,
+            IConfiguration configuration)
         {
             _dataService = dataService;
             _linkGenerator = linkGenerator;
+            _configuration = configuration;
         }
 
         // GET all Users with pagination
         [HttpGet(Name = nameof(GetUsers))]
+        [Authorize]
         public ActionResult<IEnumerable<UsersModel>> GetUsers(int pageNumber = 1, int pageSize = 10)
         {
             if (pageNumber <= 0 || pageSize <= 0)
@@ -153,8 +157,8 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        [HttpPost("login")]
-        public ActionResult LoginUser([FromBody] LoginModel loginModel)
+        [HttpPut]
+        public ActionResult LoginUser( LoginModel loginModel)
         {
             if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
             {
@@ -170,8 +174,10 @@ namespace WebApi.Controllers
                 return Unauthorized("Invalid Email or Password");
             }
 
+
+            var secret = _configuration.GetSection("Auth:Secret").Value;
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes("vaeP+GUisPHhX+33WaDHzxCULyUd/zC+OTMRZJyWjzU=");
+            var key = Encoding.UTF8.GetBytes(secret);
 
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -189,14 +195,65 @@ namespace WebApi.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwt = tokenHandler.WriteToken(token);
 
-
             return Ok(new {
                 token = jwt,
                 userId = user.UserId,
                 email = user.Email,
                 username = user.Username
             });
+             
+
+            
         }
+
+        /*[HttpPut]
+        public IActionResult Login(LoginModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Password))
+            {
+                return (BadRequest("Email and Password are required"));
+            }
+
+            var user = _dataService.GetUsersList().FirstOrDefault(u => u.Email == model.Email);
+
+            var isAuthenticated = _dataService.LoginUser(model.Email, model.Password);
+
+            if (!isAuthenticated)
+            {
+                return Unauthorized("Invalid Email or Password");
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Username),
+                new Claim(ClaimTypes.Email, user.Email)
+            };
+
+            var secret = "vaeP+GUisPHhX+33WaHzxCULyUd/zC+LyUd/zC+OTDHzxCULyUd/zC+OTMRZOTMRZJyWjzU=3WaDHzxCUJyWjzU=vaeP+GUisPHhX+3vaeP+GUisPHhX+33WaDMRZJyWjzU=";
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secret));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(45)
+            );
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return Ok(new
+            {
+                username = user.Username,
+                email = user.Email,
+                token = jwt
+            });
+
+           
+
+        }*/
+
 
         // DELETE: api/Users/{id}
         [HttpDelete("{userId}")]
@@ -221,6 +278,7 @@ namespace WebApi.Controllers
             {
                 UserId = user.UserId,
                 Email = user.Email,
+                Username = user.Username,
                 Password = user.Password,
                 Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserById), new { userId = user.UserId })
             };
