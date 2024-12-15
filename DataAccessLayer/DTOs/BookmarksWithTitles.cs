@@ -5,7 +5,7 @@ namespace DataAccessLayer;
 public class BookmarksWithTitles
 {
     public int UserId { get; set; }
-    public int UserBookmarkingsId { get; set; }
+    public int UserBookmarksId { get; set; }
     public string Note {  get; set; }
     public string TConst  { get; set; }
     public string PrimaryTitle { get; set; }
