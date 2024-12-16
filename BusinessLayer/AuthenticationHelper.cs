@@ -32,7 +32,7 @@ namespace BusinessLayer
         private string hashSHA256(string password, string saltstring)
         {
             byte[] hashinput = Encoding.UTF8.GetBytes(saltstring + password);
-            byte[] hashoutput = iteratedSha256(hashinput, 25000);
+            byte[] hashoutput = iteratedSha256(hashinput, 600000);
             return Convert.ToHexString(hashoutput);
         }
 
