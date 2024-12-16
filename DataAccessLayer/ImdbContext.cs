@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.DTOs;
 //Db context
 namespace DataAccessLayer;
 public class ImdbContext : DbContext
