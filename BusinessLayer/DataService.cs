@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
 using DataAccessLayer;
+using DataAccessLayer.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer;
