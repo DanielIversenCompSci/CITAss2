@@ -39,11 +39,20 @@ public class DataService : IDataService
             .ToListAsync();
     }
 
+    // Genre parameter
     public async Task<IList<MovieRankingByGenre>> GetMovieRankingByGenreAsync(string genre_param)
     {
         var result = await _context.GetMovieRankingByGenre(genre_param).ToListAsync();
         return result;
     }
+    
+    // Title sub string search parameter
+    public async Task<IList<MovieRankingByGenre>> GetTopRatedMoviesSearchAsync(string search_text)
+    {
+        var result = await _context.GetTopRatedMoviesSub(search_text).ToListAsync();
+        return result;
+    }
+
 
     public async Task<int> GetTitleBasicsCountAsync()
     {
@@ -762,13 +771,14 @@ public class DataService : IDataService
     {
         return _context.SearchHis.ToList();
     }
-    
-    
-    public SearchHis GetSearchHistoryById(int userId, DateTime timestamp)
+
+
+    public IEnumerable<SearchHis> GetSearchHistoryByUserId(int userId)
     {
-        return _context.SearchHis.FirstOrDefault(s => s.UserId == userId && s.SearchTimeStamp == timestamp);
+        return _context.SearchHis.Where(s => s.UserId == userId).ToList();
     }
-    
+
+
 
     public SearchHis GetSearchHisById(int searchId)
     {

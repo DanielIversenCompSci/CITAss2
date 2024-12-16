@@ -17,6 +17,7 @@ public interface IDataService
     // ********************
     Task<IList<TitleBasics>> GetLimitedTitleBasicsAsync(int limit, int offset);
     Task<IList<MovieRankingByGenre>> GetMovieRankingByGenreAsync(string genre_param);
+    Task<IList<MovieRankingByGenre>> GetTopRatedMoviesSearchAsync(string search_text);
     public IList<TitleBasics> GetTitleBasicsList();
     TitleBasics GetTitleBasicsById(string tConst);
     TitleBasics AddTitleBasics(TitleBasics newTitle);
@@ -169,7 +170,7 @@ public interface IDataService
     //SearchHis
     // ********************
     public IList<SearchHis> GetSearchHisList();
-    SearchHis GetSearchHistoryById(int userId, DateTime timestamp);
+    IEnumerable<SearchHis> GetSearchHistoryByUserId(int userId);
     SearchHis GetSearchHisById(int searchId); // Updated one
     SearchHis AddSearchHistory(SearchHis newSearch);
     bool UpdateSearchHistory(int userId, DateTime timestamp, SearchHis updatedSearch);

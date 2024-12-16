@@ -41,27 +41,19 @@ builder.Services.AddCors(options =>
 
 
 // 5. **JWT Configuration**
-var jwtKey = builder.Configuration["Jwt:Key"];
-var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+var secret = builder.Configuration.GetSection("Auth:Secret").Value;
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtIssuer,
-        ValidAudience = jwtIssuer,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-    };
-});
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option =>
+        option.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+            ClockSkew = TimeSpan.Zero
+        }
+    );
 
 // 6. **Add Controllers**
 builder.Services.AddControllers();
@@ -85,7 +77,7 @@ app.UseCors("AllowAll");
 // 10. **Enable Authentication and Authorization Middleware**
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // Add this before Authorization
+app.UseAuthentication(); //has to be befor authorization
 app.UseAuthorization();
 
 app.MapControllers();
