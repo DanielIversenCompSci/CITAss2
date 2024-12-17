@@ -2,11 +2,11 @@
 
 namespace DataAccessLayer
 {
-    [Keyless] // Since the result is a projection and doesn't have a primary key
+    [Keyless]
     public class CoPlayer
     {
-        public string nconst { get; set; } // Unique identifier for the co-actor
-        public string primaryname { get; set; } // Name of the co-actor
-        public int frequency { get; set; } // Number of times they worked together
+        public string nconst { get; set; }
+        public string primaryname { get; set; }
+        public int frequency { get; set; }
     }
 }
