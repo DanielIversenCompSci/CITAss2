@@ -294,37 +294,32 @@ public class ImdbContext : DbContext
         modelBuilder.Entity<NameBasics>().Property(x => x.PrimaryName).HasColumnName("primaryname");
         modelBuilder.Entity<NameBasics>().Property(x => x.BirthYear).HasColumnName("birthyear");
         modelBuilder.Entity<NameBasics>().Property(x => x.DeathYear).HasColumnName("deathyear");
-
-        // Define relationships
-        // 1. Relationship with ActorRating
+        
+        // Foreign Kyes
         modelBuilder.Entity<NameBasics>()
             .HasOne(nb => nb.ActorRating) // Navigation property in NameBasics
             .WithOne(ar => ar.NameBasic) // Navigation property in ActorRating
             .HasForeignKey<NameBasics>(ar => ar.NConst) // FK in ActorRating
             .OnDelete(DeleteBehavior.Cascade); // Reflect ON DELETE CASCADE
-
-        // 2. Relationship with KnownForTitle
+        
         modelBuilder.Entity<NameBasics>()
             .HasMany(nb => nb.KnownForTitle)
             .WithOne(kft => kft.NameBasic)
             .HasForeignKey(kft => kft.NConst)
             .OnDelete(DeleteBehavior.Cascade);
-
-        // 3. Relationship with PrimaryProfession
+        
         modelBuilder.Entity<NameBasics>()
             .HasMany(nb => nb.PrimaryProfession)
             .WithOne(pp => pp.NameBasic)
             .HasForeignKey(pp => pp.NConst)
             .OnDelete(DeleteBehavior.Cascade);
-
-        // 4. Relationship with TitlePersonnel
+        
         modelBuilder.Entity<NameBasics>()
             .HasMany(nb => nb.TitlePersonnel)
             .WithOne(tp => tp.NameBasic)
             .HasForeignKey(tp => tp.NConst)
             .OnDelete(DeleteBehavior.Cascade);
-
-        // 5. Relationship with TitlePrincipals
+        
         modelBuilder.Entity<NameBasics>()
             .HasMany(nb => nb.TitlePrincipals)
             .WithOne(tp => tp.NameBasic)

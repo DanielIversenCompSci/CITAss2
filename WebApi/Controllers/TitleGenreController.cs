@@ -21,14 +21,13 @@ namespace WebApi.Controllers
             _linkGenerator = linkGenerator;
         }
 
-        /*
-        [HttpGet]
-        public ActionResult<IEnumerable<TitleGenre>> GetTitleGenreList([FromQuery] int limit = 100)
-        {
-            var genres = _dataService.GetTitleGenreList(limit);
-            return Ok(genres);
-        }
-        */
+        // ********** **********
+        // This controller dosen't have any ENDPOINTs used by the frontend
+        // However the group decided to keep them just for showcase of basic CRUD for all object
+        // Fully aware they are not used for anything at the current state of the application
+        // ********** **********
+        // Endpoints NOT IN USE
+        // ********** **********
         
         // Get all TitleGenres with pagination and URL
         [HttpGet(Name = nameof(GetTitleGenre))]

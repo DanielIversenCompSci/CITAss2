@@ -21,6 +21,13 @@ namespace WebApi.Controllers
             _linkGenerator = linkGenerator;
         }
 
+        // ********** **********
+        // This controller dosen't have any ENDPOINTs used by the frontend
+        // However the group decided to keep them just for showcase of basic CRUD for all object
+        // Fully aware they are not used for anything at the current state of the application
+        // ********** **********
+        // Endpoints NOT IN USE
+        // ********** **********
         
         [HttpGet(Name = nameof(GetKnownForTitle))]
         public ActionResult<IEnumerable<KnownForTitleModel>> GetKnownForTitle(int pageNumber = 1, int pageSize = 10)

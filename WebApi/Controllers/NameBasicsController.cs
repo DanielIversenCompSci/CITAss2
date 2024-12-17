@@ -20,6 +20,51 @@ namespace WebApi.Controllers
             _linkGenerator = linkGenerator;
         }
         
+        // ********** **********
+        // After designing the frontend we realised basic CRUD was not neccessary for all objects
+        // So we clearly sepperate endpoints ind use and the ones not called by the frontend
+        // ********** **********
+        // Endpoints IN USE
+        // ********** **********
+        
+        //Endpoint: api/NameBasics/topNames100Sub
+        // Top w Searchd
+        [HttpGet("topNames100Sub")]
+        public async Task<ActionResult<List<NameWithRating>>> GetTopRatedNamesSub([FromQuery] string substring_filter = null)
+        {
+            var topRatedNamesSub = await _dataService.GetTopRatedNamesSubAsync(substring_filter);
+            return Ok(topRatedNamesSub);
+        }
+        
+        // details/nconst
+        [HttpGet("details/{nConst}", Name = nameof(GetNameByNConstSQL))]
+        public async Task<ActionResult<NameWithRating>> GetNameByNConstSQL(string nConst)
+        {
+            var nameWithRating = await _dataService.GetNameByNConstSQL(nConst);
+
+            if (nameWithRating == null)
+                return NotFound();
+
+            return Ok(nameWithRating);
+        }
+        
+        // Helper method for creating NameBasicsModel
+        private NameBasicsModel CreateNameBasicsModel(NameBasics title)
+        {
+            return new NameBasicsModel
+            {
+                NConst = title.NConst,
+                PrimaryName = title.PrimaryName,
+                BirthYear = title.BirthYear,
+                DeathYear = title.DeathYear,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetNameBasicsById), new { nConst = title.NConst }),
+            };
+        }
+        
+        // ********** **********
+        // Endpoints NOT IN USEE
+        // ********** **********
+        
         // GET all Names, limited by page or it wont load in swagger...
         // GET: api/NameBasics
         [HttpGet(Name = nameof(GetNameBasics))]
@@ -137,15 +182,6 @@ namespace WebApi.Controllers
             return Ok(topRatedNames);
         }
         
-        // Top w Searchd
-        [HttpGet("topNames100Sub")]
-        public async Task<ActionResult<List<NameWithRating>>> GetTopRatedNamesSub([FromQuery] string substring_filter = null)
-        {
-            var topRatedNamesSub = await _dataService.GetTopRatedNamesSubAsync(substring_filter);
-            return Ok(topRatedNamesSub);
-        }
-
-        
         // details/nconst
         [HttpGet("detailss/{nConst}", Name = nameof(GetNameWithRatingById))]
         public async Task<ActionResult<NameWithRating>> GetNameWithRatingById(string nConst)
@@ -157,22 +193,6 @@ namespace WebApi.Controllers
 
             return Ok(nameWithRating);
         }
-        
-        // details/nconst
-        [HttpGet("details/{nConst}", Name = nameof(GetNameByNConstSQL))]
-        public async Task<ActionResult<NameWithRating>> GetNameByNConstSQL(string nConst)
-        {
-            var nameWithRating = await _dataService.GetNameByNConstSQL(nConst);
-
-            if (nameWithRating == null)
-                return NotFound();
-
-            return Ok(nameWithRating);
-        }
-
-
-
-        
         
         // POST: api/NameBasics
         [HttpPost]
@@ -195,7 +215,6 @@ namespace WebApi.Controllers
 
             return CreatedAtAction(nameof(GetNameBasicsById), new { nConst = createdTitle.NConst }, createdTitle);
         }
-
         
         // PUT: api/NameBasics/{id}
         [HttpPut("{nConst}")]
@@ -231,20 +250,6 @@ namespace WebApi.Controllers
             }
 
             return NoContent(); // Success, no content to return
-        }
-        
-        // Helper method for creating NameBasicsModel
-
-        private NameBasicsModel CreateNameBasicsModel(NameBasics title)
-        {
-            return new NameBasicsModel
-            {
-                NConst = title.NConst,
-                PrimaryName = title.PrimaryName,
-                BirthYear = title.BirthYear,
-                DeathYear = title.DeathYear,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetNameBasicsById), new { nConst = title.NConst }),
-            };
         }
     }
 }

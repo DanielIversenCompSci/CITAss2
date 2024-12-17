@@ -29,7 +29,13 @@ namespace WebApi.Controllers
             _configuration = configuration;
         }
 
-        // GET all Users with pagination
+        // ********** **********
+        // After designing the frontend we realised basic CRUD was not neccessary for all objects
+        // So we clearly sepperate endpoints ind use and the ones not called by the frontend
+        // ********** **********
+        // Endpoints IN USE
+        // ********** **********
+        // GET ALL USERS
         [HttpGet(Name = nameof(GetUsers))]
         [Authorize]
         public ActionResult<IEnumerable<UsersModel>> GetUsers(int pageNumber = 1, int pageSize = 10)
@@ -64,7 +70,7 @@ namespace WebApi.Controllers
             
             return Ok(result);
         }
-
+        
         // GET: api/Users/{id}
         [HttpGet("{userId}", Name = nameof(GetUserById))]
         public ActionResult<Users> GetUserById(int userId)
@@ -80,7 +86,68 @@ namespace WebApi.Controllers
             return Ok(model);
         }
         
+        [HttpPut("login")]
+        public ActionResult LoginUser( LoginModel loginModel)
+        {
+            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+            {
+                return (BadRequest("Email and Password are required"));
+            }
 
+            var user = _dataService.GetUsersList().FirstOrDefault(u => u.Email == loginModel.Email);
+
+            var isAuthenticated = _dataService.LoginUser(loginModel.Email, loginModel.Password);
+
+            if (!isAuthenticated)
+            {
+                return Unauthorized("Invalid Email or Password");
+            }
+
+
+            var secret = _configuration.GetSection("Auth:Secret").Value;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(secret);
+
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim ("UserId", user.UserId.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.Username)
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = tokenHandler.WriteToken(token);
+
+            return Ok(new {
+                token = jwt,
+                userId = user.UserId,
+                email = user.Email,
+                username = user.Username
+            });
+        }
+        
+        private UsersModel CreateUsersModel(Users user)
+        {
+            return new UsersModel
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                Username = user.Username,
+                Password = user.Password,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserById), new { userId = user.UserId })
+            };
+        }
+        
+        
+        // ********** **********
+        // Endpoints NOT IN USE
+        // ********** **********
         // POST: api/Users
         [HttpPost]
         public ActionResult<Users> AddUser([FromBody] UsersCreateModel newUser)
@@ -128,10 +195,9 @@ namespace WebApi.Controllers
             }
            
         }
-
-
+        
         // PUT: api/Users/{id}
-       /* [HttpPut("{userId}")]
+        [HttpPut("{userId}")]
         public ActionResult UpdateUser(int userId, [FromBody] UsersCreateModel updatedUser)
         {
             if (userId <= 0 || updatedUser == null)
@@ -155,58 +221,10 @@ namespace WebApi.Controllers
             }
             
             return NoContent();
-        }*/
-
-        [HttpPut("login")]
-        public ActionResult LoginUser( LoginModel loginModel)
-        {
-            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
-            {
-                return (BadRequest("Email and Password are required"));
-            }
-
-            var user = _dataService.GetUsersList().FirstOrDefault(u => u.Email == loginModel.Email);
-
-            var isAuthenticated = _dataService.LoginUser(loginModel.Email, loginModel.Password);
-
-            if (!isAuthenticated)
-            {
-                return Unauthorized("Invalid Email or Password");
-            }
-
-
-            var secret = _configuration.GetSection("Auth:Secret").Value;
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(secret);
-
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim ("UserId", user.UserId.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Name, user.Username)
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwt = tokenHandler.WriteToken(token);
-
-            return Ok(new {
-                token = jwt,
-                userId = user.UserId,
-                email = user.Email,
-                username = user.Username
-            });
-             
-
-            
         }
+        
 
-        /*[HttpPut]
+        [HttpPut]
         public IActionResult Login(LoginModel model)
         {
             if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Password))
@@ -252,7 +270,7 @@ namespace WebApi.Controllers
 
            
 
-        }*/
+        }
 
 
         // DELETE: api/Users/{id}
@@ -267,21 +285,6 @@ namespace WebApi.Controllers
             }
             
             return NoContent();
-        }
-        
-        
-        
-        
-        private UsersModel CreateUsersModel(Users user)
-        {
-            return new UsersModel
-            {
-                UserId = user.UserId,
-                Email = user.Email,
-                Username = user.Username,
-                Password = user.Password,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserById), new { userId = user.UserId })
-            };
         }
     }
 }
