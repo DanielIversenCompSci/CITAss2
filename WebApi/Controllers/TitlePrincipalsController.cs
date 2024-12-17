@@ -21,6 +21,13 @@ public class TitlePrincipalsController : ControllerBase
         _linkGenerator = linkGenerator;
     }
     
+    // ********** **********
+    // This controller dosen't have any ENDPOINTs used by the frontend
+    // However the group decided to keep them just for showcase of basic CRUD for all object
+    // Fully aware they are not used for anything at the current state of the application
+    // ********** **********
+    // Endpoints NOT IN USE
+    // ********** **********
     
     // GET all etities limited by page or it wont load in swagger
     // GET: api/TitlePrincipals

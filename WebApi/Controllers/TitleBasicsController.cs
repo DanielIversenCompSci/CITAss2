@@ -24,8 +24,117 @@ namespace WebApi.Controllers
             _dataService = dataService;
             _linkGenerator = linkGenerator;
         }
+        
+        // ********** **********
+        // After designing the frontend we realised basic CRUD was not neccessary for all objects
+        // So we clearly sepperate endpoints ind use and the ones not called by the frontend
+        // ********** **********
+        // Endpoints IN USE
+        // ********** **********
+        
+        // Endpoint: api/TitleBasics/tConst
+        [HttpGet("{tConst}", Name = nameof(GetTitleBasicsById))]
+        public ActionResult<TitleBasicsModel> GetTitleBasicsById(string tConst)
+        {
+            var title = _dataService.GetTitleBasicsById(tConst);
 
+            if (title == null)
+            {
+                return NotFound();
+            }
+
+            var model = CreateTitleBasicsModel(title);
+            return Ok(model);
+        }
+        
+        
+        
+        // Helper method to create TitleBasicsModel with URL generation
+        private TitleBasicsModel CreateTitleBasicsModel(TitleBasics title)
+        {
+            return new TitleBasicsModel
+            {
+                TConst = title.TConst,
+                TitleType = title.TitleType,
+                PrimaryTitle = title.PrimaryTitle,
+                OriginalTitle = title.OriginalTitle,
+                IsAdult = title.IsAdult,
+                StartYear = title.StartYear,
+                EndYear = title.EndYear,
+                RuntimeMinutes = title.RuntimeMinutes,
+                Plot = title.Plot,
+                Poster = title.Poster,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasicsById), new { tConst = title.TConst })
+            };
+        }
+        
+        // Endpoint GET: api/TitleBasics/top-rated
+        [HttpGet("top-rated", Name = nameof(GetTopRatedMovies))]
+        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatedMovies(string titleType)
+        {
+            var movies = await _dataService.GetTopRatedMoviesAsync(titleType);
+
+            if (movies == null || !movies.Any())
+                return NotFound();
+
+            return Ok(movies);
+        }
+
+        // ENdpoint GET: api/TitleBasics/similar-movies
+        [HttpGet("similar-movies", Name = nameof(GetSimilarMovies))]
+        public async Task<ActionResult<List<SimilarMovie>>> GetSimilarMovies(string tconst)
+        {
+            var movies = await _dataService.GetSimilarMoviesAsync(tconst);
+
+            if (movies == null || !movies.Any())
+                return NotFound();
+
+            return Ok(movies);
+        }
+        
+        // Endpoint GET: api/TitleBasics/movie-rankings-by-genre
+        [HttpGet("movie-rankings-by-genre", Name = nameof(GetMovieRankingByGenre))]
+        public async Task<ActionResult<List<MovieRankingByGenre>>> GetMovieRankingByGenre(string genre_param)
+        {
+            var movies = await _dataService.GetMovieRankingByGenreAsync(genre_param);
+
+            if (movies == null || !movies.Any())
+                return NotFound();
+
+            return Ok(movies);
+        }
+        
+        // GET: api/TitleBasics/top-movie-search
+        [HttpGet("top-movie-search", Name = nameof(GetTopRatingMoviesSub))]
+        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatingMoviesSub(string search_text)
+        {
+            var movies = await _dataService.GetTopRatedMoviesSearchAsync(search_text);
+
+            if (movies == null || !movies.Any())
+                return NotFound();
+
+            return Ok(movies);
+        }
+
+        // GET: api/TitleBasics/movie-cast
+        [HttpGet("movie-cast", Name = nameof(GetMovieCast))]
+        public async Task<ActionResult<List<MovieCast>>> GetMovieCast(string tconst)
+        {
+            var cast = await _dataService.GetMovieCastAsync(tconst);
+
+            if (cast == null || !cast.Any())
+                return NotFound();
+
+            return Ok(cast);
+        }
+        
+        
+        
+        // ********** **********
+        // Endpoints NOT IN USE
+        // ********** **********
         // GET all Titles with pagination
+        // Endpoint: api/TitleBasics
         [HttpGet(Name = nameof(GetTitleBasics))]
         public ActionResult<IEnumerable<TitleBasicsModel>> GetTitleBasics(int pageNumber = 1, int pageSize = 10)
         {
@@ -60,22 +169,8 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        // Get specific title by TConst
-        [HttpGet("{tConst}", Name = nameof(GetTitleBasicsById))]
-        public ActionResult<TitleBasicsModel> GetTitleBasicsById(string tConst)
-        {
-            var title = _dataService.GetTitleBasicsById(tConst);
-
-            if (title == null)
-            {
-                return NotFound();
-            }
-
-            var model = CreateTitleBasicsModel(title);
-            return Ok(model);
-        }
-
-        //GET Limit 100
+        //Endpoint api/TitleBasics/limited
+        //GET all w Limit 100
         [HttpGet("limited", Name = nameof(GetLimitedTitleBasics))]
         public async Task<ActionResult<PagedResultModel<TitleBasicsModel>>> GetLimitedTitleBasics(int limit = 100, int pageNumber = 1)
         {
@@ -112,13 +207,10 @@ namespace WebApi.Controllers
             };
 
             return Ok(result);
-        }
+        }        
 
-
-
-
-
-        // POST: Create a new TitleBasics entry
+        // Endpoint POST: api/TitleBasics
+        // Create a new TitleBasics entry
         [HttpPost]
         public ActionResult<TitleBasicsModel> CreateTitleBasics([FromBody] TitleBasicsCreateModel newTitle)
         {
@@ -147,6 +239,7 @@ namespace WebApi.Controllers
             return CreatedAtAction(nameof(GetTitleBasicsById), new { tConst = createdTitle.TConst }, model);
         }
 
+        // Endpoint PUT: api/TitleBasics
         // PUT: Update an existing TitleBasics entry
         [HttpPut("{tConst}")]
         public IActionResult UpdateTitleBasics(string tConst, [FromBody] TitleBasicsCreateModel updatedTitle)
@@ -175,6 +268,7 @@ namespace WebApi.Controllers
             return NoContent(); // Success, no content to return
         }
 
+        //ENDpoint: DELTE: api/TitleBasics
         // DELETE: Delete an existing TitleBasics entry
         [HttpDelete("{tConst}")]
         public IActionResult DeleteTitleBasics(string tConst)
@@ -188,83 +282,5 @@ namespace WebApi.Controllers
 
             return NoContent(); // Success, no content to return
         }
-
-        // Helper method to create TitleBasicsModel with URL
-        private TitleBasicsModel CreateTitleBasicsModel(TitleBasics title)
-        {
-            return new TitleBasicsModel
-            {
-                TConst = title.TConst,
-                TitleType = title.TitleType,
-                PrimaryTitle = title.PrimaryTitle,
-                OriginalTitle = title.OriginalTitle,
-                IsAdult = title.IsAdult,
-                StartYear = title.StartYear,
-                EndYear = title.EndYear,
-                RuntimeMinutes = title.RuntimeMinutes,
-                Plot = title.Plot,
-                Poster = title.Poster,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetTitleBasicsById), new { tConst = title.TConst })
-            };
-        }
-
-        [HttpGet("top-rated", Name = nameof(GetTopRatedMovies))]
-        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatedMovies(string titleType)
-        {
-            var movies = await _dataService.GetTopRatedMoviesAsync(titleType);
-
-            if (movies == null || !movies.Any())
-                return NotFound();
-
-            return Ok(movies);
-        }
-
-        [HttpGet("similar-movies", Name = nameof(GetSimilarMovies))]
-        public async Task<ActionResult<List<SimilarMovie>>> GetSimilarMovies(string tconst)
-        {
-            var movies = await _dataService.GetSimilarMoviesAsync(tconst);
-
-            if (movies == null || !movies.Any())
-                return NotFound();
-
-            return Ok(movies);
-        }
-        
-        [HttpGet("movie-rankings-by-genre", Name = nameof(GetMovieRankingByGenre))]
-        public async Task<ActionResult<List<MovieRankingByGenre>>> GetMovieRankingByGenre(string genre_param)
-        {
-            var movies = await _dataService.GetMovieRankingByGenreAsync(genre_param);
-
-            if (movies == null || !movies.Any())
-                return NotFound();
-
-            return Ok(movies);
-        }
-        
-        [HttpGet("top-movie-search", Name = nameof(GetTopRatingMoviesSub))]
-        public async Task<ActionResult<List<MovieRankingWithDetails>>> GetTopRatingMoviesSub(string search_text)
-        {
-            var movies = await _dataService.GetTopRatedMoviesSearchAsync(search_text);
-
-            if (movies == null || !movies.Any())
-                return NotFound();
-
-            return Ok(movies);
-        }
-
-
-        [HttpGet("movie-cast", Name = nameof(GetMovieCast))]
-        public async Task<ActionResult<List<MovieCast>>> GetMovieCast(string tconst)
-        {
-            var cast = await _dataService.GetMovieCastAsync(tconst);
-
-            if (cast == null || !cast.Any())
-                return NotFound();
-
-            return Ok(cast);
-        }
-
-
-
     }
 }

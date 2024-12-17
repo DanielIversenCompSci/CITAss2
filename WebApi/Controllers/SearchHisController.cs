@@ -21,6 +21,42 @@ namespace WebApi.Controllers
             _linkGenerator = linkGenerator;
         }
 
+        // ********** **********
+        // After designing the frontend we realised basic CRUD was not neccessary for all objects
+        // So we clearly sepperate endpoints ind use and the ones not called by the frontend
+        // ********** **********
+        // Endpoints IN USE
+        // ********** **********
+        [HttpGet("{userId}", Name = nameof(GetSearchHistoryByUserId))]
+        public ActionResult<IEnumerable<SearchHisModel>> GetSearchHistoryByUserId(int userId)
+        {
+            var searchEntries = _dataService.GetSearchHistoryByUserId(userId);
+
+            if (searchEntries == null || !searchEntries.Any())
+            {
+                return NotFound("No search history found for this user.");
+            }
+
+            var models = searchEntries.Select(CreateSearchHisModel).ToList();
+            return Ok(models);
+        }
+        
+        private SearchHisModel CreateSearchHisModel(SearchHis searchHis)
+        {
+            return new SearchHisModel
+            {
+                UserId = searchHis.UserId,
+                SearchQuery = searchHis.SearchQuery,
+                SearchTimeStamp = searchHis.SearchTimeStamp,
+                SearchId = searchHis.SearchId,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetSearchHistoryByUserId),
+                    new { searchId = searchHis.SearchId })
+            };
+        }
+        
+        // ********** **********
+        // Endpoints NOT IN USE
+        // ********** **********
         
         // GET all SearchHis with pagination
         [HttpGet(Name = nameof(GetSearchHis))]
@@ -56,23 +92,6 @@ namespace WebApi.Controllers
             
             return Ok(result);
         }
-
-
-        [HttpGet("{userId}", Name = nameof(GetSearchHistoryByUserId))]
-        public ActionResult<IEnumerable<SearchHisModel>> GetSearchHistoryByUserId(int userId)
-        {
-            var searchEntries = _dataService.GetSearchHistoryByUserId(userId);
-
-            if (searchEntries == null || !searchEntries.Any())
-            {
-                return NotFound("No search history found for this user.");
-            }
-
-            var models = searchEntries.Select(CreateSearchHisModel).ToList();
-            return Ok(models);
-        }
-
-
 
         [HttpPost]
         public ActionResult<SearchHis> CreateSearchHistory([FromBody] SearchHisCreateModel newSearch)
@@ -118,34 +137,14 @@ namespace WebApi.Controllers
         [HttpDelete("{searchId}")]
         public IActionResult DeleteSearchHis(int searchId)
         {
-            Console.WriteLine($"[DEBUG] Delete request received: SearchId='{searchId}'");
 
             var success = _dataService.DeleteSearchHis(searchId);
 
             if (!success)
             {
-                Console.WriteLine("[DEBUG] No matching record found in the database.");
                 return NotFound($"No search history found for SearchId='{searchId}'.");
             }
-
-            Console.WriteLine("[DEBUG] Record successfully deleted.");
             return NoContent();
         }
-
-
-
-        private SearchHisModel CreateSearchHisModel(SearchHis searchHis)
-        {
-            return new SearchHisModel
-            {
-                UserId = searchHis.UserId,
-                SearchQuery = searchHis.SearchQuery,
-                SearchTimeStamp = searchHis.SearchTimeStamp,
-                SearchId = searchHis.SearchId,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetSearchHistoryByUserId),
-                    new { searchId = searchHis.SearchId })
-            };
-        }
-        
     }
 }

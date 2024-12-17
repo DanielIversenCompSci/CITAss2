@@ -22,42 +22,12 @@ namespace WebApi.Controllers
             _linkGenerator = linkGenerator;
         }
         
-        // GET all Titles with pagination
-        [HttpGet(Name = nameof(GetUserBookmarks))]
-        
-        public ActionResult<IEnumerable<UserBookmarksModel>> GetUserBookmarks(int pageNumber = 1, int pageSize = 10)
-        {
-            if (pageNumber <= 0 || pageSize <= 0)
-            {
-                return BadRequest("Page number and page size must be greater than zero.");
-            }
-
-            var UserBookmarksList = _dataService.GetUserBookmarks()
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(CreateUserBookmarksModel) // Convert to UserBookmarksModel with URL
-                .ToList();
-
-            var totalItems = _dataService.GetUserBookmarksCount();
-            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-            var result = new PagedResultModel<UserBookmarksModel>
-            {
-                Items = UserBookmarksList,
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                TotalPages = totalPages,
-                TotalItems = totalItems,
-                NextPage = pageNumber < totalPages
-                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetUserBookmarks), new { pageNumber = pageNumber + 1, pageSize })
-                    : null,
-                PrevPage = pageNumber > 1
-                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetUserBookmarks), new { pageNumber = pageNumber - 1, pageSize })
-                    : null
-            };
-            
-            return Ok(result);
-        }
-
+        // ********** **********
+        // After designing the frontend we realised basic CRUD was not neccessary for all objects
+        // So we clearly sepperate endpoints ind use and the ones not called by the frontend
+        // ********** **********
+        // Endpoints IN USE
+        // ********** **********
         [HttpGet("user/{userId}/bookmarksWithTitles", Name = nameof(GetBookmarksWithTitlesAsync))]
         [Authorize]
         public async Task<ActionResult<List<BookmarksWithTitles>>> GetBookmarksWithTitlesAsync(int userId)
@@ -97,7 +67,58 @@ namespace WebApi.Controllers
             var model = CreateUserBookmarksModel(title);
             return Ok(model);
         }
+        
+        // GET all Titles with pagination
+        [HttpGet(Name = nameof(GetUserBookmarks))]
+        public ActionResult<IEnumerable<UserBookmarksModel>> GetUserBookmarks(int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageNumber <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Page number and page size must be greater than zero.");
+            }
 
+            var UserBookmarksList = _dataService.GetUserBookmarks()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(CreateUserBookmarksModel) // Convert to UserBookmarksModel with URL
+                .ToList();
+
+            var totalItems = _dataService.GetUserBookmarksCount();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            var result = new PagedResultModel<UserBookmarksModel>
+            {
+                Items = UserBookmarksList,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                TotalItems = totalItems,
+                NextPage = pageNumber < totalPages
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetUserBookmarks), new { pageNumber = pageNumber + 1, pageSize })
+                    : null,
+                PrevPage = pageNumber > 1
+                    ? _linkGenerator.GetUriByName(HttpContext, nameof(GetUserBookmarks), new { pageNumber = pageNumber - 1, pageSize })
+                    : null
+            };
+            
+            return Ok(result);
+        }
+        
+        private UserBookmarksModel CreateUserBookmarksModel(UserBookmarks userBookmarks)
+        {
+            return new UserBookmarksModel
+            {
+                UserBookmarksId = userBookmarks.UserBookmarksId,
+                UserId = userBookmarks.UserId,
+                TConst = userBookmarks.TConst,
+                Note = userBookmarks.Note,
+                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserBookmarksById),
+                    new { userBookmarksId = userBookmarks.UserBookmarksId })
+            };
+        }
+        
+        // ********** **********
+        // Endpoints NOT IN USE
+        // ********** **********
         // POST: Create a new UserBookmarks entry
         [HttpPost]
         public ActionResult<UserBookmarksModel> CreateUserBookmarks([FromBody] UserBookmarksCreateModel newBookmark)
@@ -162,20 +183,6 @@ namespace WebApi.Controllers
             }
 
             return NoContent();
-        }
-
-
-        private UserBookmarksModel CreateUserBookmarksModel(UserBookmarks userBookmarks)
-        {
-            return new UserBookmarksModel
-            {
-                UserBookmarksId = userBookmarks.UserBookmarksId,
-                UserId = userBookmarks.UserId,
-                TConst = userBookmarks.TConst,
-                Note = userBookmarks.Note,
-                Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetUserBookmarksById),
-            new { userBookmarksId = userBookmarks.UserBookmarksId })
-            };
         }
     }
 }

@@ -25,8 +25,6 @@ public class DataService : IDataService
     // EntityName
     // ********************
 
-
-
     // ********************
     // TitleBasics
     // ********************
@@ -228,7 +226,7 @@ public class DataService : IDataService
         if (title == null)
         {
             Console.WriteLine($"No TitleAkas entry found with Titleid '{titleId}' to delete.");
-            return false; // Entry not found, nothing to delete
+            return false; // No entry
         }
 
         _context.TitleAkas.Remove(title);
@@ -336,7 +334,7 @@ public class DataService : IDataService
         if (title == null)
         {
             Console.WriteLine($"No NameBasics entry found with NConst '{nConst}' to delete.");
-            return false; // Entry not found, nothing to delete
+            return false; // if entry not foun
         }
 
         _context.NameBasics.Remove(title);
@@ -395,7 +393,7 @@ public class DataService : IDataService
         // Check if the entry exists
         if (title == null)
         {
-            return false; // Entry not found, nothing to delete
+            return false; // Entry not found, nothing to deLete
         }
 
         _context.PrimaryProfession.Remove(title);
@@ -992,7 +990,7 @@ public class DataService : IDataService
 
     public async Task<List<MovieRankingWithDetails>> GetTopRatedMoviesAsync(string titleType)
     {
-        // Call the EF Core mapped function
+        // Call the EF mapped function
         return await _context.GetTopRatedMovies(titleType).ToListAsync();
     }
 
@@ -1003,7 +1001,7 @@ public class DataService : IDataService
 
     public async Task<List<SimilarMovie>> GetSimilarMoviesAsync(string tconst)
     {
-        // Call the EF Core mapped function
+        // Call the EF mapped function
         return await _context.GetSimilarMovies(tconst).ToListAsync();
     }
 
