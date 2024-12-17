@@ -79,7 +79,7 @@ public class DataService : IDataService
         var existingTitle = _context.TitleBasics.Find(tConst);
         if (existingTitle == null)
         {
-            return false; // Entry not found
+            return false;
         }
         
         // Update properties
@@ -139,7 +139,7 @@ public class DataService : IDataService
         
         if (existingTitle == null)
         {
-            return false; // Entry not found
+            return false;
         }
 
         // Update properties
@@ -162,7 +162,7 @@ public class DataService : IDataService
         if (title == null)
         {
             Console.WriteLine($"No TitlePrincipals entry found with TConst '{tConst}' to delete.");
-            return false; // Entry not found, nothing to delete
+            return false;
         }
 
         _context.TitlePrincipals.Remove(title);
@@ -202,7 +202,7 @@ public class DataService : IDataService
         var existingTitle = _context.TitleAkas.Find(titleId, ordering);
         if (existingTitle == null)
         {
-            return false; // Entry not found
+            return false;
         }
         
         // Update properties
@@ -263,14 +263,13 @@ public class DataService : IDataService
     public async Task<IList<NameBasics>> GetLimitedNameBasicsAsync(int limit, int offset)
     {
         return await _context.NameBasics
-            .AsNoTracking() // Optimize for read-only queries
-            .Skip(offset)   // Skip the specified number of records
-            .Take(limit)    // Fetch only the required number of records
+            .AsNoTracking()
+            .Skip(offset)
+            .Take(limit)
             .ToListAsync();
     }
     public async Task<NameWithRating> GetNameWithRatingByIdAsync(string nConst)
     {
-        // Use the existing stored function and filter by nConst
         return await _context.GetTopRatedNames()
             .Where(nwr => nwr.NConst == nConst)
             .FirstOrDefaultAsync();
@@ -278,7 +277,6 @@ public class DataService : IDataService
 
     public async Task<NameWithRating?> GetNameByNConstSQL(string nconst_param)
     {
-        // Use the mapped SQL function
         var result = await _context.GetNameByNConstSQL(nconst_param).FirstOrDefaultAsync();
         return result;
     }
@@ -314,7 +312,7 @@ public class DataService : IDataService
         
         if (existingTitle == null)
         {
-            return false; // Entry not found
+            return false;
         }
 
         // Update properties
@@ -329,12 +327,10 @@ public class DataService : IDataService
     public bool DeleteNameBasics(string nConst)
     {
         var title = _context.NameBasics.FirstOrDefault(tp => tp.NConst == nConst);
-
-        // Check if the entry exists
+        
         if (title == null)
         {
-            Console.WriteLine($"No NameBasics entry found with NConst '{nConst}' to delete.");
-            return false; // if entry not foun
+            return false;
         }
 
         _context.NameBasics.Remove(title);
@@ -375,7 +371,7 @@ public class DataService : IDataService
         
         if (existingTitle == null)
         {
-            return false; // Entry not found
+            return false;
         }
 
         // Update properties
@@ -389,11 +385,10 @@ public class DataService : IDataService
     public bool DeletePrimaryProfession(int primaryProfessionId)
     {
         var title = _context.PrimaryProfession.FirstOrDefault(tp => tp.PrimaryProfessionId == primaryProfessionId);
-
-        // Check if the entry exists
+        
         if (title == null)
         {
-            return false; // Entry not found, nothing to deLete
+            return false;
         }
 
         _context.PrimaryProfession.Remove(title);
@@ -460,8 +455,7 @@ public class DataService : IDataService
     {
         var user = _context.Users.FirstOrDefault(u => u.Email == username);
         if (user == null) return false;
-
-        // Use Authenticator to verify the password
+        
         return authHelper.verify(password, user.Password, user.Salt);
     }
 
@@ -512,10 +506,9 @@ public class DataService : IDataService
         var existingTitle = _context.TitlePersonnel.Find(titlePersonnelId);
         if (existingTitle == null)
         {
-            return false; // Entry not found
+            return false;
         }
-        
-        // Update properties
+
         existingTitle.TConst = updatedTitle.TConst;
         existingTitle.NConst = updatedTitle.NConst;
         existingTitle.Role = updatedTitle.Role;
@@ -527,11 +520,10 @@ public class DataService : IDataService
     public bool DeleteTitlePersonnel(int titlePersonnelId)
     {
         var title = _context.TitlePersonnel.Find(titlePersonnelId);
-
-        // Check if the entry exists
+        
         if (title == null)
         {
-            return false; // Entry not found, nothing to delete
+            return false;
         }
 
         _context.TitlePersonnel.Remove(title);
@@ -876,7 +868,7 @@ public class DataService : IDataService
     {
         if (_context.UserRating.Any(r => r.UserId == newUserRating.UserId && r.TConst == newUserRating.TConst))
         {
-            return null; // User rating for this movie already exists
+            return null;
         }
 
         _context.UserRating.Add(newUserRating);
@@ -907,7 +899,7 @@ public class DataService : IDataService
 
         if (existingRating == null)
         {
-            return false; // No existing rating found
+            return false;
         }
 
         _context.UserRating.Remove(existingRating);
@@ -927,7 +919,7 @@ public class DataService : IDataService
     // ********************
     public IList<UserBookmarks> GetUserBookmarks()
     {
-        return _context.UserBookmarks.ToList(); //error 
+        return _context.UserBookmarks.ToList();
     }
     
     public UserBookmarks GetUserBookmarksById(int userBookmarksId)
@@ -939,7 +931,7 @@ public class DataService : IDataService
     {
         if (_context.UserBookmarks.Any(r => r.UserId == newUserBookmarks.UserId && r.TConst == newUserBookmarks.TConst))
         {
-            return null; // User bookmark for this movie already exists
+            return null;
         }
 
         _context.UserBookmarks.Add(newUserBookmarks);
@@ -953,7 +945,7 @@ public class DataService : IDataService
 
         if (existingUserBookmarks == null)
         {
-            return false; // No existing rating found
+            return false;
         }
         
         
@@ -970,7 +962,7 @@ public class DataService : IDataService
 
         if (existingUserBookmarks == null)
         {
-            return false; // No existing rating found
+            return false;
         }
 
         _context.UserBookmarks.Remove(existingUserBookmarks);
